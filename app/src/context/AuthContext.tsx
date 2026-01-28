@@ -7,6 +7,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 // Hook personalizado para usar el contexto
 export const useAuth = () => {
   const context = useContext(AuthContext);
+
   if (!context) {
     throw new Error('useAuth debe usarse dentro de un AuthProvider');
   }
@@ -24,14 +25,11 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   // Función para iniciar sesión
   const login = async (email: string, password: string) => {
     setIsLoading(true);
-    try {
-      // Aquí iría tu lógica de autenticación real
-      console.log('Iniciando sesión con:', email, password);
+    try {           
       
-      // Simulación de API
       await new Promise(resolve => setTimeout(resolve, 1000));
       
-      // Usuario de ejemplo
+    
       const mockUser: User = {
         id: '1',
         name: 'Usuario Demo',

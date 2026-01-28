@@ -1,20 +1,29 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import React from 'react';
+
 import {
   StyleSheet,
-  Text
+  Text,
+  TouchableOpacity,
+  View
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { PublicStackParamList } from '../../types/navigation';
-
 type Props = NativeStackScreenProps<PublicStackParamList, 'Login'>;
 
 const RegisterScreen: React.FC<Props> = ({ navigation }) => {
- 
-  return (
 
-    <>
-    <Text>Crear cuenta</Text>
-    </>
+  return (
+    <SafeAreaView style={styles.container}>
+      <View style={styles.content}>
+        <Text style={styles.title}>Crear cuenta</Text>
+        <View style={styles.linksContainer}>
+          <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+            <Text style={styles.link}>volver</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    </SafeAreaView>
   );
 };
 

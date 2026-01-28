@@ -37,7 +37,7 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
     <SafeAreaView style={styles.container}>
       <View style={styles.content}>
         <Text style={styles.title}>Iniciar Sesión</Text>
-        
+
         <TextInput
           style={styles.input}
           placeholder="Correo electrónico"
@@ -46,7 +46,7 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
           autoCapitalize="none"
           keyboardType="email-address"
         />
-        
+
         <TextInput
           style={styles.input}
           placeholder="Contraseña"
@@ -54,9 +54,9 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
           onChangeText={setPassword}
           secureTextEntry
         />
-        
-        <TouchableOpacity 
-          style={[styles.button, isLoading && styles.buttonDisabled]} 
+
+        <TouchableOpacity
+          style={[styles.button, isLoading && styles.buttonDisabled]}
           onPress={handleLogin}
           disabled={isLoading}
         >
@@ -64,17 +64,17 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
             {isLoading ? 'Cargando...' : 'Iniciar Sesión'}
           </Text>
         </TouchableOpacity>
-        
+
         <View style={styles.linksContainer}>
           <TouchableOpacity onPress={() => navigation.navigate('Register')}>
             <Text style={styles.link}>Crear cuenta nueva</Text>
           </TouchableOpacity>
-          
-          <TouchableOpacity onPress={() => navigation.navigate('ForgotPassword')}>
+
+          <TouchableOpacity onPress={() => { /* Lógica para recuperar contraseña */ }}>
             <Text style={styles.link}>¿Olvidaste tu contraseña?</Text>
           </TouchableOpacity>
-        </View>        
-      
+        </View>
+
       </View>
     </SafeAreaView>
   );

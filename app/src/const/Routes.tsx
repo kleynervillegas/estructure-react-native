@@ -15,12 +15,12 @@ export const routes: Routes[] = [
         "options": { title: 'Login' }
     },
     {
-        "path": "Resgister",
-        "name": "Resgister",
+        "path": "Register",
+        "name": "Register",
         "icon": "paperplane.fill",
         "private": false,
         "component": RegisterScreen,
-        "options": { title: 'Resgister' }
+        "options": { title: 'Register' }
     },
     //rutas privadas
     {
