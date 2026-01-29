@@ -16,7 +16,6 @@ import { PublicStackParamList } from '../../types/navigation';
 
 type Props = NativeStackScreenProps<PublicStackParamList, 'Login'>;
 
-
 const validators: any = {
   'username': {
     require: {
