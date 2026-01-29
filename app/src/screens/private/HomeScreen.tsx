@@ -19,8 +19,8 @@ const HomeScreen: React.FC = () => {
         <View style={styles.header}>
           <MaterialIcons name="home" size={40} color="#007AFF" />
           <Text style={styles.title}>Bienvenido</Text>
-          <Text style={styles.subtitle}>{user?.name}</Text>
-          <Text style={styles.email}>{user?.email}</Text>
+          <Text style={styles.subtitle}>{user?.username}</Text>
+          <Text style={styles.email}>{user?.username}</Text>
         </View>
 
         <View style={styles.card}>
@@ -31,11 +31,11 @@ const HomeScreen: React.FC = () => {
           </View>
           <View style={styles.infoRow}>
             <Text style={styles.infoLabel}>Nombre:</Text>
-            <Text style={styles.infoValue}>{user?.name}</Text>
+            <Text style={styles.infoValue}>{user?.username}</Text>
           </View>
           <View style={styles.infoRow}>
             <Text style={styles.infoLabel}>Email:</Text>
-            <Text style={styles.infoValue}>{user?.email}</Text>
+            <Text style={styles.infoValue}>{user?.username}</Text>
           </View>
         </View>
 
@@ -58,13 +58,6 @@ const HomeScreen: React.FC = () => {
           </TouchableOpacity>
         </View>
 
-        <TouchableOpacity 
-          style={styles.logoutButton} 
-          onPress={logout}
-        >
-          <MaterialIcons name="logout" size={24} color="white" />
-          <Text style={styles.logoutButtonText}>Cerrar Sesión</Text>
-        </TouchableOpacity>
 
         <Text style={styles.footer}>
           Esta es una pantalla privada. Solo usuarios autenticados pueden verla.

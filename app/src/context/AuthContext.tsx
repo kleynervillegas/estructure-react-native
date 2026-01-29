@@ -22,18 +22,17 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  // Función para iniciar sesión
-  const login = async (email: string, password: string) => {
+  
+  const login = async (username: string, password: string) => {
     setIsLoading(true);
     try {           
       
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
+      await new Promise(resolve => setTimeout(resolve, 1000));     
     
       const mockUser: User = {
         id: '1',
-        name: 'Usuario Demo',
-        email: email,
+        username: username,
+        password: password,
       };
       
       setUser(mockUser);
@@ -44,8 +43,7 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       setIsLoading(false);
     }
   };
-
-  // Función para cerrar sesión
+  
   const logout = async () => {
     setIsLoading(true);
     try {
@@ -58,14 +56,12 @@ const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       setIsLoading(false);
     }
   };
-
-  // Función para registrar usuario
+  
   const register = async (name: string, email: string, password: string) => {
     setIsLoading(true);
     try {
       // Aquí iría tu lógica de registro real
-      console.log('Registrando usuario:', name, email, password);
-      
+      console.log('Registrando usuario:', name, email, password);      
       // Simulación de API
       await new Promise(resolve => setTimeout(resolve, 1000));
       

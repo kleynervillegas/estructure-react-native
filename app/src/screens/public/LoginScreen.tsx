@@ -1,12 +1,14 @@
+import { Form } from '@/app/components/Form/Form';
+import endpoints from '@/app/const/endpoints';
+import { useForm } from '@/app/hooks/useForm';
+import { useRequest } from '@/app/hooks/useRequest';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import React, { useState } from 'react';
+import React from 'react';
 import {
-  Alert,
   StyleSheet,
   Text,
-  TextInput,
   TouchableOpacity,
-  View,
+  View
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAuth } from '../../context/AuthContext';
@@ -14,23 +16,91 @@ import { PublicStackParamList } from '../../types/navigation';
 
 type Props = NativeStackScreenProps<PublicStackParamList, 'Login'>;
 
+
+const validators: any = {
+  'username': {
+    require: {
+      validate: (value: any) => {
+        return (value != "")
+      },
+      message: "Campo requerido"
+    }
+  },
+  'password': {
+    require: {
+      validate: (value: any) => {
+        return (value != "")
+      },
+      message: "Campo requerido"
+    }
+  }
+}
+
+const inputLogin = [
+  {
+    inputType: "INPUT_STANDARD",
+    labelText: "Usuario",
+    hide: false,
+    id: "username",
+    name: "username",
+    className: "ion-text-uppercase",
+  },
+  {
+    inputType: "INPUT_STANDARD",
+    labelText: "Contraseña",
+    hide: false,
+    id: "password",
+    name: "password",
+    type: "password",
+    showIcon: true
+  }
+];
+
 const LoginScreen: React.FC<Props> = ({ navigation }) => {
-  const [email, setEmail] = useState<string>('demo@example.com');
-  const [password, setPassword] = useState<string>('password123');
+
   const { login, isLoading } = useAuth();
 
+  const { handleRequest } = useRequest()
+
+  let initn = {
+    "username": "",
+    "password": "",
+  };
+
+  const {
+    updatedInputs,
+    values,
+    errors,
+    onChange,
+    patchValues,
+    modifyInputs,
+    validateInputs
+  } = useForm(inputLogin, initn, validators);
+
+  const handleChange = (e) => {
+    onChange(e);
+  };
+
+
   const handleLogin = async () => {
-    if (!email || !password) {
-      Alert.alert('Error', 'Por favor completa todos los campos');
+    const response = await handleRequest({
+      url: endpoints.login,
+      method: 'POST',
+      data: {
+        "username": values.username,
+        "password": values.password,
+        "typeLogin": "email"
+      }
+    });
+
+    if (response.statusError || !response.data) {
+      // Manejar error de login
+      console.log("Error de login:", response.error);
       return;
+    } else {
+      await login(values.username, values.password);
     }
 
-    try {
-      await login(email, password);
-      // La navegación se manejará automáticamente por el AuthContext
-    } catch (error) {
-      Alert.alert('Error', 'Credenciales incorrectas');
-    }
   };
 
   return (
@@ -38,21 +108,11 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
       <View style={styles.content}>
         <Text style={styles.title}>Iniciar Sesión</Text>
 
-        <TextInput
-          style={styles.input}
-          placeholder="Correo electrónico"
-          value={email}
-          onChangeText={setEmail}
-          autoCapitalize="none"
-          keyboardType="email-address"
-        />
-
-        <TextInput
-          style={styles.input}
-          placeholder="Contraseña"
-          value={password}
-          onChangeText={setPassword}
-          secureTextEntry
+        <Form
+          inputs={updatedInputs}
+          onChange={handleChange}
+          values={values}
+          errors={errors}
         />
 
         <TouchableOpacity

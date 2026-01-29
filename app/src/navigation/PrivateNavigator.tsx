@@ -2,12 +2,17 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React from 'react';
 
-import { routes } from '../const/Routes';
+import { TouchableOpacity } from 'react-native';
+import { routes } from '../../const/Routes';
+import { useAuth } from '../context/AuthContext';
 import { PrivateTabParamList, Routes } from '../types/navigation';
 
 const Tab = createBottomTabNavigator<PrivateTabParamList>();
 
+
 const PrivateNavigator: React.FC = () => {
+    const {logout } = useAuth();
+
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -24,7 +29,16 @@ const PrivateNavigator: React.FC = () => {
         },
         tabBarActiveTintColor: '#007AFF',
         tabBarInactiveTintColor: 'gray',
-        headerShown: false,
+        headerShown: true,
+        headerRight: () => (
+          <TouchableOpacity
+            onPress={logout}
+            style={{ marginRight: 15 }}
+          >
+            <MaterialIcons name="logout" size={24} color="#007AFF" />
+          </TouchableOpacity>
+        ),
+
       })}
     >
       {
@@ -36,7 +50,7 @@ const PrivateNavigator: React.FC = () => {
             options={route.options}
           />
         ))
-      } 
+      }
     </Tab.Navigator>
   );
 };

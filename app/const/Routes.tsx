@@ -1,8 +1,8 @@
-import HomeScreen from "../screens/private/HomeScreen";
-import ProfileScreen from "../screens/private/ProfileScreen";
-import LoginScreen from "../screens/public/LoginScreen";
-import RegisterScreen from "../screens/public/RegisterScreen";
-import { Routes } from "../types/navigation";
+import HomeScreen from "../src/screens/private/HomeScreen";
+import ProfileScreen from "../src/screens/private/ProfileScreen";
+import LoginScreen from "../src/screens/public/LoginScreen";
+import RegisterScreen from "../src/screens/public/RegisterScreen";
+import { Routes } from "../src/types/navigation";
 
 export const routes: Routes[] = [
     //rutas públicas
