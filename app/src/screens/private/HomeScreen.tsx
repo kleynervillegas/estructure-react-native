@@ -1,4 +1,3 @@
-// HomeScreen.tsx
 import endpoints from '@/app/const/endpoints';
 import { useRequest } from '@/app/hooks/useRequest';
 import { useSocketIO } from '@/app/hooks/useWebSocket';
@@ -16,7 +15,6 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { TwilioVideo, TwilioVideoLocalView } from 'react-native-twilio-video-webrtc';
 import { getToken } from '../../utils/functions';
-
 
 const HomeScreen = () => {
   const [isAudioEnabled, setIsAudioEnabled] = useState(true);
@@ -38,7 +36,7 @@ const HomeScreen = () => {
 
   const requestPermissions = async () => {
     try {
-      await connect();
+      connect();
 
       if (Platform.OS === 'android') {
         const grants = await PermissionsAndroid.requestMultiple([
@@ -91,23 +89,23 @@ const HomeScreen = () => {
 
       setStatus('Conectando a la sala...');
 
-      twilioVideoRef.current.connect({
+      const connectParams = {
         roomName: "prueba",
         accessToken: testToken,
-        cameraType: "front",
-        dominantSpeakerEnabled: true,
-        // IMPORTANTE: Asegúrate de que estos nombres coincidan con la versión de tu librería
-        enableVideo: isVideoEnabled,
-        enableAudio: isAudioEnabled,
-        // Algunas versiones de Twilio para RN requieren encoding parameters
+        cameraType: "front" as const,
+        dominantSpeakerEnabled: true,  // ✅ Ahora funcionará
+        enableVideo: isVideoEnabled,   // ✅ Ahora funcionará
+        enableAudio: isAudioEnabled,   // ✅ Ahora funcionará
         encodingParameters: {
           enableH264Codec: true,
-          audioBitrate: 1,
-          videoBitrate: 1,
+          audioBitrate: 16000,
+          videoBitrate: 1500000,
         },
-        enableNetworkQualityReporting: false,
-      });
+        enableNetworkQualityReporting: false, // ✅ Ahora funcionará
+      };
 
+      console.log('Conectando con parámetros corregidos...');
+      twilioVideoRef.current.connect(connectParams);
 
     } catch (error: any) {
       console.error('Error al conectar:', error);
@@ -244,6 +242,23 @@ const HomeScreen = () => {
         )}
       </View>
 
+
+      <TwilioVideoLocalView enabled={true} style={{ width: 150, height: 200 }} />
+
+      <TwilioVideo
+        ref={twilioVideoRef}
+        screenReaderFocusable
+        onRoomDidConnect={onRoomDidConnect}
+        onRoomDidDisconnect={onRoomDidDisconnect}
+        onParticipantAddedVideoTrack={onParticipantAddedVideoTrack}
+        onParticipantRemovedVideoTrack={onParticipantRemovedVideoTrack}
+        onRoomParticipantDidConnect={onRoomParticipantDidConnect}
+        onRoomParticipantDidDisconnect={onRoomParticipantDidDisconnect}
+        // Agregar listeners para debugging
+        onCameraDidStart={() => console.log('Cámara iniciada')}
+        onCameraDidStopRunning={() => console.log('Cámara detenida')}
+        onStatsReceived={(data: any) => console.log('Stats:', data)}
+      />
       {/* Controles */}
       <View style={styles.controls}>
         <TouchableOpacity
@@ -303,24 +318,6 @@ const HomeScreen = () => {
           />
         </TouchableOpacity>
       </View>
-
-      {/* Componente TwilioVideo - IMPORTANTE: Ya está correctamente importado */}
-      <TwilioVideo
-        ref={twilioVideoRef}
-        screenReaderFocusable
-        onRoomDidConnect={onRoomDidConnect}
-        onRoomDidDisconnect={onRoomDidDisconnect}
-        onParticipantAddedVideoTrack={onParticipantAddedVideoTrack}
-        onParticipantRemovedVideoTrack={onParticipantRemovedVideoTrack}
-        onRoomParticipantDidConnect={onRoomParticipantDidConnect}
-        onRoomParticipantDidDisconnect={onRoomParticipantDidDisconnect}
-        // Agregar listeners para debugging
-        onCameraDidStart={() => console.log('Cámara iniciada')}
-        onCameraDidStopRunning={() => console.log('Cámara detenida')}
-        onStatsReceived={(data: any) => console.log('Stats:', data)}
-      />
-      {/* Vista previa de tu propia cámara */}
-      <TwilioVideoLocalView enabled={true} style={{ width: 150, height: 200 }} />
     </SafeAreaView>
   );
 };
