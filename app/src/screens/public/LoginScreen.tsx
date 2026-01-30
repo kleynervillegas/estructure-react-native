@@ -11,6 +11,7 @@ import {
   View
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import Toast from 'react-native-toast-message';
 import { useAuth } from '../../context/AuthContext';
 import { PublicStackParamList } from '../../types/navigation';
 
@@ -62,8 +63,8 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
   const { handleRequest } = useRequest()
 
   let initn = {
-    "username": "",
-    "password": "",
+    "username": "kleynervillegas.atiempo@gmail.com",
+    "password": "123456",
   };
 
   const {
@@ -92,9 +93,13 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
       }
     });
 
+
     if (response.statusError || !response.data) {
-      // Manejar error de login
-      console.log("Error de login:", response.error);
+      Toast.show({
+        type: 'error',
+        text1: 'Error de inicio de sesión',
+        text2: response.error || 'Por favor, inténtalo de nuevo',
+      });
       return;
     } else {
       await login(values.username, values.password);
@@ -104,6 +109,8 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <Toast />
+
       <View style={styles.content}>
         <Text style={styles.title}>Iniciar Sesión</Text>
 

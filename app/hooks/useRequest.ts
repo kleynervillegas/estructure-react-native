@@ -1,5 +1,6 @@
 import { useCallback, } from "react";
 import axiosInstance from "../config/axiosConfig";
+import { getToken } from "../src/utils/functions";
 
 export const useRequest = () => {
 
@@ -19,8 +20,8 @@ export const useRequest = () => {
     withErrorAlert = false,
     handleErrorCallback,
   }: any): Promise<any> => {
-    try {     
-
+    try {
+      const token = (await getToken())?.token;
       const options = {
         baseURL,
         url,
@@ -30,6 +31,7 @@ export const useRequest = () => {
         headers: {
           ...headers,
           'Accept': 'application/json, text/plain, */*',
+          'token': `${token}`
         },
         signal,
         responseType,
@@ -42,14 +44,14 @@ export const useRequest = () => {
 
       return {
         data: response.data,
-        statusError:false
+        statusError: false
       };
 
     } catch (err: any) {
       return {
         data: null,
         error: err?.response?.data,
-        statusError:true
+        statusError: true
       };
     }
   }, []);

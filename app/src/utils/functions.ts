@@ -1,3 +1,6 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { jwtDecode } from 'jwt-decode';
+
 export const getFormStateErrors = (values: any, validators: any = {}) => {
     let isderty: boolean = false;
     Object.entries(validators).some(([name, fieldValidator]) => {
@@ -16,6 +19,17 @@ export const checkDoneForm = (inputs: any[]) => {
 
 export const checkDoneFormGrup = (inputs: any[]) => {
     return inputs.filter((item: any) => !item.hide).every(item => item.done)
+}
+
+export const getToken = async () => {
+    try {
+        const token = await AsyncStorage.getItem('token');
+        const decoded = jwtDecode(token);
+        return { token, decoded };
+    } catch (error) {
+        console.error('Error obteniendo token:', error);
+        return null;
+    }
 }
 
 

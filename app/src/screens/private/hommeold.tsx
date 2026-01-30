@@ -14,9 +14,13 @@ import {
   View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { TwilioVideo, TwilioVideoLocalView } from 'react-native-twilio-video-webrtc';
 import { getToken } from '../../utils/functions';
 
+// IMPORTACIÓN CORRECTA - Basado en lo que vemos en la consola
+import { TwilioVideo } from 'react-native-twilio-video-webrtc';
+
+// También podrías importar las vistas si las necesitas
+// import { TwilioVideoLocalView, TwilioVideoParticipantView } from 'react-native-twilio-video-webrtc';
 
 const HomeScreen = () => {
   const [isAudioEnabled, setIsAudioEnabled] = useState(true);
@@ -28,7 +32,7 @@ const HomeScreen = () => {
   const [token, setToken] = useState<string | null>(null);
   const { connect, joinPatient } = useSocketIO();
 
-  const twilioVideoRef = useRef<TwilioVideo>(null);
+  const twilioVideoRef = useRef<any>(null);
   const [isConnecting, setIsConnecting] = useState(false);
 
   // Solicitar permisos
@@ -106,6 +110,7 @@ const HomeScreen = () => {
           videoBitrate: 1,
         },
         enableNetworkQualityReporting: false,
+
       });
 
 
@@ -307,7 +312,6 @@ const HomeScreen = () => {
       {/* Componente TwilioVideo - IMPORTANTE: Ya está correctamente importado */}
       <TwilioVideo
         ref={twilioVideoRef}
-        screenReaderFocusable
         onRoomDidConnect={onRoomDidConnect}
         onRoomDidDisconnect={onRoomDidDisconnect}
         onParticipantAddedVideoTrack={onParticipantAddedVideoTrack}
@@ -319,8 +323,6 @@ const HomeScreen = () => {
         onCameraDidStopRunning={() => console.log('Cámara detenida')}
         onStatsReceived={(data: any) => console.log('Stats:', data)}
       />
-      {/* Vista previa de tu propia cámara */}
-      <TwilioVideoLocalView enabled={true} style={{ width: 150, height: 200 }} />
     </SafeAreaView>
   );
 };
