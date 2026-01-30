@@ -805,7 +805,7 @@ const styles = StyleSheet.create({
   },
   localVideoWrapper: {
     position: 'absolute',
-    bottom: 100,
+    bottom: 5,
     right: 20,
     width: 120,
     height: 160,
