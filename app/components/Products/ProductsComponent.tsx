@@ -1,0 +1,184 @@
+import { Ionicons } from "@expo/vector-icons";
+import { Dimensions, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import antena from '../../../assets/images/antena.webp';
+import caramas2 from '../../../assets/images/camaras2.webp';
+import dvr from '../../../assets/images/dvr.jpeg';
+import caramas1 from '../../../assets/images/KIT4_IP_POE.jpg';
+
+const { width } = Dimensions.get('window');
+
+const ProductsComponent: React.FC<any> = ({ products }) => {
+
+    const featuredProducts = [
+        {
+            id: 1,
+            category: 'SEGURIDAD',
+            name: 'Creatine Healthy Sports Monohydrate 3000mg',
+            price: '$122.550',
+            image: caramas1,
+
+        },
+        {
+            id: 2,
+            category: 'TECNOLOGIA',
+            name: 'Crema Corporal Vasenol Cuidado Intensivo X 1L',
+            price: '$49.450',
+            image: caramas2,
+
+        },
+        {
+            id: 3,
+            category: 'SEGURIDAD',
+            name: 'Proteína Whey 5lb',
+            price: '$189.990',
+            image: antena,
+
+
+        },
+        {
+            id: 4,
+            category: 'TECNOLOGIA',
+            name: 'Crema Facial Hidratante',
+            price: '$35.990',
+            image: dvr,
+        },
+    ];
+
+
+    return (
+        <View style={styles.container}>
+            <View style={styles.productsHeader}>
+                <Text style={styles.sectionTitle}>Productos Destacados</Text>
+                <TouchableOpacity>
+                    <Text style={styles.seeAll}>Ver todos</Text>
+                </TouchableOpacity>
+            </View>
+
+            <View style={styles.productsGrid}>
+                {featuredProducts.map((product: any) => (
+                    <View key={product.id} style={styles.productCard}>
+                        <View style={styles.imageContainer}>
+                            <Image source={product.image} style={styles.productImage} />
+                        </View>
+                        <View style={styles.productInfo}>
+                            <View style={[
+                                styles.categoryBadge,
+                                { backgroundColor: product.category === 'EJERCICIOS' ? '#EEF2FF' : '#D1FAE5' }
+                            ]}>
+                                <Text style={[
+                                    styles.categoryText,
+                                    { color: product.category === 'EJERCICIOS' ? '#4F46E5' : '#059669' }
+                                ]}>
+                                    {product.category}
+                                </Text>
+                            </View>
+                            <Text style={styles.productName} numberOfLines={2}>
+                                {product.name}
+                            </Text>
+                            <View style={styles.productFooter}>
+                                <Text style={styles.productPrice}>{product.price}</Text>
+                                <TouchableOpacity style={styles.addButton}>
+                                    <Ionicons name="cart" size={16} color="#FFF" />
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                    </View>
+                ))}
+            </View>
+        </View>
+    );
+};
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+    },
+    productsHeader: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        paddingHorizontal: 16,
+        marginBottom: 16,
+    },
+    sectionTitle: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        color: '#1F2937',
+    },
+    seeAll: {
+        color: '#2563EB',
+        fontWeight: '600',
+        fontSize: 14,
+    },
+    productsGrid: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'space-between',
+        paddingHorizontal: 12,
+    },
+    productCard: {
+        width: (width - 36) / 2, // 36 = padding horizontal (24) + espacio entre cards (12)
+        backgroundColor: '#FFF',
+        borderRadius: 12,
+        marginBottom: 16,
+        padding: 12,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 4,
+        elevation: 3,
+    },
+    imageContainer: {
+        alignItems: 'center',
+        marginBottom: 8,
+    },
+    productImage: {
+        width: 100,
+        height: 100,
+        borderRadius: 8,
+        marginBottom: 8,
+    },
+    productInfo: {
+        flex: 1,
+    },
+    categoryBadge: {
+        alignSelf: 'flex-start',
+        paddingHorizontal: 8,
+        paddingVertical: 4,
+        borderRadius: 12,
+        marginBottom: 8,
+    },
+    categoryText: {
+        fontSize: 10,
+        fontWeight: 'bold',
+    },
+    productName: {
+        fontSize: 13,
+        color: '#1F2937',
+        fontWeight: '500',
+        marginBottom: 12,
+        height: 36, // Para mantener consistencia en dos líneas
+        lineHeight: 18,
+    },
+    productFooter: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    },
+    productPrice: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        color: '#2563EB',
+        flex: 1,
+    },
+    addButton: {
+        backgroundColor: '#2563EB',
+        paddingHorizontal: 12,
+        paddingVertical: 8,
+        borderRadius: 8,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+});
+
+export default ProductsComponent

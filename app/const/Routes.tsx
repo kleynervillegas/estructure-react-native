@@ -1,5 +1,7 @@
+import CategoriesScreen from "../src/screens/private/CategoriesScreen";
 import HomeScreen from "../src/screens/private/HomeScreen";
 import ProfileScreen from "../src/screens/private/ProfileScreen";
+import ServicesScreen from "../src/screens/private/ServicesScreen";
 import LoginScreen from "../src/screens/public/LoginScreen";
 import RegisterScreen from "../src/screens/public/RegisterScreen";
 import { Routes } from "../src/types/navigation";
@@ -38,6 +40,22 @@ export const routes: Routes[] = [
         "private": true,
         "component": ProfileScreen,
         "options": { title: 'Profile' }
+    },
+    {
+        "path": "categories",
+        "name": "categories",
+        "icon": "paperplane.fill",
+        "private": true,
+        "component": CategoriesScreen,
+        "options": { title: 'categories' }
+    },
+    {
+        "path": "services",
+        "name": "services",
+        "icon": "paperplane.fill",
+        "private": true,
+        "component": ServicesScreen,
+        "options": { title: 'services' }
     },
 ];
 
