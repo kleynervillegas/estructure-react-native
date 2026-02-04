@@ -9,50 +9,53 @@ import { Routes } from "../src/types/navigation";
 export const routes: Routes[] = [
     //rutas públicas
     {
-        "path": "Login",
-        "name": "Login",
+        "path": "login",
+        "name": "login",
         "icon": "house.fill",
         "private": false,
         "component": LoginScreen,
-        "options": { title: 'Login' }
+        "options": { title: 'login' }
     },
     {
-        "path": "Register",
-        "name": "Register",
+        "path": "register",
+        "name": "register",
         "icon": "paperplane.fill",
         "private": false,
         "component": RegisterScreen,
-        "options": { title: 'Register' }
+        "options": { title: 'register' }
     },
     //rutas privadas
     {
-        "path": "Home",
-        "name": "Home",
+        "path": "home",
+        "name": "home",
         "icon": "house.fill",
         "private": true,
         "component": HomeScreen,
-        "options": { title: 'Inicio' }
+        "options": { title: 'home' }
     },
     {
-        "path": "Profile",
-        "name": "Profile",
+        "path": "profile",
+        "name": "profile",
         "icon": "paperplane.fill",
+        "iconTab":"home",
         "private": true,
         "component": ProfileScreen,
-        "options": { title: 'Profile' }
+        "options": { title: 'profile' }
     },
     {
-        "path": "categories",
-        "name": "categories",
+        "path": "cart",
+        "name": "cart",
         "icon": "paperplane.fill",
+        "iconTab":"home",
         "private": true,
         "component": CategoriesScreen,
-        "options": { title: 'categories' }
+        "options": { title: 'cart' }
     },
     {
         "path": "services",
         "name": "services",
         "icon": "paperplane.fill",
+        "iconTab":"home",
         "private": true,
         "component": ServicesScreen,
         "options": { title: 'services' }

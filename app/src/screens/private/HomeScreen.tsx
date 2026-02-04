@@ -18,41 +18,22 @@ const HomeScreen = () => {
 
 
   const services = [
-    { id: 1, name: 'Camaras de seguridad', icon: 'fitness' },
+    { id: 1, name: 'Camaras de seguridad', icon: 'airplane' },
     { id: 2, name: 'Cercos Electricos', icon: 'medical' },
     { id: 3, name: 'Protones digitales', icon: 'person' },
-    { id: 4, name: 'Redes', icon: 'baby' },
+    { id: 4, name: 'Redes', icon: 'git-network' },
   ];
 
   return (
     <SafeAreaView style={styles.safeArea}>
       <ScrollView style={styles.scrollView}>
-        {/* Header */}
-        <View style={styles.header}>
-          <View>
-            <Text style={styles.logoTitle}>Mujicam Segurity</Text>
-            <Text style={styles.logoSubtitle}>Todo a tu alcance</Text>
-          </View>
-          <View style={styles.headerIcons}>
-            <TouchableOpacity style={styles.iconButton}>
-              <Ionicons name="search" size={22} color="#666" />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.iconButton}>
-              <View>
-                <Ionicons name="notifications" size={22} color="#666" />
-                <View style={styles.badge} />
-              </View>
-            </TouchableOpacity>
-          </View>
-        </View>
 
-        {/* Banner Mujer 360° */}
         <View style={styles.banner}>
           <View style={styles.bannerIconContainer}>
-            <Ionicons name="female" size={24} color="#7C3AED" />
+            <Ionicons name="airplane" size={24} color="#7C3AED" />
           </View>
           <View style={styles.bannerContent}>
-            <Text style={styles.bannerTitle}>Nuestros servicios</Text>
+            <Text style={styles.bannerTitle}>Nuestros servicios a tu alcance</Text>
             <Text style={styles.bannerText}>
               Cotiza rapido y sencillo conoce nuestro servicios
             </Text>
@@ -60,7 +41,6 @@ const HomeScreen = () => {
           <Ionicons name="chevron-forward" size={20} color="#7C3AED" />
         </View>
 
-        {/* Barra de búsqueda */}
         <View style={styles.searchContainer}>
           <View style={styles.searchBar}>
             <MaterialIcons name="search" size={20} color="#999" style={styles.searchIcon} />
@@ -75,8 +55,7 @@ const HomeScreen = () => {
           </View>
         </View>
 
-        {/* Servicios */}
-        <Text style={styles.sectionTitle}>Servicios</Text>
+        <Text style={styles.sectionTitle}>Categorias</Text>
         <View style={styles.servicesContainer}>
           {services.map((service) => (
             <TouchableOpacity key={service.id} style={styles.serviceItem}>

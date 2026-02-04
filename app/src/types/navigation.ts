@@ -24,6 +24,7 @@ export type Routes = {
   path: string;
   name: string;
   icon: string;
+  iconTab?: string;
   private: boolean;
   component: React.ComponentType<any>;
   options: object;
