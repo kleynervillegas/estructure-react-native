@@ -33,7 +33,7 @@ interface InputStandardProps {
   blurColor?: string;
 }
 
-export const InputStandard: React.FC<InputStandardProps> = ({
+const InputStandard: React.FC<InputStandardProps> = ({
   id,
   labelText,
   value,
@@ -231,3 +231,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 });
+
+
+export default  InputStandard

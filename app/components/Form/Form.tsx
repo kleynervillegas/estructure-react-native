@@ -1,6 +1,6 @@
-import { InputFactory } from "../InputFactory/InputFactory";
+import InputFactory from "../InputFactory/InputFactory";
 
-export const Form: React.FC<any> = ({
+const Form: React.FC<any> = ({
   title,
   // subheader,
   inputs = [],
@@ -36,3 +36,5 @@ export const Form: React.FC<any> = ({
 
 
 );
+
+export default Form;

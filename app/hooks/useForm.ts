@@ -3,12 +3,12 @@ import {
     useState,
 } from "react";
 
-import { getFormStateErrors } from "../src/utils/functions";
+import getFormStateErrors from "../src/utils/functions";
 
 // @param inputs -  el array de inputs del formulario
 // @param initialState - El estado inicial del formulario
 // @param validators - Validadores para los campos del formulario
-export const useForm = (inputs: any, initialState: any, validators: any = {}, mutators: any = {}) => {
+const useForm = (inputs: any, initialState: any, validators: any = {}, mutators: any = {}) => {
     // State para los inputs actualizados
     const [updatedInputs, setInputs] = useState<any>(inputs);
 
@@ -216,3 +216,5 @@ export const useForm = (inputs: any, initialState: any, validators: any = {}, mu
         modifyInputsGruop
     }
 }
+ 
+export default useForm

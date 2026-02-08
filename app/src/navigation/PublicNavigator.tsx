@@ -1,6 +1,6 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
-import { routes } from '../../const/Routes';
+import routes from '../../const/Routes';
 import { PublicStackParamList, Routes } from '../types/navigation';
 
 const Stack = createNativeStackNavigator<PublicStackParamList>();

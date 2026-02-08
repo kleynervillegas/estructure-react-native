@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { jwtDecode } from 'jwt-decode';
 
-export const getFormStateErrors = (values: any, validators: any = {}) => {
+const getFormStateErrors = (values: any, validators: any = {}) => {
     let isderty: boolean = false;
     Object.entries(validators).some(([name, fieldValidator]) => {
         Object.entries(fieldValidator).some(([key, validator]) => {
@@ -31,5 +31,7 @@ export const getToken = async () => {
         return null;
     }
 }
+
+export default getFormStateErrors
 
 

@@ -1,5 +1,6 @@
-import { InputStandard } from "../Inputs/InputStandard/InputStandard";
-export const InputFactory: React.FC<any> = ({
+import InputStandard from "../Inputs/InputStandard/InputStandard";
+
+const InputFactory: React.FC<any> = ({
     values,
     input,
     componentState,
@@ -45,3 +46,5 @@ export const InputFactory: React.FC<any> = ({
             return null;
     }
 }
+
+export default InputFactory

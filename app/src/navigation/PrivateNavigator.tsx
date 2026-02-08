@@ -3,7 +3,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React from 'react';
 
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { routes } from '../../const/Routes';
+import routes from '../../const/Routes';
 import { useAuth } from '../context/AuthContext';
 import { PrivateTabParamList, Routes } from '../types/navigation';
 

@@ -1,7 +1,7 @@
-import { Form } from '@/app/components/Form/Form';
+import Form from '@/app/components/Form/Form';
 import endpoints from '@/app/const/endpoints';
-import { useForm } from '@/app/hooks/useForm';
-import { useRequest } from '@/app/hooks/useRequest';
+import useForm from '@/app/hooks/useForm';
+import useRequest from '@/app/hooks/useRequest';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import React from 'react';
 import {

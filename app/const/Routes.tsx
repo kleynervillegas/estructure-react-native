@@ -1,4 +1,4 @@
-import CategoriesScreen from "../src/screens/private/CategoriesScreen";
+import CartScreen from "../src/screens/private/CartScreen";
 import HomeScreen from "../src/screens/private/HomeScreen";
 import ProfileScreen from "../src/screens/private/ProfileScreen";
 import ServicesScreen from "../src/screens/private/ServicesScreen";
@@ -6,7 +6,7 @@ import LoginScreen from "../src/screens/public/LoginScreen";
 import RegisterScreen from "../src/screens/public/RegisterScreen";
 import { Routes } from "../src/types/navigation";
 
-export const routes: Routes[] = [
+const routes: Routes[] = [
     //rutas públicas
     {
         "path": "login",
@@ -48,7 +48,7 @@ export const routes: Routes[] = [
         "icon": "paperplane.fill",
         "iconTab":"home",
         "private": true,
-        "component": CategoriesScreen,
+        "component": CartScreen,
         "options": { title: 'cart' }
     },
     {
@@ -61,6 +61,8 @@ export const routes: Routes[] = [
         "options": { title: 'services' }
     },
 ];
+
+export default routes
 
 
 

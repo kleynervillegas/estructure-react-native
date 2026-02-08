@@ -2,7 +2,7 @@ import { useCallback, } from "react";
 import axiosInstance from "../config/axiosConfig";
 import { getToken } from "../src/utils/functions";
 
-export const useRequest = () => {
+const useRequest = () => {
 
   // Función para realizar una solicitud HTTP a la api core
   const handleRequest = useCallback(async ({
@@ -60,3 +60,5 @@ export const useRequest = () => {
     handleRequest,
   }
 }
+
+export default useRequest

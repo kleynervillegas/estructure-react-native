@@ -31,7 +31,7 @@ interface UseSocketIOReturn {
   joinPatient: (username: string) => boolean;
 }
 
-export const useSocketIO = (config?: Partial<typeof SOCKET_CONFIG>): UseSocketIOReturn => {
+const useSocketIO = (config?: Partial<typeof SOCKET_CONFIG>): UseSocketIOReturn => {
   const [isConnected, setIsConnected] = useState(false);
   const [isConnecting, setIsConnecting] = useState(false);
   
@@ -203,4 +203,7 @@ export const useSocketIO = (config?: Partial<typeof SOCKET_CONFIG>): UseSocketIO
     joinPatient,
   };
 };
+
+
+export default useSocketIO
 

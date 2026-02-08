@@ -29,3 +29,5 @@ export type Routes = {
   component: React.ComponentType<any>;
   options: object;
 };
+
+export default Routes

@@ -9,13 +9,13 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 const { width } = Dimensions.get('window');
 
-const CategoriesScreen = () => {
+const CartScreen = () => {
 
   return (
     <SafeAreaView style={styles.safeArea}>
 
       <View>
-        <Text>CategoriesScreen</Text>
+        <Text>CartScreen</Text>
 
       </View>
     </SafeAreaView>
@@ -29,4 +29,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default CategoriesScreen;
+export default CartScreen;
