@@ -17,7 +17,6 @@ const { width } = Dimensions.get('window');
 
 const HomeScreen = () => {
 
-
   const services = [
     { id: 1, name: 'Camaras de seguridad', icon: 'airplane' },
     { id: 2, name: 'Cercos Electricos', icon: 'medical' },

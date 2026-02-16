@@ -1,4 +1,5 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
+import React, { useCallback, useState } from 'react';
 import {
   ActivityIndicator,
   Alert,
@@ -12,6 +13,7 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useSqlite } from '../../hooks/useSqlite';
 import { Product } from '../../types/products';
+import { formatPrice } from '../../utils/functions';
 
 const { width } = Dimensions.get('window');
 
@@ -19,28 +21,25 @@ const SHIPPING_COST = 5000;
 const EMPTY_CART_MESSAGE = 'Tu carrito está vacío';
 
 const CartScreen = ({ navigation }) => {
-  const { getAllProductCart, deleteProductCart, updateProductQuantity } = useSqlite();
+  const { getAllProductCart, deleteOneProductCart, updateProductQuantity,deleteAllProductCart } = useSqlite();
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
-
+  
+  useFocusEffect(
+    useCallback(() => {
+      loadCartProducts();
+      return () => { };
+    }, [])
+  );
 
   const loadCartProducts = useCallback(async () => {
     setLoading(true);
-    const productsCart = await getAllProductCart();
+    const productsCart: any = await getAllProductCart();
     setProducts(productsCart);
     setLoading(false);
     setRefreshing(false);
   }, [getAllProductCart]);
-
-  useEffect(() => {
-    loadCartProducts();
-  }, [loadCartProducts]);
-
-  // Formatear precio
-  const formatPrice = (price: number): string => {
-    return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-  };
 
   // Calcular subtotal
   const calculateSubtotal = (): number => {
@@ -71,7 +70,7 @@ const CartScreen = ({ navigation }) => {
           style: 'destructive',
           onPress: async () => {
             try {
-              await deleteProductCart(item.id);
+              await deleteOneProductCart(item.id);
               setProducts(prevProducts => prevProducts.filter(p => p.id !== item.id));
             } catch (error) {
               console.error('Error deleting product:', error);
@@ -197,7 +196,7 @@ const CartScreen = ({ navigation }) => {
     </View>
   );
 
-  // Resumen de compra
+
   const renderSummary = () => {
     if (products.length === 0) return null;
 

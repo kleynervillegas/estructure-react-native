@@ -169,12 +169,11 @@ export const useSqlite = () => {
     }, [fetchData]);
 
     // Eliminar un producto del carrito
-    const deleteProductCart = useCallback(async (id: number): Promise<boolean> => {
+    const deleteOneProductCart = useCallback(async (id_product: number): Promise<boolean> => {
         setLoading(true);
         setError(null);
-
         try {
-            const result = await executeSql('DELETE FROM cart WHERE id = ?', [id]);
+            const result = await executeSql('DELETE FROM cart WHERE id_product = ?', [id_product]);
             return result.rowsAffected > 0;
         } catch (err: any) {
             setError(err.message);
@@ -231,7 +230,7 @@ export const useSqlite = () => {
         createOrUpdateCart,
         getAllProductCart,
         getProductCartById,
-        deleteProductCart,
+        deleteOneProductCart,
         deleteAllProductCart,
         updateProductQuantity
     };

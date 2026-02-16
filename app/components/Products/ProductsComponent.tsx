@@ -1,8 +1,10 @@
 import useProducts from "@/app/src/hooks/useProducts";
 import { useSqlite } from "@/app/src/hooks/useSqlite";
 import { Product } from "@/app/src/types/products";
+import { formatPrice } from "@/app/src/utils/functions";
 import { Ionicons } from "@expo/vector-icons";
-import { useCallback, useEffect, useState } from "react";
+import { useFocusEffect } from "expo-router";
+import { useCallback, useState } from "react";
 import { Dimensions, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import antena from '../../../assets/images/antena.webp';
 import caramas2 from '../../../assets/images/camaras2.webp';
@@ -13,8 +15,9 @@ const { width } = Dimensions.get('window');
 
 const ProductsComponent: React.FC<any> = ({ showToast }) => {
 
-    const { addProductoToCart } = useProducts();
+    const { addProductoToCart, deleteroductoToCart } = useProducts();
     const { getAllProductCart, deleteAllProductCart } = useSqlite();
+    
     const [products, setProducto] = useState<Product[]>([
         {
             id_product: 1,
@@ -54,6 +57,13 @@ const ProductsComponent: React.FC<any> = ({ showToast }) => {
         },
     ])
 
+      useFocusEffect(
+        useCallback(() => {
+          init();
+          return () => { };
+        }, [])
+      );
+
     const init = useCallback(async () => {
 
         const productsCart: any = await getAllProductCart();
@@ -74,16 +84,13 @@ const ProductsComponent: React.FC<any> = ({ showToast }) => {
 
     }, [products]);
 
-    useEffect(() => {
-        init();
-    }, []);
-
     const handleProductoCart = useCallback(async (product: Product) => {
         if (product.inCart) {
-            showToast('Producto ya se encuentra en el carrito', "error");
+            await deleteroductoToCart(product);
+            showToast('Producto eliminado correctamnete');
         } else {
-            const resp = await addProductoToCart({...product,quantity:1});
-            console.log("agregando al carrito",resp)
+            const resp = await addProductoToCart({ ...product, quantity: 1 });
+            console.log("agregando al carrito", resp)
             if (resp == 0) {
                 showToast('Error al agregar el producto', "error");
             } else {
@@ -105,6 +112,13 @@ const ProductsComponent: React.FC<any> = ({ showToast }) => {
             <View style={styles.productsGrid}>
                 {products.map((product: Product, key: number) => (
                     <View key={key} style={styles.productCard}>
+                        {product.inCart &&
+                            <View style={styles.iconDeleteProduct}>
+                                <TouchableOpacity onPress={() => handleProductoCart(product)}>
+                                    <Ionicons name={"close-circle-sharp"} size={23} color="red" />
+                                </TouchableOpacity>
+                            </View>
+                        }
                         <View style={styles.imageContainer}>
                             <Image source={product.image} style={styles.productImage} />
                         </View>
@@ -124,10 +138,12 @@ const ProductsComponent: React.FC<any> = ({ showToast }) => {
                                 {product.description}
                             </Text>
                             <View style={styles.productFooter}>
-                                <Text style={styles.productPrice}>{product.price} $</Text>
-                                <TouchableOpacity style={styles.addButton} onPress={() => handleProductoCart(product)}>
-                                    <Ionicons name={"cart"} size={16} color="#FFF" />
-                                </TouchableOpacity>
+                                <Text style={styles.productPrice}>$ {formatPrice(product.price)}</Text>
+                                {!product.inCart &&
+                                    <TouchableOpacity style={styles.addButton} onPress={() => handleProductoCart(product)}>
+                                        <Ionicons name={"cart"} size={16} color="#FFF" />
+                                    </TouchableOpacity>
+                                }
                             </View>
                         </View>
                     </View>
@@ -226,6 +242,10 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         alignItems: 'center',
         justifyContent: 'center',
+    },
+    iconDeleteProduct: {
+        position: "absolute",
+        alignSelf: 'flex-end',
     }
 });
 
