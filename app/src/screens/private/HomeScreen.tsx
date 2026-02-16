@@ -10,6 +10,7 @@ import {
   View
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import Toast from 'react-native-toast-message';
 import ProductsComponent from '../../../components/Products/ProductsComponent';
 
 const { width } = Dimensions.get('window');
@@ -24,8 +25,16 @@ const HomeScreen = () => {
     { id: 4, name: 'Redes', icon: 'git-network' },
   ];
 
+  const showToast = (text:string='',type:string='success') => {
+    Toast.show({
+      type: type,
+      text1: text,
+    });
+  }
+
   return (
     <SafeAreaView style={styles.safeArea}>
+      <Toast />
       <ScrollView style={styles.scrollView}>
 
         <View style={styles.banner}>
@@ -68,8 +77,7 @@ const HomeScreen = () => {
         </View>
 
         <View style={styles.divider} />
-
-        <ProductsComponent />
+        <ProductsComponent showToast={showToast} />
       </ScrollView>
     </SafeAreaView>
   );

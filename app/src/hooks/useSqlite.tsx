@@ -121,20 +121,20 @@ export const useSqlite = () => {
                         user_id
                     ]
                 );
-                return result.insertId || 0;
+                return result.insertId || 1;
             } else {
                 return 8;
             }
         } catch (err: any) {
             setError(err.message);
-            throw err;
+            throw 0;
         } finally {
             setLoading(false);
         }
     }, [executeSql]);
 
 
-    // Obtener todos los usuarios
+    // Obtener todos los productos del carrito
     const getAllProductCart = useCallback(async (): Promise<UserSqlite[]> => {
         setLoading(true);
         setError(null);
@@ -150,7 +150,7 @@ export const useSqlite = () => {
         }
     }, [fetchData]);
 
-    // Obtener un usuario por ID
+    // Obtener un producto del carrito
     const getProductCartById = useCallback(async (id: number): Promise<UserSqlite | null> => {
         setLoading(true);
         setError(null);
@@ -166,7 +166,7 @@ export const useSqlite = () => {
         }
     }, [fetchData]);
 
-    // Eliminar usuario
+    // Eliminar un producto del carrito
     const deleteProductCart = useCallback(async (id: number): Promise<boolean> => {
         setLoading(true);
         setError(null);
@@ -182,6 +182,23 @@ export const useSqlite = () => {
         }
     }, [executeSql]);
 
+       // Eliminar un producto del carrito
+    const deleteAllProductCart = useCallback(async (): Promise<boolean> => {
+        setLoading(true);
+        setError(null);
+
+        try {
+            const result = await executeSql('DELETE FROM cart');
+            return result.rowsAffected > 0;
+        } catch (err: any) {
+            setError(err.message);
+            throw err;
+        } finally {
+            setLoading(false);
+        }
+    }, [executeSql]);
+
+
 
     return {
         loading,
@@ -194,7 +211,8 @@ export const useSqlite = () => {
         createOrUpdateCart,
         getAllProductCart,
         getProductCartById,
-        deleteProductCart
+        deleteProductCart,
+        deleteAllProductCart
     };
 };
 

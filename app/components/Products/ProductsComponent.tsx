@@ -1,7 +1,8 @@
 import useProducts from "@/app/src/hooks/useProducts";
+import { useSqlite } from "@/app/src/hooks/useSqlite";
 import { Product } from "@/app/src/types/products";
 import { Ionicons } from "@expo/vector-icons";
-import { useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Dimensions, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import antena from '../../../assets/images/antena.webp';
 import caramas2 from '../../../assets/images/camaras2.webp';
@@ -10,49 +11,88 @@ import caramas1 from '../../../assets/images/KIT4_IP_POE.jpg';
 
 const { width } = Dimensions.get('window');
 
-const ProductsComponent: React.FC<any> = () => {
+const ProductsComponent: React.FC<any> = ({ showToast }) => {
 
-    const { addProductoToCart } = useProducts()
-
-    const products: Product = [
+    const { addProductoToCart } = useProducts();
+    const { getAllProductCart, deleteAllProductCart } = useSqlite();
+    const [products, setProducto] = useState<Product[]>([
         {
             id_product: 1,
+            inCart: false,
             description: 'Combos de Camaras HIK VISION',
             title: "camaras",
-            price: '122550',
+            price: 122550,
             image: caramas1,
             category: 'SEGURIDAD',
         },
         {
             id_product: 2,
+            inCart: false,
             category: 'TECNOLOGIA',
             title: "camaras",
             description: 'Combos de Camaras HIK VISION',
-            price: '49450',
+            price: 49450,
             image: caramas2,
         },
         {
             id_product: 3,
+            inCart: false,
             category: 'SEGURIDAD',
             title: "camaras",
             description: 'Antenas Starlink',
-            price: '189990',
+            price: 189990,
             image: antena,
         },
         {
             id_product: 4,
+            inCart: false,
             category: 'TECNOLOGIA',
             title: "camaras",
             description: 'Dispositivos DVR',
-            price: '35990',
+            price: 35990,
             image: dvr,
         },
-    ];
+    ])
+
+    const init = useCallback(async () => {
+
+        const productsCart: any = await getAllProductCart();
+
+        const productosActualizados = products.map(producto => {
+
+            const existeEnCarrito = productsCart.some(
+                (item: Product) => item.id_product === producto.id_product
+            );
+
+            return {
+                ...producto,
+                inCart: existeEnCarrito
+            };
+        });
+
+        setProducto(productosActualizados);
+
+    }, [products]);
+
+    useEffect(() => {
+        init();
+    }, []);
 
     const handleProductoCart = useCallback(async (product: Product) => {
-        const resp = await addProductoToCart(product);
-        console.log(resp)
-    }, [])
+        if (product.inCart) {
+            showToast('Producto ya se encuentra en el carrito', "error");
+        } else {
+            const resp = await addProductoToCart(product);
+            if (resp == 0) {
+                showToast('Error al agregar el producto', "error");
+            } else {
+                showToast('Producto agregado correctamente');
+            }
+        }
+        init();
+    }, [init]);
+
+
 
 
     return (
@@ -86,10 +126,9 @@ const ProductsComponent: React.FC<any> = () => {
                                 {product.description}
                             </Text>
                             <View style={styles.productFooter}>
-                                <Text style={styles.productPrice}>{product.price}</Text>
-                                <TouchableOpacity style={styles.addButton} onPress={() => handleProductoCart(product)}
-                                >
-                                    <Ionicons name="cart" size={16} color="#FFF" />
+                                <Text style={styles.productPrice}>{product.price} $</Text>
+                                <TouchableOpacity style={styles.addButton} onPress={() => handleProductoCart(product)}>
+                                    <Ionicons name={"cart"} size={16} color="#FFF" />
                                 </TouchableOpacity>
                             </View>
                         </View>
@@ -128,7 +167,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 12,
     },
     productCard: {
-        width: (width - 36) / 2, // 36 = padding horizontal (24) + espacio entre cards (12)
+        width: (width - 36) / 2,
         backgroundColor: '#FFF',
         borderRadius: 12,
         marginBottom: 16,
@@ -168,7 +207,7 @@ const styles = StyleSheet.create({
         color: '#1F2937',
         fontWeight: '500',
         marginBottom: 12,
-        height: 36, // Para mantener consistencia en dos líneas
+        height: 36,
         lineHeight: 18,
     },
     productFooter: {
@@ -189,7 +228,7 @@ const styles = StyleSheet.create({
         borderRadius: 8,
         alignItems: 'center',
         justifyContent: 'center',
-    },
+    }
 });
 
 export default ProductsComponent

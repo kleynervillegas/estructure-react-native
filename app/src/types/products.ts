@@ -4,7 +4,9 @@ export type Product = {
   title: string;
   price: number;
   image: string;
-  category:string
+  category: string,
+  inCart?: boolean,
+  quantity?: number
 };
 
 const DummyComponent = () => null;
