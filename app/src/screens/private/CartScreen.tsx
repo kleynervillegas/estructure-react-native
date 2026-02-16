@@ -21,11 +21,11 @@ const SHIPPING_COST = 5000;
 const EMPTY_CART_MESSAGE = 'Tu carrito está vacío';
 
 const CartScreen = ({ navigation }) => {
-  const { getAllProductCart, deleteOneProductCart, updateProductQuantity,deleteAllProductCart } = useSqlite();
+  const { getAllProductCart, deleteOneProductCart, updateProductQuantity, deleteAllProductCart } = useSqlite();
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
-  
+
   useFocusEffect(
     useCallback(() => {
       loadCartProducts();
@@ -34,31 +34,42 @@ const CartScreen = ({ navigation }) => {
   );
 
   const loadCartProducts = useCallback(async () => {
+
     setLoading(true);
+
     const productsCart: any = await getAllProductCart();
+
     setProducts(productsCart);
+
     setLoading(false);
+
     setRefreshing(false);
+
   }, [getAllProductCart]);
 
-  // Calcular subtotal
+
   const calculateSubtotal = (): number => {
+
     return products.reduce((sum, item) => sum + (item.price * (item.quantity || 1)), 0);
+
   };
 
   // Actualizar cantidad
   const handleUpdateQuantity = async (item: Product, newQuantity: number) => {
+
     if (newQuantity < 1) return;
 
-    await updateProductQuantity(item.id, newQuantity);
+    await updateProductQuantity(item.id_product, newQuantity);
+
     setProducts(prevProducts =>
       prevProducts.map(p =>
         p.id === item.id ? { ...p, quantity: newQuantity } : p
       )
     );
+
   };
 
-  // Eliminar producto
+
   const handleDeleteProduct = async (item: Product) => {
     Alert.alert(
       'Eliminar producto',
@@ -82,7 +93,7 @@ const CartScreen = ({ navigation }) => {
     );
   };
 
-  // Vaciar carrito
+
   const handleClearCart = () => {
     if (products.length === 0) return;
 
@@ -108,7 +119,7 @@ const CartScreen = ({ navigation }) => {
     );
   };
 
-  // Renderizar cada item del carrito
+
   const renderCartItem = ({ item }: { item: Product }) => (
     <View style={styles.cartItem}>
       <View style={styles.itemImageContainer}>
@@ -168,7 +179,7 @@ const CartScreen = ({ navigation }) => {
     </View>
   );
 
-  // Renderizar lista vacía
+
   const renderEmptyList = () => (
     <View style={styles.emptyContainer}>
       <Text style={styles.emptyIcon}>🛒</Text>
@@ -182,7 +193,7 @@ const CartScreen = ({ navigation }) => {
     </View>
   );
 
-  // Header del carrito
+
   const renderCartHeader = () => (
     <View style={styles.cartHeader}>
       <Text style={styles.cartHeaderText}>
