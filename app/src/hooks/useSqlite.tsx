@@ -15,17 +15,18 @@ export const useSqlite = () => {
 
         try {
             const userSave = await getUsers();
-
-            if (userSave.length < 0) {
+            if (userSave.length == 0) {
                 const result = await executeSql(
                     'INSERT INTO users (name, email) VALUES (?, ?)',
                     [user.name, user.email]
                 );
+
                 return result.insertId || 0;
             } else {
                 return 0;
             }
         } catch (err: any) {
+            console.log(err)
             setError(err.message);
             throw err;
         } finally {
@@ -106,11 +107,11 @@ export const useSqlite = () => {
         setError(null);
         try {
             const data = await getProductCartById(product.id_product);
-            
+
             if (data == null) {
 
                 const result = await executeSql(
-                    'INSERT INTO cart (id_product,description,title,price,category,image,user_id) VALUES (?,?,?,?,?,?,?)',
+                    'INSERT INTO cart (id_product,description,title,price,category,image,user_id,quantity) VALUES (?,?,?,?,?,?,?,?)',
                     [
                         product.id_product,
                         product.description,
@@ -118,7 +119,8 @@ export const useSqlite = () => {
                         product.price,
                         product.category,
                         product.image,
-                        user_id
+                        user_id,
+                        product.quantity
                     ]
                 );
                 return result.insertId || 1;
@@ -182,7 +184,7 @@ export const useSqlite = () => {
         }
     }, [executeSql]);
 
-       // Eliminar un producto del carrito
+    // Eliminar un producto del carrito
     const deleteAllProductCart = useCallback(async (): Promise<boolean> => {
         setLoading(true);
         setError(null);
@@ -198,6 +200,24 @@ export const useSqlite = () => {
         }
     }, [executeSql]);
 
+    // actualizar cantidad de producto del carrito
+    const updateProductQuantity = useCallback(async (id_product: number, quantity: number): Promise<boolean> => {
+        setLoading(true);
+        setError(null);
+
+        try {
+            const result = await executeSql(
+                'UPDATE cart SET quantity = ? WHERE id_product = ?',
+                [quantity, id_product]
+            );
+            return result.rowsAffected > 0;
+        } catch (err: any) {
+            setError(err.message);
+            throw err;
+        } finally {
+            setLoading(false);
+        }
+    }, [executeSql]);
 
 
     return {
@@ -212,7 +232,8 @@ export const useSqlite = () => {
         getAllProductCart,
         getProductCartById,
         deleteProductCart,
-        deleteAllProductCart
+        deleteAllProductCart,
+        updateProductQuantity
     };
 };
 

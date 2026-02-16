@@ -82,7 +82,8 @@ const ProductsComponent: React.FC<any> = ({ showToast }) => {
         if (product.inCart) {
             showToast('Producto ya se encuentra en el carrito', "error");
         } else {
-            const resp = await addProductoToCart(product);
+            const resp = await addProductoToCart({...product,quantity:1});
+            console.log("agregando al carrito",resp)
             if (resp == 0) {
                 showToast('Error al agregar el producto', "error");
             } else {
@@ -91,9 +92,6 @@ const ProductsComponent: React.FC<any> = ({ showToast }) => {
         }
         init();
     }, [init]);
-
-
-
 
     return (
         <View style={styles.container}>

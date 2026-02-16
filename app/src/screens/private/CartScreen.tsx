@@ -18,8 +18,8 @@ const { width } = Dimensions.get('window');
 const SHIPPING_COST = 5000;
 const EMPTY_CART_MESSAGE = 'Tu carrito está vacío';
 
-const CartScreen = () => {
-  const { getAllProductCart, deleteProductCart } = useSqlite();
+const CartScreen = ({ navigation }) => {
+  const { getAllProductCart, deleteProductCart, updateProductQuantity } = useSqlite();
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
@@ -51,17 +51,12 @@ const CartScreen = () => {
   const handleUpdateQuantity = async (item: Product, newQuantity: number) => {
     if (newQuantity < 1) return;
 
-    try {
-      await updateProductQuantity(item.id, newQuantity);
-      setProducts(prevProducts =>
-        prevProducts.map(p =>
-          p.id === item.id ? { ...p, quantity: newQuantity } : p
-        )
-      );
-    } catch (error) {
-      console.error('Error updating quantity:', error);
-      Alert.alert('Error', 'No se pudo actualizar la cantidad');
-    }
+    await updateProductQuantity(item.id, newQuantity);
+    setProducts(prevProducts =>
+      prevProducts.map(p =>
+        p.id === item.id ? { ...p, quantity: newQuantity } : p
+      )
+    );
   };
 
   // Eliminar producto
@@ -182,7 +177,7 @@ const CartScreen = () => {
       <Text style={styles.emptySubtitle}>
         Agrega productos para comenzar tu compra
       </Text>
-      <TouchableOpacity style={styles.shopButton}>
+      <TouchableOpacity style={styles.shopButton} onPress={() => navigation.navigate('home')}>
         <Text style={styles.shopButtonText}>Ir a tienda</Text>
       </TouchableOpacity>
     </View>
@@ -246,7 +241,7 @@ const CartScreen = () => {
   }
 
   return (
-    <SafeAreaView style={styles.safeArea}>    
+    <SafeAreaView style={styles.safeArea}>
 
       <View style={styles.container}>
         <FlatList
