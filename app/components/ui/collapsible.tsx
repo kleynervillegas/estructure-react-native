@@ -43,3 +43,5 @@ const styles = StyleSheet.create({
     marginLeft: 24,
   },
 });
+const DummyComponent = () => null;
+export default DummyComponent;

@@ -30,4 +30,5 @@ export type Routes = {
   options: object;
 };
 
-export default Routes
+const DummyComponent = () => null;
+export default DummyComponent;

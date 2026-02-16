@@ -17,3 +17,5 @@ export function HelloWave() {
     </Animated.Text>
   );
 }
+const DummyComponent = () => null;
+export default DummyComponent;

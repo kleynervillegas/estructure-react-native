@@ -16,3 +16,5 @@ export function HapticTab(props: BottomTabBarButtonProps) {
     />
   );
 }
+const DummyComponent = () => null;
+export default DummyComponent;

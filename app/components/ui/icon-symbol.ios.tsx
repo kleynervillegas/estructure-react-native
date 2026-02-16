@@ -30,3 +30,5 @@ export function IconSymbol({
     />
   );
 }
+const DummyComponent = () => null;
+export default DummyComponent;

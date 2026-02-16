@@ -103,3 +103,7 @@ export const useUsers = () => {
         deleteUser,
     };
 };
+
+
+const DummyComponent = () => null;
+export default DummyComponent;

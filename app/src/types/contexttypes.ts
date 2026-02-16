@@ -38,4 +38,5 @@ export interface DatabaseResult {
   };
 }
 
-export default AuthContextType;
+const DummyComponent = () => null;
+export default DummyComponent;
