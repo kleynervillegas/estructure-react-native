@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
-import { useDatabase } from '../src/context/SQLiteContext';
-import { UserSqlite } from '../src/types/contexttypes';
+import { useDatabase } from '../context/SQLiteContext';
+import { UserSqlite } from '../types/contexttypes';
 
 export const useUsers = () => {
     const { executeSql, fetchData } = useDatabase();

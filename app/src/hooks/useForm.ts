@@ -2,8 +2,9 @@ import {
     useCallback,
     useState,
 } from "react";
+import getFormStateErrors from "../utils/functions";
 
-import getFormStateErrors from "../src/utils/functions";
+
 
 // @param inputs -  el array de inputs del formulario
 // @param initialState - El estado inicial del formulario

@@ -1,22 +1,22 @@
 import endpoints from '@/app/const/endpoints';
-import { useRequest } from '@/app/hooks/useRequest';
-import { useSocketIO } from '@/app/hooks/useWebSocket';
 import { MaterialIcons } from '@expo/vector-icons';
 import React, { useEffect, useRef, useState } from 'react';
 import {
-    Alert,
-    Animated,
-    Dimensions,
-    PermissionsAndroid,
-    Platform,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    TouchableWithoutFeedback,
-    View,
+  Alert,
+  Animated,
+  Dimensions,
+  PermissionsAndroid,
+  Platform,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { TwilioVideo, TwilioVideoLocalView, TwilioVideoParticipantView } from 'react-native-twilio-video-webrtc';
+import useRequest from '../../hooks/useRequest';
+import useSocketIO from '../../hooks/useWebSocket';
 import { getToken } from '../../utils/functions';
 
 const { width, height } = Dimensions.get('window');

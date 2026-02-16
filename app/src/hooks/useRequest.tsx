@@ -1,6 +1,6 @@
+import axiosInstance from "@/app/config/axiosConfig";
 import { useCallback, } from "react";
-import axiosInstance from "../config/axiosConfig";
-import { getToken } from "../src/utils/functions";
+import { getToken } from "../utils/functions";
 
 const useRequest = () => {
 
