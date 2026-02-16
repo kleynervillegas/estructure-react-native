@@ -1,4 +1,7 @@
+import useProducts from "@/app/src/hooks/useProducts";
+import { Product } from "@/app/src/types/products";
 import { Ionicons } from "@expo/vector-icons";
+import { useCallback } from "react";
 import { Dimensions, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import antena from '../../../assets/images/antena.webp';
 import caramas2 from '../../../assets/images/camaras2.webp';
@@ -7,42 +10,49 @@ import caramas1 from '../../../assets/images/KIT4_IP_POE.jpg';
 
 const { width } = Dimensions.get('window');
 
-const ProductsComponent: React.FC<any> = ({ products }) => {
+const ProductsComponent: React.FC<any> = () => {
 
-    const featuredProducts = [
+    const { addProductoToCart } = useProducts()
+
+    const products: Product = [
         {
-            id: 1,
-            category: 'SEGURIDAD',
-            name: 'Creatine Healthy Sports Monohydrate 3000mg',
-            price: '$122.550',
+            id_product: 1,
+            description: 'Combos de Camaras HIK VISION',
+            title: "camaras",
+            price: '122550',
             image: caramas1,
-
-        },
-        {
-            id: 2,
-            category: 'TECNOLOGIA',
-            name: 'Crema Corporal Vasenol Cuidado Intensivo X 1L',
-            price: '$49.450',
-            image: caramas2,
-
-        },
-        {
-            id: 3,
             category: 'SEGURIDAD',
-            name: 'Proteína Whey 5lb',
-            price: '$189.990',
-            image: antena,
-
-
         },
         {
-            id: 4,
+            id_product: 2,
             category: 'TECNOLOGIA',
-            name: 'Crema Facial Hidratante',
-            price: '$35.990',
+            title: "camaras",
+            description: 'Combos de Camaras HIK VISION',
+            price: '49450',
+            image: caramas2,
+        },
+        {
+            id_product: 3,
+            category: 'SEGURIDAD',
+            title: "camaras",
+            description: 'Antenas Starlink',
+            price: '189990',
+            image: antena,
+        },
+        {
+            id_product: 4,
+            category: 'TECNOLOGIA',
+            title: "camaras",
+            description: 'Dispositivos DVR',
+            price: '35990',
             image: dvr,
         },
     ];
+
+    const handleProductoCart = useCallback(async (product: Product) => {
+        const resp = await addProductoToCart(product);
+        console.log(resp)
+    }, [])
 
 
     return (
@@ -55,8 +65,8 @@ const ProductsComponent: React.FC<any> = ({ products }) => {
             </View>
 
             <View style={styles.productsGrid}>
-                {featuredProducts.map((product: any) => (
-                    <View key={product.id} style={styles.productCard}>
+                {products.map((product: Product, key: number) => (
+                    <View key={key} style={styles.productCard}>
                         <View style={styles.imageContainer}>
                             <Image source={product.image} style={styles.productImage} />
                         </View>
@@ -73,11 +83,12 @@ const ProductsComponent: React.FC<any> = ({ products }) => {
                                 </Text>
                             </View>
                             <Text style={styles.productName} numberOfLines={2}>
-                                {product.name}
+                                {product.description}
                             </Text>
                             <View style={styles.productFooter}>
                                 <Text style={styles.productPrice}>{product.price}</Text>
-                                <TouchableOpacity style={styles.addButton}>
+                                <TouchableOpacity style={styles.addButton} onPress={() => handleProductoCart(product)}
+                                >
                                     <Ionicons name="cart" size={16} color="#FFF" />
                                 </TouchableOpacity>
                             </View>

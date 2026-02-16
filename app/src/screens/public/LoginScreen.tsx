@@ -13,7 +13,9 @@ import Toast from 'react-native-toast-message';
 import { useAuth } from '../../context/AuthContext';
 import useForm from '../../hooks/useForm';
 import useRequest from '../../hooks/useRequest';
+import { useSqlite } from '../../hooks/useSqlite';
 import { PublicStackParamList } from '../../types/navigation';
+import { getToken } from '../../utils/functions';
 
 type Props = NativeStackScreenProps<PublicStackParamList, 'Login'>;
 
@@ -60,7 +62,9 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
 
   const { login, isLoading } = useAuth();
 
-  const { handleRequest } = useRequest()
+  const { handleRequest } = useRequest();
+
+  const { createUser } = useSqlite()
 
   let initn = {
     "username": "kleynervillegas.atiempo@gmail.com",
@@ -93,7 +97,6 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
       }
     });
 
-
     if (response.statusError || !response.data) {
       Toast.show({
         type: 'error',
@@ -102,6 +105,8 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
       });
       return;
     } else {
+      const user: any = ((await getToken()).decoded);
+      await createUser({ name: `${user.name} ${user.lastName}`, email: user.email });
       await login(values.username, values.password);
     }
 

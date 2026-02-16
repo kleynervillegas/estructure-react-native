@@ -63,7 +63,8 @@ export const DatabaseProvider: React.FC<DatabaseProviderProps> = ({ children }) 
           description TEXT,
           title TEXT NOT NULL,
           price REAL DEFAULT 0.0,
-          quantity INTEGER DEFAULT 1,
+          category TEXT,
+          image TEXT,
           user_id INTEGER,
           created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
           FOREIGN KEY (user_id) REFERENCES users (id)

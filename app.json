@@ -22,7 +22,7 @@
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
-      "package": "com.kvillegas.reactnaiveapp"
+      "package": "com.reactnaiveapp.v1"
     },
     "web": {
       "output": "static",
