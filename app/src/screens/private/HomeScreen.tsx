@@ -18,10 +18,10 @@ const { width } = Dimensions.get('window');
 const HomeScreen = () => {
 
   const services = [
-    { id: 1, name: 'Camaras de seguridad', icon: 'airplane' },
+    { id: 1, name: 'Combos', icon: 'git-network' },
     { id: 2, name: 'Cercos Electricos', icon: 'medical' },
     { id: 3, name: 'Protones digitales', icon: 'person' },
-    { id: 4, name: 'Redes', icon: 'git-network' },
+    { id: 4, name: 'Camaras de seguridad', icon: 'airplane' },
   ];
 
   const showToast = (text:string='',type:string='success') => {

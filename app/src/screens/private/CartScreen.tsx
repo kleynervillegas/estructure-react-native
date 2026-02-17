@@ -187,7 +187,7 @@ const CartScreen = ({ navigation }) => {
       <Text style={styles.emptySubtitle}>
         Agrega productos para comenzar tu compra
       </Text>
-      <TouchableOpacity style={styles.shopButton} onPress={() => navigation.navigate('home')}>
+      <TouchableOpacity style={styles.shopButton} onPress={() => navigation.navigate('Tienda')}>
         <Text style={styles.shopButtonText}>Ir a tienda</Text>
       </TouchableOpacity>
     </View>

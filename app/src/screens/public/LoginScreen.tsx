@@ -3,6 +3,7 @@ import endpoints from '@/app/const/endpoints';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import React from 'react';
 import {
+  Image,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -10,6 +11,7 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Toast from 'react-native-toast-message';
+import ic from '../../../../assets/images/ic.png';
 import { useAuth } from '../../context/AuthContext';
 import useForm from '../../hooks/useForm';
 import useRequest from '../../hooks/useRequest';
@@ -117,7 +119,12 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
       <Toast />
 
       <View style={styles.content}>
-        <Text style={styles.title}>Iniciar Sesión</Text>
+
+        <View style={styles.contentIcStyle}>
+          <Image source={ic} style={styles.icStyle} />
+        </View>
+
+        {/* <Text style={styles.title}>Iniciar Sesión</Text> */}
 
         <Form
           inputs={updatedInputs}
@@ -204,6 +211,13 @@ const styles = StyleSheet.create({
     marginVertical: 5,
     fontSize: 14,
   },
+  icStyle: {
+    width: 250,
+    height: 250,
+  },
+  contentIcStyle: {
+    alignSelf: "center",
+  }
 });
 export default LoginScreen;
 

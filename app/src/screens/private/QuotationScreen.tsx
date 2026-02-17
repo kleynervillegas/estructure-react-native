@@ -1,28 +1,23 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import React from 'react';
 import {
-  Dimensions,
   ScrollView,
   StyleSheet,
   Text,
   View
 } from 'react-native';
-import { SafeAreaView, } from 'react-native-safe-area-context';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
-const { width } = Dimensions.get('window');
-
-const ServicesScreen = () => {
-
+const QuotationScreen: React.FC = () => {
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView contentContainerStyle={styles.content}>
-        <View style={styles.header}>
-          <MaterialIcons name="home" size={40} color="#007AFF" />
-          <Text style={styles.title}>QuotationScreen</Text>
- 
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+        <ScrollView contentContainerStyle={styles.content}>
+          <View style={styles.header}>
+            <MaterialIcons name="home" size={40} color="#007AFF" />
+            <Text style={styles.title}>QuotationScreen</Text>        
+          </View>
+        </ScrollView>
+      </SafeAreaView>
   );
 };
 
@@ -123,4 +118,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ServicesScreen;
+export default QuotationScreen;

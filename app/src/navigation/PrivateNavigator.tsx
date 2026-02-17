@@ -1,49 +1,72 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { useNavigation } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
-
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import routes from '../../const/Routes';
 import { useAuth } from '../context/AuthContext';
-import { PrivateTabParamList, Routes } from '../types/navigation';
+import { PrivateStackParamList, Routes } from '../types/navigation';
 
-const Tab = createBottomTabNavigator<PrivateTabParamList>();
+const Tab = createBottomTabNavigator<any>();
+const Stack = createNativeStackNavigator<PrivateStackParamList>();
 
-const PrivateNavigator: React.FC = () => {
+const TabsNavigator: React.FC = () => {
   const { logout } = useAuth();
+  const tabRoutes = routes.filter(route => route.private && route.tabs);
+  const navigation = useNavigation(); // 👈 Agregar este hook
+
+  const toNavigate = (path: string) => navigation.navigate(path as never);
 
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
         tabBarIcon: ({ color, size }) => {
-          let iconName: keyof typeof MaterialIcons.glyphMap = 'home';
-          if (route.name === 'home') {
-            iconName = 'home';
-          } else if (route.name === 'profile') {
-            iconName = 'person';
-          } else if (route.name === 'cart') {
+
+          let iconName: any = 'Tienda';
+
+          if (route.name === 'Tienda') {
+            iconName = 'store';
+          } else if (route.name === 'Orders') {
+            iconName = 'auto-stories';
+          } else if (route.name === 'Cart') {
             iconName = 'shopping-cart';
+          } else if (route.name === 'Quotation') {
+            iconName = 'build';
           }
+
           return <MaterialIcons name={iconName} size={size} color={color} />;
         },
         tabBarActiveTintColor: 'red',
         tabBarInactiveTintColor: 'gray',
         headerShown: true,
         headerTitle(props) {
-          return <Text>Mujicam Segurity </Text>;
+          return <Text>Mujicam Segurity</Text>;
         },
         headerRight: () => (
           <View style={styles.viewHeadrs}>
-            <TouchableOpacity style={styles.iconButton}>
+            <TouchableOpacity
+              onPress={() => toNavigate("profile")}
+              style={{ marginRight: 5 }}
+            >
               <View>
-                <MaterialIcons name="notifications" size={22} color="#007AFF" />
+                <MaterialIcons name="notifications" size={24} color="#007AFF" />
                 <View style={styles.badge} />
               </View>
             </TouchableOpacity>
 
             <TouchableOpacity
+              onPress={() => toNavigate("notifications")}
+              style={{ marginRight: 5 }}
+            >
+              <View>
+                <MaterialIcons name="person" size={24} color="#007AFF" />
+              </View>
+            </TouchableOpacity>
+
+            <TouchableOpacity
               onPress={logout}
-              style={{ marginRight: 15 }}
+              style={{ marginRight: 10 }}
             >
               <MaterialIcons name="logout" size={24} color="#007AFF" />
             </TouchableOpacity>
@@ -51,17 +74,41 @@ const PrivateNavigator: React.FC = () => {
         )
       })}
     >
-      {
-        routes.filter(route => route.private).map((route: Routes, key: number) => (
-          <Tab.Screen
-            key={key}
-            name={route.name}
-            component={route.component}
-            options={route.options}
-          />
-        ))
-      }
+      {tabRoutes.map((route: Routes, key: number) => (
+        <Tab.Screen
+          key={key}
+          name={route.name}
+          component={route.component}
+          options={route.options}
+        />
+      ))}
     </Tab.Navigator>
+  );
+};
+
+const PrivateNavigator: React.FC = () => {
+
+  const nonTabRoutes = routes.filter(route => route.private && !route.tabs);
+
+  return (
+    <Stack.Navigator>
+      {/* Rutas privadas que van en tabs */}
+      <Stack.Screen
+        name="back"
+        component={TabsNavigator}
+        options={{ headerShown: false }}
+      />
+
+      {/* Rutas privadas que no están en tabs */}
+      {nonTabRoutes.map((route: Routes, key: number) => (
+        <Stack.Screen
+          key={`stack-${key}`}
+          name={route.name}
+          component={route.component}
+          options={route.options}
+        />
+      ))}
+    </Stack.Navigator>
   );
 };
 
@@ -81,6 +128,10 @@ const styles = StyleSheet.create({
   iconButton: {
     marginLeft: 12,
     padding: 4,
+  },
+  iconPersonButton: {
+    // marginLeft: 12,
+    // padding: 4,
   }
 });
 

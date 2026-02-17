@@ -26,9 +26,19 @@ export type Routes = {
   icon: string;
   iconTab?: string;
   private: boolean;
+  tabs?:boolean;
   component: React.ComponentType<any>;
   options: object;
 };
+
+
+export type PrivateStackParamList = {
+    MainTabs: undefined;
+    profile: undefined;
+    settings: undefined;
+    help: undefined;
+    // Agrega aquí otras rutas privadas que no están en tabs
+}
 
 const DummyComponent = () => null;
 export default DummyComponent;

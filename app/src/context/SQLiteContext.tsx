@@ -34,14 +34,10 @@ export const DatabaseProvider: React.FC<DatabaseProviderProps> = ({ children }) 
 
   // Inicializar base de datos
   const initializeDatabase = async (): Promise<void> => {
-    try {
-      console.log('📦 Initializing SQLite database...');
-      
-      // Abrir o crear la base de datos
+    try {      
+     
       const database = await SQLite.openDatabaseAsync('DB_APP_V1.db');
-      setDb(database);
-      
-      console.log('✅ Database opened:', database);
+      setDb(database);     
       
       // Crear tablas iniciales
       await database.execAsync(`
@@ -70,13 +66,11 @@ export const DatabaseProvider: React.FC<DatabaseProviderProps> = ({ children }) 
           created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
           FOREIGN KEY (user_id) REFERENCES users (id)
         );
-      `);
-      
+      `);      
       // Verificar tablas creadas
       const tables = await database.getAllAsync(
         "SELECT name FROM sqlite_master WHERE type='table' ORDER BY name"
       );
-      console.log('📊 Tables created:', tables);
       
       setIsInitialized(true);
       console.log('🎉 Database initialized successfully');

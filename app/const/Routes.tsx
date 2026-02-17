@@ -1,6 +1,8 @@
 import CartScreen from "../src/screens/private/CartScreen";
 import HomeScreen from "../src/screens/private/HomeScreen";
+import OrdersScreen from "../src/screens/private/OrdersScreen";
 import ProfileScreen from "../src/screens/private/ProfileScreen";
+import QuotationScreen from "../src/screens/private/QuotationScreen";
 import ServicesScreen from "../src/screens/private/ServicesScreen";
 import LoginScreen from "../src/screens/public/LoginScreen";
 import RegisterScreen from "../src/screens/public/RegisterScreen";
@@ -24,47 +26,71 @@ const routes: Routes[] = [
         "component": RegisterScreen,
         "options": { title: 'register' }
     },
-    //rutas privadas
+    //rutas privadas QUE VAN EN TABS
     {
-        "path": "home",
-        "name": "home",
+        "path": "Tienda",
+        "name": "Tienda",
         "icon": "house.fill",
         "private": true,
+        "tabs": true,
         "component": HomeScreen,
-        "options": { title: 'home' }
+        "options": { title: 'Tienda' }
     },
+    {
+        "path": "Orders",
+        "name": "Orders",
+        "icon": "paperplane.fill",
+        "private": true,
+        "tabs": true,
+        "component": OrdersScreen,
+        "options": { title: 'Orders' }
+    },
+    {
+        "path": "Quotation",
+        "name": "Quotation",
+        "icon": "Quotation",
+        "private": true,
+        "tabs": true,
+        "component": QuotationScreen,
+        "options": { title: 'Quotation' }
+    },
+    {
+        "path": "Cart",
+        "name": "Cart",
+        "icon": "shopping-cart",
+        "private": true,
+        "tabs": true,
+        "component": CartScreen,
+        "options": { title: 'Cart' }
+    },
+    // rutas privadas QUE NO VAN EN TABS
     {
         "path": "profile",
         "name": "profile",
-        "icon": "paperplane.fill",
-        "iconTab":"home",
+        "icon": "person",
         "private": true,
+        "tabs": false,
         "component": ProfileScreen,
         "options": { title: 'profile' }
     },
     {
-        "path": "cart",
-        "name": "cart",
-        "icon": "paperplane.fill",
-        "iconTab":"home",
-        "private": true,
-        "component": CartScreen,
-        "options": { title: 'cart' }
-    },
-    {
         "path": "services",
         "name": "services",
-        "icon": "paperplane.fill",
-        "iconTab":"home",
+        "icon": "build",
         "private": true,
+        "tabs": false,
         "component": ServicesScreen,
         "options": { title: 'services' }
     },
+       {
+        "path": "notifications",
+        "name": "notifications",
+        "icon": "build",
+        "private": true,
+        "tabs": false,
+        "component": ServicesScreen,
+        "options": { title: 'notifications' }
+    },
 ];
 
-export default routes
-
-
-
-
-
+export default routes;
