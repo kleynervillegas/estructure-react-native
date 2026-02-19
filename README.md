@@ -55,3 +55,6 @@ export PATH=$PATH:$ANDROID_HOME/platform-tools
 
 source $HOME/.zshrc
 source $HOME/.bashrc
+
+yarn jest tests/screens/LoginScreen.test.tsx
+npx jest --clearCache   
