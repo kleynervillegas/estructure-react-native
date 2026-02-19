@@ -14,7 +14,7 @@ const Stack = createNativeStackNavigator<any>();
 const TabsNavigator: React.FC = () => {
   const { logout } = useAuth();
   const tabRoutes = routes.filter(route => route.private && route.tabs);
-  const navigation = useNavigation(); 
+  const navigation = useNavigation();
 
   const toNavigate = (path: string) => navigation.navigate(path as never);
 
@@ -39,9 +39,13 @@ const TabsNavigator: React.FC = () => {
         },
         tabBarActiveTintColor: 'red',
         tabBarInactiveTintColor: 'gray',
+        tabBarStyle: { backgroundColor: '#0a1329' },
         headerShown: true,
+        headerStyle: {
+          backgroundColor: "#0a1329",
+        },
         headerTitle(props) {
-          return <Text>Mujicam Segurity</Text>;
+          return <Text style={{ color: '#fff', fontWeight: 'bold' }} >Mujicam Segurity</Text>;
         },
         headerRight: () => (
           <View style={styles.viewHeadrs}>

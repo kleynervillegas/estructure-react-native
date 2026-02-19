@@ -5,12 +5,14 @@ import {
   Alert,
   Dimensions,
   FlatList,
+  ImageBackground,
   StyleSheet,
   Text,
   TouchableOpacity,
   View
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import ic from '../../../../assets/images/fondo.png';
 import { useSqlite } from '../../hooks/useSqlite';
 import { Product } from '../../types/products';
 import { formatPrice } from '../../utils/functions';
@@ -242,7 +244,7 @@ const CartScreen = ({ navigation }) => {
 
   if (loading) {
     return (
-      <SafeAreaView style={styles.safeArea}>
+      <SafeAreaView style={styles.container}>
         <View style={styles.loadingContainer}>
           <ActivityIndicator size="large" color="#2C3E50" />
         </View>
@@ -251,39 +253,45 @@ const CartScreen = ({ navigation }) => {
   }
 
   return (
-    <SafeAreaView style={styles.safeArea}>
+    <ImageBackground
+      source={ic}
+      style={styles.container}
+      resizeMode="cover"
+    >
+      <SafeAreaView style={styles.overlay}>
+        <View style={styles.container}>
+          <FlatList
+            data={products}
+            renderItem={renderCartItem}
+            keyExtractor={(item) => item.id.toString()}
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={[
+              styles.cartList,
+              products.length === 0 && styles.emptyList
+            ]}
+            ListHeaderComponent={renderCartHeader}
+            ListEmptyComponent={renderEmptyList}
+            refreshing={refreshing}
+            onRefresh={() => {
+              setRefreshing(true);
+              loadCartProducts();
+            }}
+          />
 
-      <View style={styles.container}>
-        <FlatList
-          data={products}
-          renderItem={renderCartItem}
-          keyExtractor={(item) => item.id.toString()}
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={[
-            styles.cartList,
-            products.length === 0 && styles.emptyList
-          ]}
-          ListHeaderComponent={renderCartHeader}
-          ListEmptyComponent={renderEmptyList}
-          refreshing={refreshing}
-          onRefresh={() => {
-            setRefreshing(true);
-            loadCartProducts();
-          }}
-        />
-
-        {renderSummary()}
-      </View>
-
-
-    </SafeAreaView>
+          {renderSummary()}
+        </View>
+      </SafeAreaView>
+    </ImageBackground>
   );
 };
 
 const styles = StyleSheet.create({
-  safeArea: {
+  container: {
     flex: 1,
-    backgroundColor: '#F8F9FA',
+  },
+  overlay: {
+    flex: 1,
+    backgroundColor: 'transparent',
   },
   loadingContainer: {
     flex: 1,
