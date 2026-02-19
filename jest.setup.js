@@ -1,19 +1,21 @@
-// Mock de expo antes que nada
-jest.mock('expo', () => ({}));
-jest.mock('expo-modules-core', () => ({}));
-jest.mock('expo-constants', () => ({
-  manifest: { extra: {} },
-  default: { manifest: { extra: {} } },
+import '@testing-library/jest-native/extend-expect';
+
+// Mock de AsyncStorage
+jest.mock('@react-native-async-storage/async-storage', () => ({
+  setItem: jest.fn(),
+  getItem: jest.fn(),
+  removeItem: jest.fn(),
+  clear: jest.fn(),
+  getAllKeys: jest.fn(),
+  multiGet: jest.fn(),
+  multiSet: jest.fn(),
+  multiRemove: jest.fn(),
 }));
 
-// Mock de react-native
-jest.mock('react-native', () => {
-  const RN = jest.requireActual('react-native');
-  return Object.setPrototypeOf({
-    NativeModules: {
-      ...RN.NativeModules,
-    },
-  }, RN);
-});
-
-import '@testing-library/jest-native/extend-expect';
+// Mock de navegación
+jest.mock('@react-navigation/native', () => ({
+  useNavigation: () => ({
+    navigate: jest.fn(),
+    goBack: jest.fn(),
+  }),
+}));

@@ -58,3 +58,15 @@ source $HOME/.bashrc
 
 yarn jest tests/screens/LoginScreen.test.tsx
 npx jest --clearCache   
+
+# Modo watch - ideal para TDD (se actualiza al guardar)
+yarn jest tests/screens/LoginScreen.test.tsx --watch
+
+# Ver cobertura de código
+yarn jest tests/screens/LoginScreen.test.tsx --coverage
+
+# Ejecutar un test específico
+yarn jest tests/screens/LoginScreen.test.tsx -t "renderizar"
+
+# Tests de todos los screens
+yarn jest tests/screens
