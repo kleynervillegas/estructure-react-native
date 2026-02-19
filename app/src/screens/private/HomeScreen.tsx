@@ -3,6 +3,7 @@ import { useNavigation } from 'expo-router';
 import React from 'react';
 import {
   Dimensions,
+  ImageBackground,
   ScrollView,
   StyleSheet,
   Text,
@@ -12,6 +13,7 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Toast from 'react-native-toast-message';
+import ic from '../../../../assets/images/fondo.png';
 import ProductsComponent from '../../components/Products/ProductsComponent';
 
 const { width } = Dimensions.get('window');
@@ -35,62 +37,72 @@ const HomeScreen = () => {
   }
 
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <Toast />
-      <ScrollView style={styles.scrollView}>
+    <ImageBackground
+      source={ic}
+      style={styles.container}
+      resizeMode="cover"
+    >
+      <SafeAreaView style={styles.overlay}>
+        <Toast />
+        <ScrollView style={styles.scrollView}>
 
-        <View style={styles.banner}>
-          <View style={styles.bannerIconContainer}>
-            <Ionicons name="airplane" size={24} color="#7C3AED" />
+          <View style={styles.banner}>
+            <View style={styles.bannerIconContainer}>
+              <Ionicons name="airplane" size={24} color="#7C3AED" />
+            </View>
+            <View style={styles.bannerContent}>
+              <TouchableOpacity onPress={() => navigation.navigate("services" as never)} >
+                <Text style={styles.bannerTitle}>Nuestros servicios a tu alcance</Text>
+                <Text style={styles.bannerText}>
+                  Cotiza rapido y sencillo conoce nuestro servicios
+                </Text>
+              </TouchableOpacity >
+            </View>
+            <Ionicons name="chevron-forward" size={20} color="#7C3AED" />
           </View>
-          <View style={styles.bannerContent}>
-            <TouchableOpacity onPress={() => navigation.navigate("services" as never)} >
-              <Text style={styles.bannerTitle}>Nuestros servicios a tu alcance</Text>
-              <Text style={styles.bannerText}>
-                Cotiza rapido y sencillo conoce nuestro servicios
-              </Text>
-            </TouchableOpacity >
+
+          <View style={styles.searchContainer}>
+            <View style={styles.searchBar}>
+              <MaterialIcons name="search" size={20} color="#999" style={styles.searchIcon} />
+              <TextInput
+                placeholder="BÚSCAR..."
+                style={styles.searchInput}
+                placeholderTextColor="#999"
+              />
+              <TouchableOpacity>
+                <Ionicons name="options" size={20} color="#999" style={styles.optionsIcon} />
+              </TouchableOpacity>
+            </View>
           </View>
-          <Ionicons name="chevron-forward" size={20} color="#7C3AED" />
-        </View>
 
-        <View style={styles.searchContainer}>
-          <View style={styles.searchBar}>
-            <MaterialIcons name="search" size={20} color="#999" style={styles.searchIcon} />
-            <TextInput
-              placeholder="BÚSCAR..."
-              style={styles.searchInput}
-              placeholderTextColor="#999"
-            />
-            <TouchableOpacity>
-              <Ionicons name="options" size={20} color="#999" style={styles.optionsIcon} />
-            </TouchableOpacity>
+          <Text style={styles.sectionTitle}>Categorias</Text>
+          <View style={styles.servicesContainer}>
+            {categories.map((categorie) => (
+              <TouchableOpacity key={categorie.id} style={styles.serviceItem}>
+                <View style={styles.serviceIconContainer}>
+                  <Ionicons name={categorie.icon as any} size={24} color="#2563EB" />
+                </View>
+                <Text style={styles.serviceText}>{categorie.name}</Text>
+              </TouchableOpacity>
+            ))}
           </View>
-        </View>
 
-        <Text style={styles.sectionTitle}>Categorias</Text>
-        <View style={styles.servicesContainer}>
-          {categories.map((categorie) => (
-            <TouchableOpacity key={categorie.id} style={styles.serviceItem}>
-              <View style={styles.serviceIconContainer}>
-                <Ionicons name={categorie.icon as any} size={24} color="#2563EB" />
-              </View>
-              <Text style={styles.serviceText}>{categorie.name}</Text>
-            </TouchableOpacity>
-          ))}
-        </View>
+          <View style={styles.divider} />
+          <ProductsComponent showToast={showToast} />
+        </ScrollView>
+      </SafeAreaView>
+    </ImageBackground>
 
-        <View style={styles.divider} />
-        <ProductsComponent showToast={showToast} />
-      </ScrollView>
-    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  safeArea: {
+  container: {
     flex: 1,
-    backgroundColor: '#F8F9FA',
+  },
+  overlay: {
+    flex: 1,
+    backgroundColor: 'transparent',
   },
   scrollView: {
     flex: 1,

@@ -70,3 +70,19 @@ yarn jest tests/screens/LoginScreen.test.tsx -t "renderizar"
 
 # Tests de todos los screens
 yarn jest tests/screens
+
+
+
+Negro Profundo	#0D1117	Fondos de pantalla, barras de navegación.
+Cian Eléctrico	#00F2FF	Botones de acción (Call to Action), estados activos.
+Azul Medianoche	#1A232E	Tarjetas (cards), campos de texto.
+Rojo Acento	#FF3B30	Detalles en el logo, errores o alertas críticas.
+Blanco Puro	#FFFFFF	Textos principales sobre fondos oscuros.
+Gris Técnico	#8E8E93	Textos secundarios o iconos desactivados.
+
+Elemento,Color,Código Hex,Uso sugerido
+Primario (Cian),Cian Neón, #00F2FF,"Bordes de botones, iconos activos y textos de enlaces."
+Fondo Botón,Verde Oscuro,#0D2626,Fondo del botón principal (con el borde cian).
+Texto/Iconos,Blanco Puro,#FFFFFF,Texto dentro de botones y títulos principales.
+Campos de Texto,Blanco Azulado,#F0F8FF,Fondo de los inputs (Usuario/Contraseña) para que resalten.
+Acento/Check,Turquesa,#20E8D5,Checks de validación o detalles pequeños.

@@ -3,7 +3,7 @@ import Form from '@/app/src/components/Form/Form';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import React from 'react';
 import {
-  Image,
+  ImageBackground,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Toast from 'react-native-toast-message';
-import ic from '../../../../assets/images/ic.png';
+import ic from '../../../../assets/images/imgback.png';
 import { useAuth } from '../../context/AuthContext';
 import useForm from '../../hooks/useForm';
 import useRequest from '../../hooks/useRequest';
@@ -115,58 +115,62 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <Toast />
+    <ImageBackground
+      source={ic}
+      style={styles.container}
+      resizeMode="cover"
+    >
+      <SafeAreaView style={styles.overlay}>
+        <Toast />
+        <View style={styles.content}>
 
-      <View style={styles.content}>
+          <Form
+            inputs={updatedInputs}
+            onChange={handleChange}
+            values={values}
+            errors={errors}
+          />
 
-        <View style={styles.contentIcStyle}>
-          <Image source={ic} style={styles.icStyle} />
-        </View>
 
-        {/* <Text style={styles.title}>Iniciar Sesión</Text> */}
-
-        <Form
-          inputs={updatedInputs}
-          onChange={handleChange}
-          values={values}
-          errors={errors}
-        />
-
-        <TouchableOpacity
-          style={[styles.button, isLoading && styles.buttonDisabled]}
-          onPress={handleLogin}
-          disabled={isLoading}
-        >
-          <Text style={styles.buttonText}>
-            {isLoading ? 'Cargando...' : 'Iniciar Sesión'}
-          </Text>
-        </TouchableOpacity>
-
-        <View style={styles.linksContainer}>
-          <TouchableOpacity onPress={() => navigation.navigate('Register')}>
-            <Text style={styles.link}>Crear cuenta nueva</Text>
+          <TouchableOpacity
+            style={[styles.button, isLoading && styles.buttonDisabled]}
+            onPress={handleLogin}
+            disabled={isLoading}
+          >
+            <Text style={styles.buttonText}>
+              {isLoading ? 'Cargando...' : 'Iniciar Sesión'}
+            </Text>
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => { /* Lógica para recuperar contraseña */ }}>
-            <Text style={styles.link}>¿Olvidaste tu contraseña?</Text>
-          </TouchableOpacity>
-        </View>
+          <View style={styles.linksContainer}>
+            <TouchableOpacity onPress={() => navigation.navigate('Register')}>
+              <Text style={styles.link}>Crear cuenta nueva</Text>
+            </TouchableOpacity>
 
-      </View>
-    </SafeAreaView>
+            <TouchableOpacity onPress={() => { /* Lógica para recuperar contraseña */ }}>
+              <Text style={styles.link}>¿Olvidaste tu contraseña?</Text>
+            </TouchableOpacity>
+          </View>
+
+        </View>
+      </SafeAreaView>
+    </ImageBackground>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+  },
+  overlay: {
+    flex: 1,
+    backgroundColor: 'transparent',
   },
   content: {
     flex: 1,
     justifyContent: 'center',
-    padding: 20,
+    padding: 25,
+    marginTop: 120, 
   },
   title: {
     fontSize: 28,
@@ -184,32 +188,45 @@ const styles = StyleSheet.create({
     borderColor: '#ddd',
   },
   button: {
-    backgroundColor: '#007AFF',
-    padding: 15,
-    borderRadius: 10,
+    backgroundColor: '#0D2626', 
+    padding: 16,
+    borderRadius: 12,
     alignItems: 'center',
-    marginTop: 10,
+    marginTop: 20,
+    borderWidth: 2,
+    borderColor: '#00F2FF', // Borde Cian Neón
+    // Efecto Glow para iOS
+    shadowColor: '#00F2FF',
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.8,
+    shadowRadius: 10,
+    // Efecto Glow para Android
+    elevation: 10,
   },
   buttonDisabled: {
-    backgroundColor: '#ccc',
+    backgroundColor: 'linear-gradient(135deg, #2563eb, #1d4ed8)',
   },
   demoButton: {
-    backgroundColor: '#34C759',
+    backgroundColor: 'linear-gradient(135deg, #2563eb, #1d4ed8)',
     marginTop: 20,
   },
   buttonText: {
-    color: 'white',
+    color: '#FFFFFF',
     fontWeight: 'bold',
-    fontSize: 16,
+    fontSize: 17,
+    letterSpacing: 1,
+    textTransform: 'uppercase',
   },
   linksContainer: {
-    marginTop: 20,
+    marginTop: 30,
     alignItems: 'center',
   },
   link: {
-    color: '#007AFF',
-    marginVertical: 5,
+    color: '#00F2FF',
+    marginVertical: 8,
     fontSize: 14,
+    fontWeight: '500',
+    textDecorationLine: 'none',
   },
   icStyle: {
     width: 250,
