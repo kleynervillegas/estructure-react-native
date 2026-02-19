@@ -6,15 +6,15 @@ import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import routes from '../../const/Routes';
 import { useAuth } from '../context/AuthContext';
-import { PrivateStackParamList, Routes } from '../types/navigation';
+import { Routes } from '../types/navigation';
 
 const Tab = createBottomTabNavigator<any>();
-const Stack = createNativeStackNavigator<PrivateStackParamList>();
+const Stack = createNativeStackNavigator<any>();
 
 const TabsNavigator: React.FC = () => {
   const { logout } = useAuth();
   const tabRoutes = routes.filter(route => route.private && route.tabs);
-  const navigation = useNavigation(); // 👈 Agregar este hook
+  const navigation = useNavigation(); 
 
   const toNavigate = (path: string) => navigation.navigate(path as never);
 

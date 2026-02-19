@@ -1,5 +1,5 @@
-import Form from '@/app/components/Form/Form';
 import endpoints from '@/app/const/endpoints';
+import Form from '@/app/src/components/Form/Form';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import React from 'react';
 import {

@@ -33,7 +33,7 @@ export type Routes = {
 
 
 export type PrivateStackParamList = {
-    MainTabs: undefined;
+    back: undefined;
     profile: undefined;
     settings: undefined;
     help: undefined;

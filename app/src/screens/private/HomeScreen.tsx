@@ -1,4 +1,5 @@
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
+import { useNavigation } from 'expo-router';
 import React from 'react';
 import {
   Dimensions,
@@ -11,20 +12,22 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Toast from 'react-native-toast-message';
-import ProductsComponent from '../../../components/Products/ProductsComponent';
+import ProductsComponent from '../../components/Products/ProductsComponent';
 
 const { width } = Dimensions.get('window');
 
 const HomeScreen = () => {
 
-  const services = [
+  const navigation = useNavigation();
+
+  const categories = [
     { id: 1, name: 'Combos', icon: 'git-network' },
     { id: 2, name: 'Cercos Electricos', icon: 'medical' },
     { id: 3, name: 'Protones digitales', icon: 'person' },
     { id: 4, name: 'Camaras de seguridad', icon: 'airplane' },
   ];
 
-  const showToast = (text:string='',type:string='success') => {
+  const showToast = (text: string = '', type: string = 'success') => {
     Toast.show({
       type: type,
       text1: text,
@@ -41,10 +44,12 @@ const HomeScreen = () => {
             <Ionicons name="airplane" size={24} color="#7C3AED" />
           </View>
           <View style={styles.bannerContent}>
-            <Text style={styles.bannerTitle}>Nuestros servicios a tu alcance</Text>
-            <Text style={styles.bannerText}>
-              Cotiza rapido y sencillo conoce nuestro servicios
-            </Text>
+            <TouchableOpacity onPress={() => navigation.navigate("services" as never)} >
+              <Text style={styles.bannerTitle}>Nuestros servicios a tu alcance</Text>
+              <Text style={styles.bannerText}>
+                Cotiza rapido y sencillo conoce nuestro servicios
+              </Text>
+            </TouchableOpacity >
           </View>
           <Ionicons name="chevron-forward" size={20} color="#7C3AED" />
         </View>
@@ -65,12 +70,12 @@ const HomeScreen = () => {
 
         <Text style={styles.sectionTitle}>Categorias</Text>
         <View style={styles.servicesContainer}>
-          {services.map((service) => (
-            <TouchableOpacity key={service.id} style={styles.serviceItem}>
+          {categories.map((categorie) => (
+            <TouchableOpacity key={categorie.id} style={styles.serviceItem}>
               <View style={styles.serviceIconContainer}>
-                <Ionicons name={service.icon as any} size={24} color="#2563EB" />
+                <Ionicons name={categorie.icon as any} size={24} color="#2563EB" />
               </View>
-              <Text style={styles.serviceText}>{service.name}</Text>
+              <Text style={styles.serviceText}>{categorie.name}</Text>
             </TouchableOpacity>
           ))}
         </View>
