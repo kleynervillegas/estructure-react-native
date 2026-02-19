@@ -1,11 +1,10 @@
 import { Ionicons } from "@expo/vector-icons";
-import React, { useState } from "react";
+import React from "react";
 import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 const { width } = Dimensions.get('window');
 
-const Steps = () => {
-    const [currentStep, setCurrentStep] = useState(1);
+const Steps: React.FC<any> = ({currentStep,setCurrentStep}) => {
 
     const steps = [
         { id: 1, title: 'Servicio', icon: 'construct-outline' },

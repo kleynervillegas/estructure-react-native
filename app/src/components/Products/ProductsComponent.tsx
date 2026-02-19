@@ -6,10 +6,10 @@ import { Ionicons } from "@expo/vector-icons";
 import { useFocusEffect } from "expo-router";
 import { useCallback, useState } from "react";
 import { Dimensions, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import antena from '../../../assets/images/antena.webp';
-import caramas2 from '../../../assets/images/camaras2.webp';
-import dvr from '../../../assets/images/dvr.jpeg';
-import caramas1 from '../../../assets/images/KIT4_IP_POE.jpg';
+import antena from '../../../../assets/images/antena.webp';
+import caramas2 from '../../../../assets/images/camaras2.webp';
+import dvr from '../../../../assets/images/dvr.jpeg';
+import caramas1 from '../../../../assets/images/KIT4_IP_POE.jpg';
 
 const { width } = Dimensions.get('window');
 
