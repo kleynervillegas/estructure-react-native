@@ -1,4 +1,4 @@
-// tests/screens/LoginScreen.test.tsx
+// primeras pruebas para LoginScreen, enfocándonos en funcionalidades básicas y navegación
 import LoginScreen from '@/app/src/screens/public/LoginScreen';
 import { fireEvent, render, waitFor } from '@testing-library/react-native';
 import React from 'react';
@@ -43,7 +43,7 @@ jest.mock('@/app/src/hooks/useSqlite', () => ({
   })
 }));
 
-// Mock de useForm
+
 jest.mock('@/app/src/hooks/useForm', () => ({
   __esModule: true,
   default: () => ({
@@ -57,7 +57,7 @@ jest.mock('@/app/src/hooks/useForm', () => ({
   })
 }));
 
-// Mock de funciones - ¡CORREGIDO!
+
 jest.mock('@/app/src/utils/functions', () => ({
   getToken: jest.fn().mockResolvedValue({ 
     token: 'fake-token',
@@ -65,10 +65,10 @@ jest.mock('@/app/src/utils/functions', () => ({
   })
 }));
 
-// Mock del componente Form
+
 jest.mock('@/app/src/components/Form/Form', () => {
   return function MockForm(props: any) {
-    return null; // Simplificamos el mock
+    return null; 
   };
 });
 
@@ -120,4 +120,7 @@ describe('LoginScreen - Funcionalidades Básicas', () => {
     
     expect(getByText('¿Olvidaste tu contraseña?')).toBeTruthy();
   });
+
+
+  
 });
