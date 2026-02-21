@@ -34,6 +34,13 @@ export const getToken = async () => {
  export const formatPrice = (price: number): string => {
     return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
   };
+
+
+ export const calculateWireLength = (dimensionsData: any) => {
+        const hilos = dimensionsData.alturaCerca === '1.50m' ? 4 :
+            dimensionsData.alturaCerca === '2.00m' ? 5 : 6;
+        return (parseFloat(dimensionsData.largoPerimetro) * hilos).toFixed(2);
+    };
 export default getFormStateErrors
 
 

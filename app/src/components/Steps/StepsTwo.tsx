@@ -1,35 +1,14 @@
-import React, { useState } from "react";
+import React from "react";
 import { Dimensions, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { calculateWireLength } from "../../utils/functions";
 
 const { width } = Dimensions.get('window');
 
-const StepsTwo: React.FC<any> = ({selectedService,setSelectedService }) => {
-
-    const [dimensionsData, setDimensionsData] = useState({
-        // Para Cámaras
-        tipoArea: null,
-        largo: '',
-        ancho: '',
-        altura: '',
-        reconocimientoFacial: null,
-        // Para Cerca
-        tipoPerimetro: null,
-        largoPerimetro: '',
-        alturaCerca: '',
-        // Para Portón
-        tipoPorton: null,
-        anchoPorton: '',
-        altoPorton: '',
-        pesoPorton: '',
-        materialPorton: '',
-    });
-
-    const calculateWireLength = () => {
-        const hilos = dimensionsData.alturaCerca === '1.50m' ? 4 :
-            dimensionsData.alturaCerca === '2.00m' ? 5 : 6;
-        return (parseFloat(dimensionsData.largoPerimetro) * hilos).toFixed(2);
-    };
-
+const StepsTwo: React.FC<any> = ({
+    selectedService,
+    dimensionsData,
+    setDimensionsData,
+}) => {
     return (
         <>
             {selectedService === 1 &&
@@ -186,7 +165,7 @@ const StepsTwo: React.FC<any> = ({selectedService,setSelectedService }) => {
                     {dimensionsData.largoPerimetro && dimensionsData.alturaCerca && (
                         <View style={styles.calculationBox}>
                             <Text style={styles.calculationText}>
-                                Metraje lineal estimado: {calculateWireLength()} metros de alambre
+                                Metraje lineal estimado: {calculateWireLength(dimensionsData)} metros de alambre
                             </Text>
                         </View>
                     )}

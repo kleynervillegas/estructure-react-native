@@ -34,6 +34,13 @@ const ServicesScreen = () => {
 
   }, [selectedService]);
 
+  const protectionTypes = [
+    { id: 'hogar', name: 'Hogar', icon: 'home', description: 'Casa particular' },
+    { id: 'negocio', name: 'Negocio', icon: 'business', description: 'Local comercial, oficina' },
+    { id: 'industria', name: 'Industria', icon: 'factory', description: 'Bodega, industrial' },
+    { id: 'terreno', name: 'Terreno', icon: 'earth', description: 'Campo, terreno' },
+  ];
+
   const [dimensionsData, setDimensionsData] = useState({
     // Para Cámaras
     tipoArea: null,
@@ -108,18 +115,13 @@ const ServicesScreen = () => {
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
 
-      {/* Header */}
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Cotizador</Text>
         <Text style={styles.headerSubtitle}>Completa los pasos para tu cotización</Text>
       </View>
 
-      {/* Step Indicator */}
-      <Steps
-        currentStep={currentStep}
-        setCurrentStep={setCurrentStep} />
+      <Steps currentStep={currentStep} setCurrentStep={setCurrentStep} />
 
-      {/* Content */}
       <ScrollView
         style={styles.scrollView}
         showsVerticalScrollIndicator={false}
@@ -128,12 +130,35 @@ const ServicesScreen = () => {
           <StepsOne
             setSelectedService={setSelectedService}
             selectedService={selectedService}
+            selectedProtection={selectedProtection}
+            setSelectedProtection={setSelectedProtection}
           />
         }
-        {currentStep === 2 && <StepsTwo selectedService={selectedService} />}
-        {currentStep === 3 && <StepsThere selectedService={selectedService} />}
-        {currentStep === 4 && <StepsFour selectedService={selectedService} />}
-        {currentStep === 5 && <StepsFine selectedService={selectedService} />}
+        {currentStep === 2 &&
+          <StepsTwo
+            selectedService={selectedService}
+            dimensionsData={dimensionsData}
+            setDimensionsData={setDimensionsData}
+
+          />}
+        {currentStep === 3 &&
+          <StepsThere
+            qualityData={qualityData}
+            setQualityData={setQualityData}
+          />}
+        {currentStep === 4 &&
+          <StepsFour
+            additionalData={additionalData}
+            setAdditionalData={setAdditionalData}
+          />}
+        {currentStep === 5 &&
+          <StepsFine
+            selectedService={selectedService}
+            protectionTypes={protectionTypes}
+            selectedProtection={selectedProtection}
+            clientData={clientData}
+            setClientData={setClientData}
+          />}
       </ScrollView>
 
 
@@ -478,9 +503,31 @@ const styles = StyleSheet.create({
   },
   backButton: {
     backgroundColor: '#F3F4F6',
+    padding: 16,
+    borderRadius: 12,
+    alignItems: 'center',
+    marginTop: 20,
+    borderWidth: 2,
+    borderColor: '#00F2FF',
+    shadowColor: '#00F2FF',
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.8,
+    shadowRadius: 10,
+    elevation: 10,
   },
   nextButton: {
-    backgroundColor: '#2563EB',
+    backgroundColor: '#0D2626',
+    padding: 16,
+    borderRadius: 12,
+    alignItems: 'center',
+    marginTop: 20,
+    borderWidth: 2,
+    borderColor: '#00F2FF',
+    shadowColor: '#00F2FF',
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.8,
+    shadowRadius: 10,
+    elevation: 10,
   },
   nextButtonDisabled: {
     backgroundColor: '#9CA3AF',
@@ -492,10 +539,16 @@ const styles = StyleSheet.create({
     marginLeft: 8,
   },
   nextButtonText: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#FFFFFF',
+    // fontSize: 16,
+    // fontWeight: '600',
+    // color: '#FFFFFF',
     marginRight: 8,
+
+    color: '#FFFFFF',
+    fontWeight: 'bold',
+    fontSize: 17,
+    letterSpacing: 1,
+    textTransform: 'uppercase',
   },
 });
 

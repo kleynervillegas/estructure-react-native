@@ -1,24 +1,15 @@
-import React, { useState } from "react";
+import React from "react";
 import { Dimensions, StyleSheet, Text, TextInput, View } from "react-native";
 
 const { width } = Dimensions.get('window');
 
-const StepsFine: React.FC<any> = ({selectedService,setSelectedService }) => {
-    const [clientData, setClientData] = useState({
-        nombre: '',
-        email: '',
-        telefono: '',
-        direccion: '',
-    });
-  const [selectedProtection, setSelectedProtection] = useState(null);
-
-    const protectionTypes = [
-        { id: 'hogar', name: 'Hogar', icon: 'home', description: 'Casa particular' },
-        { id: 'negocio', name: 'Negocio', icon: 'business', description: 'Local comercial, oficina' },
-        { id: 'industria', name: 'Industria', icon: 'factory', description: 'Bodega, industrial' },
-        { id: 'terreno', name: 'Terreno', icon: 'earth', description: 'Campo, terreno' },
-    ];
-
+const StepsFine: React.FC<any> = ({
+    selectedService,
+    protectionTypes,
+    selectedProtection,
+    clientData,
+    setClientData,
+}) => {
 
     return (
         <View style={styles.stepContent}>

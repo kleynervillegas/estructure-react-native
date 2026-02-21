@@ -1,11 +1,15 @@
 import { Ionicons } from "@expo/vector-icons";
-import React, { useState } from "react";
+import React from "react";
 import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 const { width } = Dimensions.get('window');
 
-const StepsOne: React.FC<any> = ({selectedService,setSelectedService }) => {
-    const [selectedProtection, setSelectedProtection] = useState(null);
+const StepsOne: React.FC<any> = ({ 
+    selectedService, 
+    setSelectedService ,
+    selectedProtection,
+    setSelectedProtection
+}) => {
 
     const protectionTypes = [
         { id: 'hogar', name: 'Hogar', icon: 'home', description: 'Casa particular' },

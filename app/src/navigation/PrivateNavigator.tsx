@@ -22,7 +22,7 @@ const TabsNavigator: React.FC = () => {
     <Tab.Navigator
       screenOptions={({ route }) => ({
         tabBarIcon: ({ color, size }) => {
-
+          
           let iconName: any = 'Tienda';
 
           if (route.name === 'Tienda') {
@@ -45,7 +45,7 @@ const TabsNavigator: React.FC = () => {
           backgroundColor: "#0a1329",
         },
         headerTitle(props) {
-          return <Text style={{ color: '#fff', fontWeight: 'bold' }} >Mujicam Segurity</Text>;
+          return <Text style={{ color: '#fff', fontWeight: 'bold',textTransform:"uppercase",paddingRight: 8 }} >Mujicam Segurity</Text>;
         },
         headerRight: () => (
           <View style={styles.viewHeadrs}>
@@ -54,7 +54,7 @@ const TabsNavigator: React.FC = () => {
               style={{ marginRight: 5 }}
             >
               <View>
-                <MaterialIcons name="notifications" size={24} color="#007AFF" />
+                <MaterialIcons name="notifications" size={24} color="gray" />
                 <View style={styles.badge} />
               </View>
             </TouchableOpacity>
@@ -64,7 +64,7 @@ const TabsNavigator: React.FC = () => {
               style={{ marginRight: 5 }}
             >
               <View>
-                <MaterialIcons name="person" size={24} color="#007AFF" />
+                <MaterialIcons name="person" size={24} color="gray" />
               </View>
             </TouchableOpacity>
 
@@ -72,7 +72,7 @@ const TabsNavigator: React.FC = () => {
               onPress={logout}
               style={{ marginRight: 10 }}
             >
-              <MaterialIcons name="logout" size={24} color="#007AFF" />
+              <MaterialIcons name="logout" size={24} color="gray" />
             </TouchableOpacity>
           </View>
         )
@@ -98,7 +98,7 @@ const PrivateNavigator: React.FC = () => {
     <Stack.Navigator>
       {/* Rutas privadas que van en tabs */}
       <Stack.Screen
-        name="back"
+        name="Volver"
         component={TabsNavigator}
         options={{ headerShown: false }}
       />

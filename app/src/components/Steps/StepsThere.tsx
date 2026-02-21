@@ -1,22 +1,12 @@
-import React, { useState } from "react";
+import React from "react";
 import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 const { width } = Dimensions.get('window');
 
-const StepsThere: React.FC<any> = ({selectedService,setSelectedService }) => {
-
-    const [qualityData, setQualityData] = useState({
-        // Para Cámaras
-        resolucion: null,
-        visionNocturna: null,
-        tipoCamara: null,
-        // Para Cercas
-        tipoAlarma: null,
-        bateriaRespaldo: null,
-        // Para Portones
-        tipoMotor: null,
-        accesorios: [],
-    });
+const StepsThere: React.FC<any> = ({
+    qualityData,
+    setQualityData
+}) => {  
 
     return (
         <View style={styles.stepContent}>

@@ -1,19 +1,14 @@
 import { Ionicons } from "@expo/vector-icons";
-import React, { useState } from "react";
+import React from "react";
 import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 const { width } = Dimensions.get('window');
 
-const StepsFour: React.FC<any> = ({selectedService,setSelectedService }) => {
-
-    const [additionalData, setAdditionalData] = useState({
-        instalacionProfesional: false,
-        mantenimientoAnual: false,
-        garantiaExtendida: false,
-        modulo4G: false,
-        almacenamientoNube: false,
-        controlRemoto: false,
-    });
+const StepsFour: React.FC<any> = (
+    {  
+        additionalData,
+        setAdditionalData        
+    }) => {
 
     return (
         <View style={styles.stepContent}>

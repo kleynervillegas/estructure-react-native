@@ -48,7 +48,7 @@ const HomeScreen = () => {
 
           <View style={styles.banner}>
             <View style={styles.bannerIconContainer}>
-              <Ionicons name="airplane" size={24} color="#7C3AED" />
+              <Ionicons name="airplane" size={24} color="red" />
             </View>
             <View style={styles.bannerContent}>
               <TouchableOpacity onPress={() => navigation.navigate("services" as never)} >
@@ -58,7 +58,7 @@ const HomeScreen = () => {
                 </Text>
               </TouchableOpacity >
             </View>
-            <Ionicons name="chevron-forward" size={20} color="#7C3AED" />
+            <Ionicons name="chevron-forward" size={20} color="red" />
           </View>
 
           <View style={styles.searchContainer}>
@@ -80,7 +80,7 @@ const HomeScreen = () => {
             {categories.map((categorie) => (
               <TouchableOpacity key={categorie.id} style={styles.serviceItem}>
                 <View style={styles.serviceIconContainer}>
-                  <Ionicons name={categorie.icon as any} size={24} color="#2563EB" />
+                  <Ionicons name={categorie.icon as any} size={24} color="red" />
                 </View>
                 <Text style={styles.serviceText}>{categorie.name}</Text>
               </TouchableOpacity>
@@ -162,12 +162,12 @@ const styles = StyleSheet.create({
   bannerTitle: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#5B21B6',
+    color: '#2563EB',
     marginBottom: 4,
   },
   bannerText: {
     fontSize: 12,
-    color: '#7C3AED',
+    color: '#2563EB',
   },
   searchContainer: {
     paddingHorizontal: 16,
