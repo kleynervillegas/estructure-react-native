@@ -50,7 +50,7 @@ const TabsNavigator: React.FC = () => {
         headerRight: () => (
           <View style={styles.viewHeadrs}>
             <TouchableOpacity
-              onPress={() => toNavigate("profile")}
+              onPress={() => toNavigate("notifications")}
               style={{ marginRight: 5 }}
             >
               <View>
@@ -60,7 +60,7 @@ const TabsNavigator: React.FC = () => {
             </TouchableOpacity>
 
             <TouchableOpacity
-              onPress={() => toNavigate("notifications")}
+              onPress={() => toNavigate("profile")}
               style={{ marginRight: 5 }}
             >
               <View>

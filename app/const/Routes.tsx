@@ -1,5 +1,6 @@
 import CartScreen from "../src/screens/private/CartScreen";
 import HomeScreen from "../src/screens/private/HomeScreen";
+import NotificationsScreen from "../src/screens/private/NotificationsScreen";
 import OrdersScreen from "../src/screens/private/OrdersScreen";
 import ProfileScreen from "../src/screens/private/ProfileScreen";
 import QuotationScreen from "../src/screens/private/QuotationScreen";
@@ -88,7 +89,7 @@ const routes: Routes[] = [
         "icon": "build",
         "private": true,
         "tabs": false,
-        "component": ServicesScreen,
+        "component": NotificationsScreen,
         "options": { title: 'notifications' }
     },
 ];

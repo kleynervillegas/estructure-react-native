@@ -31,7 +31,7 @@ const Steps: React.FC<any> = ({currentStep,setCurrentStep}) => {
                             <Ionicons
                                 name={step.icon}
                                 size={20}
-                                color={currentStep >= step.id ? '#FFFFFF' : '#9CA3AF'}
+                                color={currentStep >= step.id ? '#FFFFFF' : 'red'}
                             />
                         </View>
                         <Text style={[

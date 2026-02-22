@@ -66,6 +66,21 @@ export const DatabaseProvider: React.FC<DatabaseProviderProps> = ({ children }) 
           created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
           FOREIGN KEY (user_id) REFERENCES users (id)
         );
+
+           -- Tabla del cotizador
+        CREATE TABLE IF NOT EXISTS quotations (
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          service INTEGER DEFAULT 0,
+          protection TEXT,
+          dimensions_json TEXT,
+          quality_json TEXT,
+          additional_json TEXT,
+          client_json TEXT,
+          image TEXT,
+          user_id INTEGER,         
+          created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+          FOREIGN KEY (user_id) REFERENCES users (id)
+        );
       `);      
       // Verificar tablas creadas
       const tables = await database.getAllAsync(

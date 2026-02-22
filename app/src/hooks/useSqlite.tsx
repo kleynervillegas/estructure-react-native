@@ -2,6 +2,7 @@ import { useCallback, useState } from 'react';
 import { useDatabase } from '../context/SQLiteContext';
 import { UserSqlite } from '../types/contexttypes';
 import { Product } from '../types/products';
+import { Quotation } from '../types/quotation';
 
 export const useSqlite = () => {
     const { executeSql, fetchData } = useDatabase();
@@ -218,7 +219,52 @@ export const useSqlite = () => {
         }
     }, [executeSql]);
 
+    // Crear una cotización
+    const createQuotation = useCallback(async (quotation: Quotation, user_id: number): Promise<number> => {
+        setLoading(true);
+        setError(null);
+        try {
 
+
+            const result = await executeSql(
+                'INSERT INTO quotations (service,protection,dimensions_json,quality_json,additional_json,client_json,image,user_id) VALUES (?,?,?,?,?,?,?,?)',
+                [
+                    quotation.service,
+                    quotation.protection,
+                    quotation.dimensions_json,
+                    quotation.quality_json,
+                    quotation.additional_json,
+                    quotation.client_json,
+                    quotation.image,
+                    user_id
+                ]
+            );
+            return result.insertId || 1;
+
+        } catch (err: any) {
+            setError(err.message);
+            throw 0;
+        } finally {
+            setLoading(false);
+        }
+    }, [executeSql]);
+
+
+    // Obtener todos los productos del carrito
+    const getAllQuotation = useCallback(async (): Promise<Quotation[]> => {
+        setLoading(true);
+        setError(null);
+
+        try {
+            const users = await fetchData('SELECT * FROM quotations ORDER BY created_at DESC');
+            return users;
+        } catch (err: any) {
+            setError(err.message);
+            throw err;
+        } finally {
+            setLoading(false);
+        }
+    }, [fetchData]);
     return {
         loading,
         error,
@@ -232,7 +278,9 @@ export const useSqlite = () => {
         getProductCartById,
         deleteOneProductCart,
         deleteAllProductCart,
-        updateProductQuantity
+        updateProductQuantity,
+        createQuotation,
+        getAllQuotation
     };
 };
 

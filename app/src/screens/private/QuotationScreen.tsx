@@ -1,120 +1,262 @@
-import { MaterialIcons } from '@expo/vector-icons';
-import React from 'react';
+import { useFocusEffect } from 'expo-router';
+import React, { useCallback } from 'react';
 import {
+  Dimensions,
+  ImageBackground,
   ScrollView,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { Avatar, Badge, Card, IconButton } from 'react-native-paper';
+import ic from '../../../../assets/images/fondo.png';
+import useQuotation from '../../hooks/useQuotation';
+
+const { width } = Dimensions.get('window');
 
 const QuotationScreen: React.FC = () => {
-  return (
-    <SafeAreaView style={styles.container}>
-        <ScrollView contentContainerStyle={styles.content}>
-          <View style={styles.header}>
-            <MaterialIcons name="home" size={40} color="#007AFF" />
-            <Text style={styles.title}>QuotationScreen</Text>        
-          </View>
-        </ScrollView>
-      </SafeAreaView>
+
+  const { getAllQuotation } = useQuotation();
+
+  useFocusEffect(
+    useCallback(() => {
+      init();
+      return () => { };
+    }, [])
   );
-};
+
+  const init = useCallback(async () => {
+
+    const quotations: any = await getAllQuotation();
+
+    console.log("quotations", quotations);
+
+  }, [getAllQuotation]);
+
+  return (
+
+    <ImageBackground
+      source={ic}
+      style={styles.container}
+      resizeMode="cover"
+    >
+      <ScrollView style={styles.container}>
+        <View style={styles.header}>
+          <Text style={styles.title}>Cotizaciones</Text>
+          <Text style={styles.subtitle}>Gestiona tus cotizaciones</Text>
+        </View>
+
+        <View style={styles.statsContainer}>
+          <Card style={styles.statCard}>
+            <Card.Content>
+              <Avatar.Icon size={40} icon="file-document" style={styles.statIcon} />
+              <Text style={styles.statNumber}>24</Text>
+              <Text style={styles.statLabel}>Total</Text>
+            </Card.Content>
+          </Card>
+          <Card style={styles.statCard}>
+            <Card.Content>
+              <Avatar.Icon size={40} icon="clock" style={styles.statIcon} />
+              <Text style={styles.statNumber}>8</Text>
+              <Text style={styles.statLabel}>Pendientes</Text>
+            </Card.Content>
+          </Card>
+          <Card style={styles.statCard}>
+            <Card.Content>
+              <Avatar.Icon size={40} icon="check-circle" style={styles.statIcon} />
+              <Text style={styles.statNumber}>16</Text>
+              <Text style={styles.statLabel}>Completadas</Text>
+            </Card.Content>
+          </Card>
+        </View>
+
+        <Text style={styles.sectionTitle}>Cotizaciones Recientes</Text>
+
+        {[1, 2, 3].map((item) => (
+          <TouchableOpacity key={item}>
+            <Card style={styles.quotationCard}>
+              <Card.Content>
+                <View style={styles.cardHeader}>
+                  <View style={styles.clientInfo}>
+                    <Avatar.Text
+                      size={50}
+                      label="JC"
+                      style={styles.avatar}
+                    />
+                    <View>
+                      <Text style={styles.clientName}>Juan Carlos</Text>
+                      <Text style={styles.clientEmail}>juan@email.com</Text>
+                    </View>
+                  </View>
+                  <Badge style={styles.badge}>Cámaras</Badge>
+                </View>
+
+                <View style={styles.detailsGrid}>
+                  <View style={styles.detailItem}>
+                    <IconButton icon="ruler" size={20} />
+                    <Text style={styles.detailText}>25x25m</Text>
+                  </View>
+                  <View style={styles.detailItem}>
+                    <IconButton icon="camera" size={20} />
+                    <Text style={styles.detailText}>1080p</Text>
+                  </View>
+                  <View style={styles.detailItem}>
+                    <IconButton icon="calendar" size={20} />
+                    <Text style={styles.detailText}>15/03/2024</Text>
+                  </View>
+                </View>
+
+                <View style={styles.cardFooter}>
+                  <Text style={styles.price}>$2,500</Text>
+                  <View style={styles.actions}>
+                    <IconButton icon="eye" size={24} onPress={() => { }} />
+                    <IconButton icon="download" size={24} onPress={() => { }} />
+                    <IconButton icon="share" size={24} onPress={() => { }} />
+                  </View>
+                </View>
+              </Card.Content>
+            </Card>
+          </TouchableOpacity>
+        ))}
+      </ScrollView>
+    </ImageBackground>
+  );
+}
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
   },
-  content: {
-    padding: 20,
+  overlay: {
+    flex: 1,
+    backgroundColor: 'transparent',
+  },
+  scrollView: {
+    flex: 1,
   },
   header: {
-    alignItems: 'center',
-    marginBottom: 30,
+    padding: 20,
+    backgroundColor: '#6200ee',
   },
   title: {
-    fontSize: 32,
+    fontSize: 28,
     fontWeight: 'bold',
-    marginTop: 10,
-    color: '#333',
+    color: 'white',
   },
   subtitle: {
-    fontSize: 20,
-    color: '#666',
-    marginTop: 5,
-  },
-  email: {
     fontSize: 16,
-    color: '#999',
-    marginTop: 5,
+    color: 'rgba(255,255,255,0.8)',
+    marginTop: 4,
   },
-  card: {
-    backgroundColor: 'white',
-    borderRadius: 15,
-    padding: 20,
-    marginBottom: 20,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 3.84,
-    elevation: 5,
+  statsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginTop: -30,
+    marginHorizontal: 16,
   },
-  cardTitle: {
-    fontSize: 18,
+  statCard: {
+    flex: 1,
+    marginHorizontal: 4,
+    elevation: 4,
+    borderRadius: 12,
+  },
+  statIcon: {
+    backgroundColor: '#6200ee',
+    marginBottom: 8,
+  },
+  statNumber: {
+    fontSize: 20,
     fontWeight: 'bold',
-    marginBottom: 15,
     color: '#333',
   },
-  infoRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 10,
-  },
-  infoLabel: {
-    fontSize: 16,
+  statLabel: {
+    fontSize: 12,
     color: '#666',
   },
-  infoValue: {
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: '600',
+    marginTop: 24,
+    marginBottom: 12,
+    marginLeft: 16,
+    color: '#333',
+  },
+  quotationCard: {
+    marginHorizontal: 16,
+    marginBottom: 12,
+    borderRadius: 16,
+
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 4,
+    elevation: 3,
+    backgroundColor: '#2E2E28',
+    padding: 12,
+    borderColor: '#00F2FF',
+    shadowColor: '#00F2FF',
+    shadowOpacity: 0.8
+  },
+  cardHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 12,
+  },
+  clientInfo: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  avatar: {
+    marginRight: 12,
+    backgroundColor: '#6200ee',
+  },
+  clientName: {
     fontSize: 16,
     fontWeight: '600',
     color: '#333',
   },
-  actionButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingVertical: 15,
-    borderBottomWidth: 1,
-    borderBottomColor: '#eee',
+  clientEmail: {
+    fontSize: 14,
+    color: '#666',
   },
-  actionButtonText: {
-    marginLeft: 15,
-    fontSize: 16,
+  badge: {
+    backgroundColor: '#e0e0e0',
     color: '#333',
+    fontSize: 12,
   },
-  logoutButton: {
-    backgroundColor: '#FF3B30',
+  detailsGrid: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    backgroundColor: '#f5f5f5',
+    borderRadius: 12,
+    padding: 8,
+    marginVertical: 8,
+  },
+  detailItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
-    padding: 15,
-    borderRadius: 10,
-    marginTop: 10,
   },
-  logoutButtonText: {
-    color: 'white',
+  detailText: {
+    fontSize: 14,
+    color: '#666',
+    marginLeft: -4,
+  },
+  cardFooter: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: 8,
+    paddingTop: 8,
+    borderTopWidth: 1,
+    borderTopColor: '#e0e0e0',
+  },
+  price: {
+    fontSize: 18,
     fontWeight: 'bold',
-    fontSize: 16,
-    marginLeft: 10,
+    color: '#6200ee',
   },
-  footer: {
-    textAlign: 'center',
-    color: '#999',
-    marginTop: 30,
-    fontSize: 12,
+  actions: {
+    flexDirection: 'row',
   },
 });
 

@@ -17,7 +17,7 @@ const ProductsComponent: React.FC<any> = ({ showToast }) => {
 
     const { addProductoToCart, deleteroductoToCart } = useProducts();
     const { getAllProductCart, deleteAllProductCart } = useSqlite();
-    
+
     const [products, setProducto] = useState<Product[]>([
         {
             id_product: 1,
@@ -57,12 +57,12 @@ const ProductsComponent: React.FC<any> = ({ showToast }) => {
         },
     ])
 
-      useFocusEffect(
+    useFocusEffect(
         useCallback(() => {
-          init();
-          return () => { };
+            init();
+            return () => { };
         }, [])
-      );
+    );
 
     const init = useCallback(async () => {
 
@@ -104,9 +104,6 @@ const ProductsComponent: React.FC<any> = ({ showToast }) => {
         <View style={styles.container}>
             <View style={styles.productsHeader}>
                 <Text style={styles.sectionTitle}>Productos Destacados</Text>
-                <TouchableOpacity>
-                    <Text style={styles.seeAll}>Ver todos</Text>
-                </TouchableOpacity>
             </View>
 
             <View style={styles.productsGrid}>
@@ -182,15 +179,16 @@ const styles = StyleSheet.create({
     },
     productCard: {
         width: (width - 36) / 2,
-        backgroundColor: '#FFF',
-        borderRadius: 12,
         marginBottom: 16,
-        padding: 12,
-        shadowColor: '#000',
         shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.1,
         shadowRadius: 4,
         elevation: 3,
+        backgroundColor: '#2E2E28',
+        padding: 12,
+        borderRadius: 12,
+        borderColor: '#00F2FF',
+        shadowColor: '#00F2FF',
+        shadowOpacity: 0.8
     },
     imageContainer: {
         alignItems: 'center',
@@ -218,7 +216,7 @@ const styles = StyleSheet.create({
     },
     productName: {
         fontSize: 13,
-        color: '#1F2937',
+        color: '#FFFFFF',
         fontWeight: '500',
         marginBottom: 12,
         height: 36,
@@ -246,6 +244,7 @@ const styles = StyleSheet.create({
     iconDeleteProduct: {
         position: "absolute",
         alignSelf: 'flex-end',
+        zIndex: 2,
     }
 });
 

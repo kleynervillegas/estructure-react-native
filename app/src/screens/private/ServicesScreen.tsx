@@ -1,28 +1,37 @@
 import Steps from '@/app/src/components/Steps/Steps';
 import { Ionicons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import {
   Dimensions,
   ScrollView,
-  StatusBar,
   StyleSheet,
   Text,
   TouchableOpacity,
   View
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import Toast from 'react-native-toast-message';
 import StepsFine from '../../components/Steps/StepsFine';
 import StepsFour from '../../components/Steps/StepsFour';
 import StepsOne from '../../components/Steps/StepsOne';
 import StepsThere from '../../components/Steps/StepsThere';
 import StepsTwo from '../../components/Steps/StepsTwo';
+import useQuotation from '../../hooks/useQuotation';
 
 const { width } = Dimensions.get('window');
 
 const ServicesScreen = () => {
+
   const [currentStep, setCurrentStep] = useState<any>(1);
-  const [selectedService, setSelectedService] = useState(null);
-  const [selectedProtection, setSelectedProtection] = useState(null);
+
+  const [selectedService, setSelectedService] = useState<number>(0);
+
+  const [selectedProtection, setSelectedProtection] = useState<string>("");
+
+  const { createdQuotation } = useQuotation();
+
+  const navigation = useNavigation();
 
   useEffect(() => {
     console.log("currentStep", currentStep)
@@ -89,19 +98,42 @@ const ServicesScreen = () => {
     direccion: '',
   });
 
-  const handleNext = () => {
+  const handleNext = async () => {
     if (currentStep < 5) {
       setCurrentStep(currentStep + 1);
     } else {
-      // Aquí iría la lógica para enviar la cotización
-      console.log('Cotización completa:', {
-        service: selectedService,
-        protection: selectedProtection,
-        dimensions: dimensionsData,
-        quality: qualityData,
-        additional: additionalData,
-        client: clientData,
-      });
+      const response = await createdQuotation(
+        {
+          service: selectedService,
+          protection: selectedProtection,
+          dimensions_json: JSON.stringify(dimensionsData),
+          quality_json: JSON.stringify(qualityData),
+          additional_json: JSON.stringify(additionalData),
+          client_json: JSON.stringify(clientData),
+          image: 'imagen del plano ',
+        }
+      );
+    
+      if (response > 1) {
+
+        Toast.show({
+          type: 'success',
+          text1: 'Cotización creada con éxito',
+          text2: 'Tu cotización ha sido guardada localmente',
+        });
+
+        setTimeout(() => {  
+          navigation.navigate('Volver' as never);
+        }, 2000);
+      } else {
+
+        Toast.show({
+          type: 'error',
+          text1: 'Error al crear la cotización',
+          text2: 'Por favor, inténtalo de nuevo',
+        });
+      }
+
     }
   };
 
@@ -113,11 +145,13 @@ const ServicesScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
+      <Toast />
+
+
 
       <View style={styles.header}>
-        <Text style={styles.headerTitle}>Cotizador</Text>
-        <Text style={styles.headerSubtitle}>Completa los pasos para tu cotización</Text>
+        <Text style={styles.headerTitle}>Completa los pasos para tu cotización</Text>
+        {/* <Text style={styles.headerSubtitle}>Completa los pasos para tu cotización</Text> */}
       </View>
 
       <Steps currentStep={currentStep} setCurrentStep={setCurrentStep} />
@@ -203,7 +237,7 @@ const styles = StyleSheet.create({
     borderBottomColor: '#F3F4F6',
   },
   headerTitle: {
-    fontSize: 28,
+    fontSize: 20,
     fontWeight: 'bold',
     color: '#1F2937',
   },
@@ -502,7 +536,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 4,
   },
   backButton: {
-    backgroundColor: '#F3F4F6',
+    backgroundColor: '#0D2626',
     padding: 16,
     borderRadius: 12,
     alignItems: 'center',
@@ -533,17 +567,16 @@ const styles = StyleSheet.create({
     backgroundColor: '#9CA3AF',
   },
   backButtonText: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#6B7280',
-    marginLeft: 8,
+    marginRight: 8,
+    color: '#FFFFFF',
+    fontWeight: 'bold',
+    fontSize: 17,
+    letterSpacing: 1,
+    textTransform: 'uppercase',
+
   },
   nextButtonText: {
-    // fontSize: 16,
-    // fontWeight: '600',
-    // color: '#FFFFFF',
     marginRight: 8,
-
     color: '#FFFFFF',
     fontWeight: 'bold',
     fontSize: 17,
