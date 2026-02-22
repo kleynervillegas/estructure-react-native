@@ -43,8 +43,7 @@ const QuotationScreen: React.FC = () => {
     >
       <ScrollView style={styles.container}>
         <View style={styles.header}>
-          <Text style={styles.title}>Cotizaciones</Text>
-          <Text style={styles.subtitle}>Gestiona tus cotizaciones</Text>
+          <Text style={styles.title}>Mis Cotizaciones</Text>
         </View>
 
         <View style={styles.statsContainer}>
@@ -137,7 +136,7 @@ const styles = StyleSheet.create({
   },
   header: {
     padding: 20,
-    backgroundColor: '#6200ee',
+    backgroundColor: 'rgba(0,0,0,0.5)',
   },
   title: {
     fontSize: 28,
@@ -152,7 +151,7 @@ const styles = StyleSheet.create({
   statsContainer: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    marginTop: -30,
+    marginTop: -10,
     marginHorizontal: 16,
   },
   statCard: {
