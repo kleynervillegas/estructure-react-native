@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
   banner: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#F5F3FF',
+    backgroundColor: 'rgba(0,0,0,0.5)',
     marginHorizontal: 16,
     marginVertical: 12,
     padding: 16,
@@ -158,6 +158,7 @@ const styles = StyleSheet.create({
   },
   bannerContent: {
     flex: 1,
+
   },
   bannerTitle: {
     fontSize: 16,
@@ -194,7 +195,7 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#1F2937',
+    color: '#000000',
     marginLeft: 16,
     marginBottom: 12,
   },
@@ -209,14 +210,15 @@ const styles = StyleSheet.create({
     width: (width - 32) / 4 - 8,
   },
   serviceIconContainer: {
-    backgroundColor: '#EFF6FF',
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    // backgroundColor: '#EFF6FF',
     padding: 12,
     borderRadius: 12,
     marginBottom: 8,
   },
   serviceText: {
     fontSize: 11,
-    color: '#374151',
+    color: '#000000',
     textAlign: 'center',
   },
   divider: {

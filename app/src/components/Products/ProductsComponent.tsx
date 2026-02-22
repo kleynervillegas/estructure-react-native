@@ -164,7 +164,7 @@ const styles = StyleSheet.create({
     sectionTitle: {
         fontSize: 18,
         fontWeight: 'bold',
-        color: '#1F2937',
+        color: '#000000',
     },
     seeAll: {
         color: '#2563EB',
@@ -183,7 +183,7 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 0, height: 2 },
         shadowRadius: 4,
         elevation: 3,
-        backgroundColor: '#2E2E28',
+        backgroundColor: 'rgba(0,0,0,0.5)',
         padding: 12,
         borderRadius: 12,
         borderColor: '#00F2FF',

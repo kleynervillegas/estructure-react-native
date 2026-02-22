@@ -185,11 +185,11 @@ const styles = StyleSheet.create({
     marginHorizontal: 16,
     marginBottom: 12,
     borderRadius: 16,
-
+    backgroundColor: 'rgba(0,0,0,0.5)',
     shadowOffset: { width: 0, height: 2 },
     shadowRadius: 4,
     elevation: 3,
-    backgroundColor: '#2E2E28',
+    
     padding: 12,
     borderColor: '#00F2FF',
     shadowColor: '#00F2FF',
@@ -212,21 +212,21 @@ const styles = StyleSheet.create({
   clientName: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#333',
+    color: '#FFFFFF',
   },
   clientEmail: {
     fontSize: 14,
-    color: '#666',
+    color: '#FFFFFF',
   },
   badge: {
     backgroundColor: '#e0e0e0',
-    color: '#333',
+    color: '#000000',
     fontSize: 12,
   },
   detailsGrid: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#FFFFFF',
     borderRadius: 12,
     padding: 8,
     marginVertical: 8,
@@ -237,7 +237,7 @@ const styles = StyleSheet.create({
   },
   detailText: {
     fontSize: 14,
-    color: '#666',
+    color: '#000000',
     marginLeft: -4,
   },
   cardFooter: {
@@ -252,7 +252,7 @@ const styles = StyleSheet.create({
   price: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#6200ee',
+    color: '#000000',
   },
   actions: {
     flexDirection: 'row',
