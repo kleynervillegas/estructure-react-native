@@ -29,10 +29,15 @@ const HomeScreen = () => {
     { id: 4, name: 'Camaras de seguridad', icon: 'airplane' },
   ];
 
-  const showToast = (text: string = '', type: string = 'success') => {
+  const showToast = (
+    text: string = '', 
+    type: string = 'success',
+    position: 'top' | 'bottom' = 'top',
+  ) => {
     Toast.show({
       type: type,
       text1: text,
+      position: position,
     });
   }
 
@@ -43,7 +48,9 @@ const HomeScreen = () => {
       resizeMode="cover"
     >
       <SafeAreaView style={styles.overlay}>
-        <Toast />
+        <View style={{zIndex: 1}}>
+          <Toast/>
+        </View>
         <ScrollView style={styles.scrollView}>
 
           <View style={styles.banner}>

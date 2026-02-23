@@ -87,7 +87,7 @@ const ProductsComponent: React.FC<any> = ({ showToast }) => {
     const handleProductoCart = useCallback(async (product: Product) => {
         if (product.inCart) {
             await deleteroductoToCart(product);
-            showToast('Producto eliminado correctamnete');
+            showToast('Producto eliminado correctamente');
         } else {
             const resp = await addProductoToCart({ ...product, quantity: 1 });
             console.log("agregando al carrito", resp)
@@ -138,7 +138,7 @@ const ProductsComponent: React.FC<any> = ({ showToast }) => {
                                 <Text style={styles.productPrice}>$ {formatPrice(product.price)}</Text>
                                 {!product.inCart &&
                                     <TouchableOpacity style={styles.addButton} onPress={() => handleProductoCart(product)}>
-                                        <Ionicons name={"cart"} size={16} color="#FFF" />
+                                        <Ionicons name={"cart"} size={16} color="#FFFFFF" />
                                     </TouchableOpacity>
                                 }
                             </View>

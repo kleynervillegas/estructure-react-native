@@ -11,15 +11,28 @@ const useQuotation = () => {
     return await createQuotation(quotation, 1);
   }, [createQuotation]);
 
-  // agregar cotización
+  // obtener cotizaciones
   const getQuotation = useCallback(async (): Promise<Quotation[]> => {
-    return await getAllQuotation();
+    let quotations: Quotation[] = await getAllQuotation();
+    quotations = quotations.map((item: any) => {
+      return {
+        id: item.id,
+        service: item.service,
+        user_id: item.user_id,
+        protection: item.protection,
+        image: item.image,
+        dimensions_json: JSON.parse(item.dimensions_json),
+        client_json: JSON.parse(item.client_json),
+        quality_json: JSON.parse(item.quality_json),
+        additional_json: JSON.parse(item.additional_json),
+      }
+    });
+    return quotations;
   }, [getAllQuotation]);
 
 
   return {
     createdQuotation,
-    getAllQuotation,
     getQuotation
   }
 }

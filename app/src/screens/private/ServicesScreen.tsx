@@ -1,3 +1,4 @@
+import { protectionTypes } from '@/app/const/InfoMuck';
 import Steps from '@/app/src/components/Steps/Steps';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
@@ -43,12 +44,6 @@ const ServicesScreen = () => {
 
   }, [selectedService]);
 
-  const protectionTypes = [
-    { id: 'hogar', name: 'Hogar', icon: 'home', description: 'Casa particular' },
-    { id: 'negocio', name: 'Negocio', icon: 'business', description: 'Local comercial, oficina' },
-    { id: 'industria', name: 'Industria', icon: 'factory', description: 'Bodega, industrial' },
-    { id: 'terreno', name: 'Terreno', icon: 'earth', description: 'Campo, terreno' },
-  ];
 
   const [dimensionsData, setDimensionsData] = useState({
     // Para Cámaras

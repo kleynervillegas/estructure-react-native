@@ -246,7 +246,7 @@ const StepsTwo: React.FC<any> = ({
                     {dimensionsData.anchoPorton && dimensionsData.altoPorton && dimensionsData.materialPorton && (
                         <View style={styles.calculationBox}>
                             <Text style={styles.calculationText}>
-                                Peso estimado: {calculateGateWeight()} kg
+                                Peso estimado: {calculateWireLength(dimensionsData)} kg
                             </Text>
                         </View>
                     )}
