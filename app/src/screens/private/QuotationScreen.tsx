@@ -38,7 +38,9 @@ const QuotationScreen: React.FC = () => {
   useFocusEffect(
     useCallback(() => {
       init();
-      return () => { };
+      return () => { 
+        setShowModal(false);
+      };
     }, [])
   );
 
@@ -59,177 +61,175 @@ const QuotationScreen: React.FC = () => {
     >
       <ModalCustomer visible={showModal} callBackModal={callBackModal}>
         {data &&
-          <ScrollView style={styles.modalContent}>
-            <View style={''}>
+          <ScrollView style={styles.modalContent} showsVerticalScrollIndicator={false}>
+            <View style={styles.modalContainer}>
 
-              {/* Header con título y botón cerrar */}
-              <View style={styles.header}>
+              {/* Header con gradiente */}
+              <View style={styles.modalHeader}>
                 <View style={styles.headerTop}>
-                  <Text style={styles.headerTitle}>📋 Detalle de Cotización</Text>
-                  <Pressable onPress={callBackModal} style={styles.closeButton}>
-                    <Text style={styles.closeIcon}>✕</Text>
+                  <Text style={styles.modalTitle}>Detalle de Cotización</Text>
+                  <Pressable onPress={callBackModal} style={styles.modalCloseButton}>
+                    <Text style={styles.modalCloseIcon}>✕</Text>
                   </Pressable>
                 </View>
-                <View style={styles.badgeContainer}>
-                  <View style={styles.badgeModal}>
-                    <Text style={styles.badgeText}>ID: #{data.id}</Text>
+
+                <View style={styles.idContainer}>
+                  <View style={styles.idBadge}>
+                    <Text style={styles.idBadgeText}>ID: #{data.id}</Text>
                   </View>
-                  <View style={[styles.badgeModal, styles.badgeService]}>
-                    <Text style={styles.badgeText}>Servicio #{data.service}</Text>
+                  <View style={[styles.idBadge, styles.serviceBadge]}>
+                    <Text style={styles.idBadgeText}>Servicio #{data.service}</Text>
                   </View>
                 </View>
               </View>
 
-              {/* Info del Cliente */}
-              <View style={styles.section}>
-                <Text style={styles.sectionTitleModal}>👤 Cliente</Text>
-                <View style={styles.card}>
+              {/* Sección Cliente */}
+              <View style={styles.modalSection}>
+                <Text style={styles.modalSectionTitle}>👤 CLIENTE</Text>
+                <View style={styles.modalCard}>
                   <View style={styles.infoRow}>
-                    <Text style={styles.infoLabel}>Nombre:</Text>
+                    <Text style={styles.infoLabel}>Nombre</Text>
                     <Text style={styles.infoValue}>{data.client_json.nombre}</Text>
                   </View>
                   <View style={styles.infoRow}>
-                    <Text style={styles.infoLabel}>Email:</Text>
+                    <Text style={styles.infoLabel}>Email</Text>
                     <Text style={styles.infoValue}>{data.client_json.email}</Text>
                   </View>
                   <View style={styles.infoRow}>
-                    <Text style={styles.infoLabel}>Teléfono:</Text>
+                    <Text style={styles.infoLabel}>Teléfono</Text>
                     <Text style={styles.infoValue}>{data.client_json.telefono}</Text>
                   </View>
                   <View style={styles.infoRow}>
-                    <Text style={styles.infoLabel}>Dirección:</Text>
+                    <Text style={styles.infoLabel}>Dirección</Text>
                     <Text style={styles.infoValue}>{data.client_json.direccion}</Text>
                   </View>
                 </View>
               </View>
 
-              {/* Tipo de Protección */}
-              <View style={styles.section}>
-                <Text style={styles.sectionTitleModal}>🛡️ Protección</Text>
-                <View style={styles.card}>
-                  <View style={styles.protectionBadge}>
-                    <Text style={styles.protectionText}>{data.protection.toUpperCase()}</Text>
+              {/* Sección Protección */}
+              <View style={styles.modalSection}>
+                <Text style={styles.modalSectionTitle}>🛡️ PROTECCIÓN</Text>
+                <View style={styles.modalCard}>
+                  <View style={styles.protectionHeader}>
+                    <View style={styles.protectionTypeBadge}>
+                      <Text style={styles.protectionTypeText}>{data.protection.toUpperCase()}</Text>
+                    </View>
+                    {data.image && (
+                      <View style={styles.imageContainer}>
+                        <Text style={styles.imageIcon}>📸</Text>
+                        <Text style={styles.imageText}>{data.image}</Text>
+                      </View>
+                    )}
                   </View>
-                  {data.image && (
-                    <Text style={styles.imageText}>📸 {data.image}</Text>
-                  )}
                 </View>
               </View>
 
-              {/* Dimensiones */}
-              <View style={styles.section}>
-                <Text style={styles.sectionTitleModal}>📐 Dimensiones</Text>
-                <View style={styles.card}>
+              {/* Sección Dimensiones */}
+              <View style={styles.modalSection}>
+                <Text style={styles.modalSectionTitle}>📐 DIMENSIONES</Text>
+                <View style={styles.modalCard}>
+                  <View style={styles.dimensionType}>
+                    <Text style={styles.dimensionTypeText}>🚪 PORTÓN {data.dimensions_json.tipoPorton}</Text>
+                  </View>
 
-                  {/* Portón */}
-                  <Text style={styles.subSectionTitle}>🚪 Portón {data.dimensions_json.tipoPorton}</Text>
-                  <View style={styles.dimensionsGrid}>
-                    <View style={styles.dimensionItem}>
-                      <Text style={styles.dimensionLabel}>Ancho</Text>
-                      <Text style={styles.dimensionValue}>{data.dimensions_json.anchoPorton} cm</Text>
+                  <View style={styles.dimensionsRow}>
+                    <View style={styles.dimensionBox}>
+                      <Text style={styles.dimensionBoxLabel}>ANCHO</Text>
+                      <Text style={styles.dimensionBoxValue}>{data.dimensions_json.anchoPorton} cm</Text>
                     </View>
-                    <View style={styles.dimensionItem}>
-                      <Text style={styles.dimensionLabel}>Alto</Text>
-                      <Text style={styles.dimensionValue}>{data.dimensions_json.altoPorton} cm</Text>
+                    <View style={styles.dimensionBox}>
+                      <Text style={styles.dimensionBoxLabel}>ALTO</Text>
+                      <Text style={styles.dimensionBoxValue}>{data.dimensions_json.altoPorton} cm</Text>
                     </View>
-                    <View style={styles.dimensionItem}>
-                      <Text style={styles.dimensionLabel}>Material</Text>
-                      <Text style={styles.dimensionValue}>{data.dimensions_json.materialPorton}</Text>
+                    <View style={styles.dimensionBox}>
+                      <Text style={styles.dimensionBoxLabel}>MATERIAL</Text>
+                      <Text style={styles.dimensionBoxValue}>{data.dimensions_json.materialPorton}</Text>
                     </View>
                   </View>
 
-                  {/* Mostrar otras dimensiones si existen */}
                   {data.dimensions_json.largo && (
-                    <View style={styles.dimensionsGrid}>
-                      <View style={styles.dimensionItem}>
-                        <Text style={styles.dimensionLabel}>Largo</Text>
-                        <Text style={styles.dimensionValue}>{data.dimensions_json.largo} m</Text>
+                    <>
+                      <View style={styles.divider} />
+                      <View style={styles.dimensionsRow}>
+                        <View style={styles.dimensionBox}>
+                          <Text style={styles.dimensionBoxLabel}>LARGO</Text>
+                          <Text style={styles.dimensionBoxValue}>{data.dimensions_json.largo} m</Text>
+                        </View>
+                        <View style={styles.dimensionBox}>
+                          <Text style={styles.dimensionBoxLabel}>ANCHO</Text>
+                          <Text style={styles.dimensionBoxValue}>{data.dimensions_json.ancho} m</Text>
+                        </View>
                       </View>
-                      <View style={styles.dimensionItem}>
-                        <Text style={styles.dimensionLabel}>Ancho</Text>
-                        <Text style={styles.dimensionValue}>{data.dimensions_json.ancho} m</Text>
-                      </View>
-                    </View>
+                    </>
                   )}
                 </View>
               </View>
 
-              {/* Calidad */}
-              <View style={styles.section}>
-                <Text style={styles.sectionTitleModal}>📷 Calidad</Text>
-                <View style={styles.card}>
-                  <View style={styles.qualityGrid}>
-                    <View style={styles.qualityItem}>
-                      <Text style={styles.qualityLabel}>Resolución</Text>
-                      <Text style={styles.qualityValue}>{data.quality_json.resolucion}</Text>
+              {/* Sección Calidad */}
+              <View style={styles.modalSection}>
+                <Text style={styles.modalSectionTitle}>📷 CALIDAD</Text>
+                <View style={styles.modalCard}>
+                  <View style={styles.qualityRow}>
+                    <View style={styles.qualityBox}>
+                      <Text style={styles.qualityBoxLabel}>RESOLUCIÓN</Text>
+                      <Text style={styles.qualityBoxValue}>{data.quality_json.resolucion}</Text>
                     </View>
-                    <View style={styles.qualityItem}>
-                      <Text style={styles.qualityLabel}>Visión Nocturna</Text>
-                      <Text style={[styles.qualityValue, data.quality_json.visionNocturna === 'Sí' && styles.positiveValue]}>
+                    <View style={styles.qualityBox}>
+                      <Text style={styles.qualityBoxLabel}>VISIÓN NOCTURNA</Text>
+                      <Text style={[
+                        styles.qualityBoxValue,
+                        data.quality_json.visionNocturna === 'Sí' && styles.positiveValue
+                      ]}>
                         {data.quality_json.visionNocturna}
                       </Text>
                     </View>
-                    <View style={styles.qualityItem}>
-                      <Text style={styles.qualityLabel}>Tipo Cámara</Text>
-                      <Text style={styles.qualityValue}>{data.quality_json.tipoCamara}</Text>
-                    </View>
+                  </View>
+                  <View style={styles.qualityBox}>
+                    <Text style={styles.qualityBoxLabel}>TIPO DE CÁMARA</Text>
+                    <Text style={styles.qualityBoxValue}>{data.quality_json.tipoCamara}</Text>
                   </View>
                 </View>
               </View>
 
-              {/* Servicios Adicionales */}
-              <View style={styles.section}>
-                <Text style={styles.sectionTitleModal}>➕ Servicios Adicionales</Text>
-                <View style={styles.card}>
-                  <View style={styles.servicesList}>
-                    <View style={styles.serviceItem}>
-                      <Text style={styles.serviceLabel}>Instalación Profesional</Text>
-                      <Text style={[styles.serviceStatus, data.additional_json.instalacionProfesional && styles.serviceActive]}>
-                        {data.additional_json.instalacionProfesional ? '✓' : '✗'}
+              {/* Sección Servicios Adicionales */}
+              <View style={styles.modalSection}>
+                <Text style={styles.modalSectionTitle}>➕ SERVICIOS ADICIONALES</Text>
+                <View style={styles.modalCard}>
+                  {Object.entries(data.additional_json).map(([key, value], index) => (
+                    <View key={key} style={[
+                      styles.serviceRow,
+                      index < Object.entries(data.additional_json).length - 1 && styles.serviceRowBorder
+                    ]}>
+                      <Text style={styles.serviceLabel}>
+                        {key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}
                       </Text>
+                      <View style={[
+                        styles.serviceStatusBadge,
+                        value ? styles.serviceActiveBadge : styles.serviceInactiveBadge
+                      ]}>
+                        <Text style={styles.serviceStatusText}>
+                          {value ? '✓' : '✗'}
+                        </Text>
+                      </View>
                     </View>
-                    <View style={styles.serviceItem}>
-                      <Text style={styles.serviceLabel}>Mantenimiento Anual</Text>
-                      <Text style={[styles.serviceStatus, data.additional_json.mantenimientoAnual && styles.serviceActive]}>
-                        {data.additional_json.mantenimientoAnual ? '✓' : '✗'}
-                      </Text>
-                    </View>
-                    <View style={styles.serviceItem}>
-                      <Text style={styles.serviceLabel}>Garantía Extendida</Text>
-                      <Text style={[styles.serviceStatus, data.additional_json.garantiaExtendida && styles.serviceActive]}>
-                        {data.additional_json.garantiaExtendida ? '✓' : '✗'}
-                      </Text>
-                    </View>
-                    <View style={styles.serviceItem}>
-                      <Text style={styles.serviceLabel}>Módulo 4G</Text>
-                      <Text style={[styles.serviceStatus, data.additional_json.modulo4G && styles.serviceActive]}>
-                        {data.additional_json.modulo4G ? '✓' : '✗'}
-                      </Text>
-                    </View>
-                    <View style={styles.serviceItem}>
-                      <Text style={styles.serviceLabel}>Almacenamiento Nube</Text>
-                      <Text style={[styles.serviceStatus, data.additional_json.almacenamientoNube && styles.serviceActive]}>
-                        {data.additional_json.almacenamientoNube ? '✓' : '✗'}
-                      </Text>
-                    </View>
-                    <View style={styles.serviceItem}>
-                      <Text style={styles.serviceLabel}>Control Remoto</Text>
-                      <Text style={[styles.serviceStatus, data.additional_json.controlRemoto && styles.serviceActive]}>
-                        {data.additional_json.controlRemoto ? '✓' : '✗'}
-                      </Text>
-                    </View>
-                  </View>
+                  ))}
                 </View>
               </View>
 
               {/* Botones de acción */}
-              <View style={styles.actionButtons}>
-                <Pressable style={styles.editButton}>
-                  <Text style={styles.editButtonText}>✏️ Editar</Text>
+              <View style={styles.modalActions}>
+                <Pressable style={styles.modalEditButton}>
+                  <Text style={styles.modalEditButtonText}>✏️ EDITAR</Text>
                 </Pressable>
-                <Pressable style={styles.downloadButton}>
-                  <Text style={styles.downloadButtonText}>📥 Descargar PDF</Text>
+                <Pressable style={styles.modalDownloadButton}>
+                  <Text style={styles.modalDownloadButtonText}>📥 PDF</Text>
                 </Pressable>
+              </View>
+
+              {/* Precio total */}
+              <View style={styles.totalPriceContainer}>
+                <Text style={styles.totalPriceLabel}>TOTAL</Text>
+                <Text style={styles.totalPriceValue}>$2,500</Text>
               </View>
 
             </View>
@@ -413,14 +413,26 @@ const styles = StyleSheet.create({
   },
 
   // Estilos del Modal
+
   modalContent: {
     width: '100%',
     maxHeight: '80%',
   },
+  modalContainer: {
+    padding: 16,
+  },
   modalHeader: {
-    paddingHorizontal: 20,
-    paddingTop: 20,
-    paddingBottom: 10,
+    backgroundColor: 'rgba(0,0,0,0.8)',
+    borderRadius: 16,
+    padding: 16,
+    marginBottom: 16,
+    borderWidth: 1,
+    borderColor: '#00F2FF',
+    shadowColor: '#00F2FF',
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.5,
+    shadowRadius: 8,
+    elevation: 5,
   },
   headerTop: {
     flexDirection: 'row',
@@ -428,58 +440,65 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 12,
   },
-  headerTitle: {
-    fontSize: 22,
-    fontWeight: '700',
-    color: '#1a1a1a',
+  modalTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#00F2FF',
+    textTransform: 'uppercase',
+    letterSpacing: 1,
   },
-  closeButton: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
-    backgroundColor: '#f0f0f0',
+  modalCloseButton: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: 'rgba(255,255,255,0.1)',
     justifyContent: 'center',
     alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#00F2FF',
   },
-  closeIcon: {
-    fontSize: 18,
-    color: '#666',
-    fontWeight: '600',
+  modalCloseIcon: {
+    fontSize: 16,
+    color: '#00F2FF',
+    fontWeight: 'bold',
   },
-  badgeContainer: {
+  idContainer: {
     flexDirection: 'row',
     gap: 8,
   },
-  badgeModal: {
-    backgroundColor: '#e0e0e0',
+  idBadge: {
+    backgroundColor: 'rgba(0,242,255,0.1)',
     paddingHorizontal: 12,
     paddingVertical: 4,
-    borderRadius: 20,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: '#00F2FF',
   },
-  badgeService: {
-    backgroundColor: '#4A90E2',
+  serviceBadge: {
+    borderColor: '#FF00FF',
+    backgroundColor: 'rgba(255,0,255,0.1)',
   },
-  badgeText: {
+  idBadgeText: {
     fontSize: 12,
+    color: '#fff',
     fontWeight: '600',
-    color: '#333',
   },
-  section: {
-    marginBottom: 20,
-    paddingHorizontal: 20,
+  modalSection: {
+    marginBottom: 16,
   },
-  sectionTitleModal: {
-    fontSize: 18,
+  modalSectionTitle: {
+    fontSize: 14,
     fontWeight: '600',
-    color: '#333',
-    marginBottom: 10,
+    color: '#00F2FF',
+    marginBottom: 8,
+    letterSpacing: 1,
   },
-  card: {
-    backgroundColor: '#f8f9fa',
-    borderRadius: 16,
+  modalCard: {
+    backgroundColor: 'rgba(0,0,0,0.7)',
+    borderRadius: 12,
     padding: 16,
     borderWidth: 1,
-    borderColor: '#e0e0e0',
+    borderColor: 'rgba(0,242,255,0.3)',
   },
   infoRow: {
     flexDirection: 'row',
@@ -487,141 +506,203 @@ const styles = StyleSheet.create({
   },
   infoLabel: {
     width: 80,
-    fontSize: 14,
-    color: '#666',
+    fontSize: 12,
+    color: 'rgba(255,255,255,0.6)',
     fontWeight: '500',
+    textTransform: 'uppercase',
   },
   infoValue: {
     flex: 1,
     fontSize: 14,
-    color: '#333',
+    color: '#fff',
     fontWeight: '500',
   },
-  protectionBadge: {
-    backgroundColor: '#4A90E2',
-    alignSelf: 'flex-start',
-    paddingHorizontal: 16,
-    paddingVertical: 6,
-    borderRadius: 20,
-    marginBottom: 8,
-  },
-  protectionText: {
-    color: 'white',
-    fontWeight: '700',
-    fontSize: 14,
-  },
-  imageText: {
-    fontSize: 14,
-    color: '#666',
-    fontStyle: 'italic',
-  },
-  subSectionTitle: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#444',
-    marginBottom: 12,
-  },
-  dimensionsGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 12,
-    marginBottom: 12,
-  },
-  dimensionItem: {
-    flex: 1,
-    minWidth: 100,
-    backgroundColor: 'white',
-    padding: 10,
-    borderRadius: 10,
-    alignItems: 'center',
-  },
-  dimensionLabel: {
-    fontSize: 12,
-    color: '#999',
-    marginBottom: 4,
-  },
-  dimensionValue: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#333',
-  },
-  qualityGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 12,
-  },
-  qualityItem: {
-    flex: 1,
-    minWidth: 100,
-    alignItems: 'center',
-  },
-  qualityLabel: {
-    fontSize: 12,
-    color: '#999',
-    marginBottom: 4,
-  },
-  qualityValue: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#333',
-  },
-  positiveValue: {
-    color: '#4CAF50',
-  },
-  servicesList: {
-    gap: 10,
-  },
-  serviceItem: {
+  protectionHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingVertical: 6,
+  },
+  protectionTypeBadge: {
+    backgroundColor: '#00F2FF',
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 20,
+  },
+  protectionTypeText: {
+    color: '#000',
+    fontWeight: 'bold',
+    fontSize: 14,
+  },
+  imageContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+  },
+  imageIcon: {
+    fontSize: 16,
+  },
+  imageText: {
+    fontSize: 12,
+    color: 'rgba(255,255,255,0.7)',
+    fontStyle: 'italic',
+  },
+  dimensionType: {
+    marginBottom: 12,
+  },
+  dimensionTypeText: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#FF00FF',
+    letterSpacing: 1,
+  },
+  dimensionsRow: {
+    flexDirection: 'row',
+    gap: 8,
+    marginTop: 8,
+  },
+  dimensionBox: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    borderRadius: 8,
+    padding: 10,
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: 'rgba(0,242,255,0.3)',
+  },
+  dimensionBoxLabel: {
+    fontSize: 10,
+    color: 'rgba(255,255,255,0.5)',
+    marginBottom: 4,
+    fontWeight: '600',
+  },
+  dimensionBoxValue: {
+    fontSize: 14,
+    color: '#fff',
+    fontWeight: 'bold',
+  },
+  divider: {
+    height: 1,
+    backgroundColor: 'rgba(0,242,255,0.2)',
+    marginVertical: 12,
+  },
+  qualityRow: {
+    flexDirection: 'row',
+    gap: 8,
+    marginBottom: 8,
+  },
+  qualityBox: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    borderRadius: 8,
+    padding: 12,
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: 'rgba(0,242,255,0.3)',
+  },
+  qualityBoxLabel: {
+    fontSize: 10,
+    color: 'rgba(255,255,255,0.5)',
+    marginBottom: 4,
+    fontWeight: '600',
+    textAlign: 'center',
+  },
+  qualityBoxValue: {
+    fontSize: 14,
+    color: '#fff',
+    fontWeight: 'bold',
+  },
+  positiveValue: {
+    color: '#00FF00',
+  },
+  serviceRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingVertical: 10,
+  },
+  serviceRowBorder: {
     borderBottomWidth: 1,
-    borderBottomColor: '#e0e0e0',
+    borderBottomColor: 'rgba(0,242,255,0.1)',
   },
   serviceLabel: {
-    fontSize: 14,
-    color: '#444',
+    fontSize: 13,
+    color: '#fff',
     textTransform: 'capitalize',
   },
-  serviceStatus: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: '#ff4444',
+  serviceStatusBadge: {
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  serviceActive: {
-    color: '#4CAF50',
+  serviceActiveBadge: {
+    backgroundColor: 'rgba(0,255,0,0.2)',
+    borderWidth: 1,
+    borderColor: '#00FF00',
   },
-  actionButtons: {
+  serviceInactiveBadge: {
+    backgroundColor: 'rgba(255,0,0,0.2)',
+    borderWidth: 1,
+    borderColor: '#FF0000',
+  },
+  serviceStatusText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#fff',
+  },
+  modalActions: {
     flexDirection: 'row',
     gap: 12,
-    paddingHorizontal: 20,
-    paddingBottom: 20,
-    paddingTop: 10,
+    marginBottom: 16,
   },
-  editButton: {
+  modalEditButton: {
     flex: 1,
-    backgroundColor: '#4A90E2',
+    backgroundColor: 'transparent',
     paddingVertical: 14,
-    borderRadius: 12,
+    borderRadius: 10,
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#00F2FF',
+  },
+  modalEditButtonText: {
+    color: '#00F2FF',
+    fontWeight: '600',
+    fontSize: 14,
+  },
+  modalDownloadButton: {
+    flex: 1,
+    backgroundColor: '#00F2FF',
+    paddingVertical: 14,
+    borderRadius: 10,
     alignItems: 'center',
   },
-  editButtonText: {
-    color: 'white',
-    fontWeight: '600',
-    fontSize: 16,
+  modalDownloadButtonText: {
+    color: '#000',
+    fontWeight: 'bold',
+    fontSize: 14,
   },
-  downloadButton: {
-    flex: 1,
-    backgroundColor: '#34C759',
-    paddingVertical: 14,
+  totalPriceContainer: {
+    backgroundColor: 'rgba(0,242,255,0.1)',
     borderRadius: 12,
+    padding: 16,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#00F2FF',
+    marginBottom: 20,
   },
-  downloadButtonText: {
-    color: 'white',
-    fontWeight: '600',
+  totalPriceLabel: {
     fontSize: 16,
+    fontWeight: 'bold',
+    color: '#00F2FF',
+    letterSpacing: 1,
+  },
+  totalPriceValue: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#fff',
   },
 });
 

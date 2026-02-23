@@ -1,7 +1,5 @@
-import { router, useLocalSearchParams } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
 import React, { useEffect } from 'react';
-import { Platform, StyleSheet, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import Animated, {
     runOnJS,
     useAnimatedStyle,
@@ -21,15 +19,10 @@ const ModalCustomer: React.FC<ModalCustomerProps> = ({
     visible,
     callBackModal 
 }) => {
-
-    const params = useLocalSearchParams();
-    const isPresented = router.canGoBack();
-
-    // Valor animado: 0 = oculto, 1 = visible
+    
     const translateY = useSharedValue(300);
     const opacity = useSharedValue(0);
 
-    // Configuración de la animación
     const showModal = () => {
         translateY.value = withSpring(0, {
             damping: 15,
@@ -55,28 +48,19 @@ const ModalCustomer: React.FC<ModalCustomerProps> = ({
         }
     }, [visible]);
 
-    // ✅ CORRECCIÓN: Usar .value dentro de useAnimatedStyle
     const animatedStyle = useAnimatedStyle(() => {
         return {
-            transform: [{ translateY: translateY.value }], // ✅ .value es correcto aquí
-            opacity: opacity.value, // ✅ .value es correcto aquí
+            transform: [{ translateY: translateY.value }], 
+            opacity: opacity.value, 
         };
     });
 
     if (!visible) return null;
 
     return (
-        <View style={styles.overlay}>
-            {/* Fondo semitransparente */}
-            <Animated.View style={[styles.backdrop, { opacity: opacity.value }]} />
-            
-            {/* Contenido del modal con animación */}
-            <Animated.View style={[styles.container, animatedStyle]}>
-                <StatusBar style={Platform.OS === 'ios' ? 'light' : 'auto'} />
-                
-                {/* Aquí se renderiza el children que pasas desde el padre */}
-                {children}
-                
+        <View style={styles.overlay}>    
+            <Animated.View style={[styles.container, animatedStyle]}>         
+                {children}                
             </Animated.View>
         </View>
     );
