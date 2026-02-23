@@ -62,26 +62,7 @@ const QuotationScreen: React.FC = () => {
       <ModalCustomer visible={showModal} callBackModal={callBackModal}>
         {data &&
           <ScrollView style={styles.modalContent} showsVerticalScrollIndicator={false}>
-            <View style={styles.modalContainer}>
-
-              {/* Header con gradiente */}
-              <View style={styles.modalHeader}>
-                <View style={styles.headerTop}>
-                  <Text style={styles.modalTitle}>Detalle de Cotización</Text>
-                  <Pressable onPress={callBackModal} style={styles.modalCloseButton}>
-                    <Text style={styles.modalCloseIcon}>✕</Text>
-                  </Pressable>
-                </View>
-
-                <View style={styles.idContainer}>
-                  <View style={styles.idBadge}>
-                    <Text style={styles.idBadgeText}>ID: #{data.id}</Text>
-                  </View>
-                  <View style={[styles.idBadge, styles.serviceBadge]}>
-                    <Text style={styles.idBadgeText}>Servicio #{data.service}</Text>
-                  </View>
-                </View>
-              </View>
+            <View style={styles.modalContainer}>      
 
               {/* Sección Cliente */}
               <View style={styles.modalSection}>

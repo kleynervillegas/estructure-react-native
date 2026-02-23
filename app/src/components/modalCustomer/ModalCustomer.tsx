@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { Dimensions, Pressable, StyleSheet, Text, View } from 'react-native';
 import Animated, {
+    Extrapolation,
+    interpolate,
     runOnJS,
     useAnimatedStyle,
     useSharedValue,
@@ -8,31 +10,36 @@ import Animated, {
     withTiming
 } from 'react-native-reanimated';
 
+const { height: SCREEN_HEIGHT } = Dimensions.get('window');
+
 interface ModalCustomerProps {
     children: React.ReactNode;
     visible: boolean;
     callBackModal?: () => void;
+    title?: string;
 }
 
 const ModalCustomer: React.FC<ModalCustomerProps> = ({ 
     children, 
     visible,
-    callBackModal 
+    callBackModal,
+    title = "Detalle de Cotización"
 }) => {
     
-    const translateY = useSharedValue(300);
+    const translateY = useSharedValue(SCREEN_HEIGHT);
     const opacity = useSharedValue(0);
 
     const showModal = () => {
-        translateY.value = withSpring(0, {
-            damping: 15,
-            stiffness: 150,
+        translateY.value = withSpring(SCREEN_HEIGHT * 0.15, { // Se detiene dejando espacio arriba
+            damping: 50,
+            stiffness: 300,
+            mass: 0.5,
         });
-        opacity.value = withTiming(1, { duration: 250 });
+        opacity.value = withTiming(1, { duration: 200 });
     };
 
     const hideModal = (callback?: () => void) => {
-        translateY.value = withTiming(300, { duration: 200 }, (finished) => {
+        translateY.value = withTiming(SCREEN_HEIGHT, { duration: 250 }, (finished) => {
             if (finished && callback) {
                 runOnJS(callback)();
             }
@@ -50,17 +57,57 @@ const ModalCustomer: React.FC<ModalCustomerProps> = ({
 
     const animatedStyle = useAnimatedStyle(() => {
         return {
-            transform: [{ translateY: translateY.value }], 
-            opacity: opacity.value, 
+            transform: [{ translateY: translateY.value }],
+        };
+    });
+
+    const backdropStyle = useAnimatedStyle(() => {
+        return {
+            opacity: interpolate(
+                translateY.value,
+                [SCREEN_HEIGHT * 0.15, SCREEN_HEIGHT],
+                [1, 0],
+                Extrapolation.CLAMP
+            ),
         };
     });
 
     if (!visible) return null;
 
     return (
-        <View style={styles.overlay}>    
-            <Animated.View style={[styles.container, animatedStyle]}>         
-                {children}                
+        <View style={styles.overlay}>
+            {/* Backdrop con opacidad animada */}
+            <Pressable onPress={callBackModal} style={styles.backdropPressable}>
+                <Animated.View style={[styles.backdrop, backdropStyle]} />
+            </Pressable>
+            
+            {/* Modal Content */}
+            <Animated.View style={[styles.container, animatedStyle]}>
+                {/* Barra indicadora superior */}
+                <View style={styles.handleBar} />
+                
+                {/* Header del modal como Instagram */}
+                <View style={styles.modalHeader}>
+                    <Text style={styles.modalHeaderTitle}>{title}</Text>
+                    <Pressable onPress={callBackModal}>
+                        <Text style={styles.modalHeaderClose}>✕</Text>
+                    </Pressable>
+                </View>
+                
+                {/* Línea divisoria */}
+                <View style={styles.divider} />
+                
+                {/* Contenido del modal (comentarios) */}
+                <View style={styles.content}>
+                    {children}
+                </View>
+                
+                {/* Footer con input (como Instagram) */}
+                <View style={styles.footer}>
+                    <View style={styles.footerInput}>
+                        <Text style={styles.footerInputText}>Agrega un comentario para...</Text>
+                    </View>
+                </View>
             </Animated.View>
         </View>
     );
@@ -69,31 +116,83 @@ const ModalCustomer: React.FC<ModalCustomerProps> = ({
 const styles = StyleSheet.create({
     overlay: {
         ...StyleSheet.absoluteFillObject,
-        justifyContent: 'center',
-        alignItems: 'center',
+        justifyContent: 'flex-end',
         zIndex: 9999,
         elevation: 9999,
         backgroundColor: 'transparent',
     },
-    backdrop: {
+    backdropPressable: {
         ...StyleSheet.absoluteFillObject,
+    },
+    backdrop: {
+        flex: 1,
         backgroundColor: 'rgba(0,0,0,0.5)',
-        zIndex: 9998,
-        elevation: 9998,
     },
     container: {
-        width: '90%',
-        maxWidth: 400,
-        backgroundColor: 'white',
-        borderRadius: 20,
-        padding: 24,
-        alignItems: 'center',
+        width: '100%',
+        backgroundColor: '#1a1a1a',
+        borderTopLeftRadius: 20,
+        borderTopRightRadius: 20,
+        height: SCREEN_HEIGHT * 0.85, // Ocupa el 85% de la pantalla
         shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.25,
-        shadowRadius: 4,
+        shadowOffset: { width: 0, height: -3 },
+        shadowOpacity: 0.3,
+        shadowRadius: 5,
         elevation: 10000,
         zIndex: 10000,
+    },
+    handleBar: {
+        width: 40,
+        height: 4,
+        backgroundColor: '#404040',
+        borderRadius: 2,
+        alignSelf: 'center',
+        marginTop: 8,
+        marginBottom: 8,
+    },
+    modalHeader: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        paddingHorizontal: 16,
+        paddingVertical: 12,
+    },
+    modalHeaderTitle: {
+        color: '#fff',
+        fontSize: 18,
+        fontWeight: '600',
+    },
+    modalHeaderClose: {
+        color: '#fff',
+        fontSize: 20,
+        fontWeight: '400',
+    },
+    divider: {
+        height: 0.5,
+        backgroundColor: '#333',
+        width: '100%',
+    },
+    content: {
+        flex: 1,
+        paddingHorizontal: 16,
+        paddingTop: 16,
+    },
+    footer: {
+        borderTopWidth: 0.5,
+        borderTopColor: '#333',
+        paddingHorizontal: 16,
+        paddingVertical: 12,
+        backgroundColor: '#1a1a1a',
+    },
+    footerInput: {
+        backgroundColor: '#262626',
+        borderRadius: 20,
+        paddingHorizontal: 16,
+        paddingVertical: 10,
+    },
+    footerInputText: {
+        color: '#8e8e8e',
+        fontSize: 14,
     },
 });
 
