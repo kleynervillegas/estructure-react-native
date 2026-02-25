@@ -1,7 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import * as ImagePicker from 'expo-image-picker';
 import { LinearGradient } from 'expo-linear-gradient';
-import * as Linking from 'expo-linking';
 import React, { useState } from "react";
 import { ActivityIndicator, Alert, Dimensions, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
@@ -17,22 +16,11 @@ const StepsFour: React.FC<any> = (
 
     const selectFile = async () => {
         try {
-            if (!ImagePicker) {
-                Alert.alert('Error', 'El selector de imágenes no está disponible');
-                return;
-            }
-
+       
             const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
             if (status !== 'granted') {
-                Alert.alert(
-                    'Permiso requerido',
-                    'Necesitamos acceso a tu galería para subir el plano',
-                    [
-                        { text: 'Cancelar', style: 'cancel' },
-                        { text: 'Configurar', onPress: () => Linking.openSettings() }
-                    ]
-                );
+               console.warn('Permiso de acceso a la galería denegado');
                 return;
             }
 
@@ -47,6 +35,11 @@ const StepsFour: React.FC<any> = (
 
             if (!result.canceled && result.assets.length > 0) {
                 setFileInfo(result.assets[0]);
+                setAdditionalData({ 
+                    ...additionalData, 
+                    img: result.assets[0].base64,
+                    imgExt: result.assets[0].uri.split('.').pop()
+                });
             }
 
         } catch (err) {
@@ -70,7 +63,7 @@ const StepsFour: React.FC<any> = (
 
     return (
         <View style={styles.stepContent}>
-            {/* Sección Carga de Plano - Diseño Moderno */}
+            {/* Sección Carga de Plano  */}
             <View style={styles.sectionHeader}>
                 <LinearGradient
                     colors={['#2563EB', '#1E40AF']}
@@ -82,13 +75,12 @@ const StepsFour: React.FC<any> = (
                 </LinearGradient>
                 <Text style={styles.sectionTitle}>Carga tu plano</Text>
             </View>
-            
+
             <Text style={styles.sectionSubtitle}>
                 Sube el plano de tu instalación para una mejor planificación
             </Text>
 
             <View style={styles.uploadGrid}>
-                {/* Botón de carga principal */}
                 <TouchableOpacity
                     style={styles.uploadCard}
                     onPress={selectFile}
@@ -115,7 +107,7 @@ const StepsFour: React.FC<any> = (
                     </LinearGradient>
                 </TouchableOpacity>
 
-                {/* Vista previa del plano (si existe) */}
+
                 {fileInfo ? (
                     <View style={styles.previewCard}>
                         <LinearGradient
@@ -134,14 +126,14 @@ const StepsFour: React.FC<any> = (
                                     <Ionicons name="document" size={32} color="#2563EB" />
                                 </View>
                             )}
-                            
+
                             <TouchableOpacity
                                 style={styles.removeButton}
                                 onPress={removeFile}
                             >
                                 <Ionicons name="close-circle" size={22} color="#EF4444" />
                             </TouchableOpacity>
-                            
+
                             <View style={styles.previewBadge}>
                                 <Ionicons name="checkmark-circle" size={16} color="#10B981" />
                                 <Text style={styles.previewBadgeText}>Cargado</Text>
@@ -149,7 +141,7 @@ const StepsFour: React.FC<any> = (
                         </LinearGradient>
                     </View>
                 ) : (
-                    /* Placeholder para segundo espacio (pueden subir múltiples planos) */
+
                     <View style={styles.placeholderCard}>
                         <Ionicons name="images-outline" size={28} color="#9CA3AF" />
                         <Text style={styles.placeholderText}>Vista previa</Text>
@@ -166,7 +158,7 @@ const StepsFour: React.FC<any> = (
                 <View style={styles.dividerLine} />
             </View>
 
-            {/* Servicios Adicionales con diseño mejorado */}
+            {/* Servicios Adicionales */}
             <View style={styles.sectionHeader}>
                 <LinearGradient
                     colors={['#2563EB', '#1E40AF']}

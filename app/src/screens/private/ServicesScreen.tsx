@@ -86,6 +86,8 @@ const ServicesScreen = () => {
     modulo4G: false,
     almacenamientoNube: false,
     controlRemoto: false,
+    img: '',
+    imgExt: ''
   });
 
   const [clientData, setClientData] = useState({
@@ -99,6 +101,7 @@ const ServicesScreen = () => {
     if (currentStep < 5) {
       setCurrentStep(currentStep + 1);
     } else {
+   
       const response = await createdQuotation(
         {
           service: selectedService,
@@ -107,7 +110,8 @@ const ServicesScreen = () => {
           quality_json: JSON.stringify(qualityData),
           additional_json: JSON.stringify(additionalData),
           client_json: JSON.stringify(clientData),
-          image: 'imagen del plano ',
+          img: additionalData.img,
+          imgExt: additionalData.imgExt
         }
       );
 

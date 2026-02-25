@@ -3,8 +3,8 @@ import { useFocusEffect, useNavigation } from 'expo-router';
 import React, { useCallback, useState } from 'react';
 import {
   Dimensions,
+  Image,
   ImageBackground,
-  Pressable,
   ScrollView,
   StyleSheet,
   Text,
@@ -44,7 +44,7 @@ const QuotationScreen: React.FC = () => {
     }, [])
   );
 
-  const moreDetails = (item: Quotation) => {
+  const moreDetails = (item: Quotation) => {4
     setData(item);
     setShowModal(true);
   };
@@ -172,6 +172,18 @@ const QuotationScreen: React.FC = () => {
                 </View>
               </View>
 
+                {/* Sección plano*/}
+              <View style={styles.modalSection}>
+                <Text style={styles.modalSectionTitle}>📷 Plano</Text>
+                <View style={styles.modalCard}>
+                    <Image
+                    source={{ uri: `data:image/jpeg;base64,${data.additional_json.img}` }}
+                    style={styles.previewImage}
+                    />
+                </View>
+              </View>
+
+
               {/* Sección Servicios Adicionales */}
               <View style={styles.modalSection}>
                 <Text style={styles.modalSectionTitle}>➕ SERVICIOS ADICIONALES</Text>
@@ -198,14 +210,14 @@ const QuotationScreen: React.FC = () => {
               </View>
 
               {/* Botones de acción */}
-              <View style={styles.modalActions}>
+              {/* <View style={styles.modalActions}>
                 <Pressable style={styles.modalEditButton}>
                   <Text style={styles.modalEditButtonText}>✏️ EDITAR</Text>
                 </Pressable>
                 <Pressable style={styles.modalDownloadButton}>
                   <Text style={styles.modalDownloadButtonText}>📥 PDF</Text>
                 </Pressable>
-              </View>
+              </View> */}
 
               {/* Precio total */}
               <View style={styles.totalPriceContainer}>
@@ -685,6 +697,12 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#fff',
   },
+    previewImage: {
+        width: 100,
+        height: 100,
+        borderRadius: 20,
+    },
+    
 });
 
 export default QuotationScreen;

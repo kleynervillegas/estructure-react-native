@@ -235,7 +235,7 @@ export const useSqlite = () => {
                     quotation.quality_json,
                     quotation.additional_json,
                     quotation.client_json,
-                    quotation.image,
+                    quotation.img,
                     user_id
                 ]
             );

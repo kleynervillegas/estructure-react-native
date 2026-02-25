@@ -5,7 +5,8 @@ export type Quotation = {
   quality_json: string;
   additional_json: string;
   client_json: string,
-  image?: string,
+  img?: string, 
+  imgExt?: string
 };
 
 const DummyComponent = () => null;
