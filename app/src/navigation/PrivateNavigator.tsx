@@ -45,7 +45,7 @@ const TabsNavigator: React.FC = () => {
           backgroundColor: "#0a1329",
         },
         headerTitle(props) {
-          return <Text style={{ color: '#fff', fontWeight: 'bold',textTransform:"uppercase",paddingRight: 8 }} >Mujicam Segurity</Text>;
+          return <Text style={{ color: '#fff', fontWeight: 'bold', textTransform: "uppercase", paddingRight: 8 }} >Mujicam Segurity</Text>;
         },
         headerRight: () => (
           <View style={styles.viewHeadrs}>
@@ -109,7 +109,15 @@ const PrivateNavigator: React.FC = () => {
           key={`stack-${key}`}
           name={route.name}
           component={route.component}
-          options={route.options}
+          options={
+            {
+              headerStyle: {
+                backgroundColor: '#0a1329',
+              },
+              headerTitle(props) {
+                return <Text style={{ color: '#fff', fontWeight: 'bold', textTransform: "uppercase", paddingRight: 8 }} >Mujicam Segurity</Text>;
+              },
+            }}
         />
       ))}
     </Stack.Navigator>

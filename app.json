@@ -11,7 +11,14 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.kvillegas.reactnaiveapp",
-      "appleTeamId": "GHBG87YZDK"
+      "appleTeamId": "GHBG87YZDK",
+      "infoPlist": {
+        "NSPhotoLibraryUsageDescription": "Permite a $(PRODUCT_NAME) acceder a tu galería de fotos para seleccionar imágenes",
+        "NSCameraUsageDescription": "Permite a $(PRODUCT_NAME) acceder a tu cámara para tomar fotos",
+        "NSMicrophoneUsageDescription": "Permite a $(PRODUCT_NAME) acceder a tu micrófono para grabar videos con audio",
+        "NSDocumentPickerUsageDescription": "Esta app necesita acceder a documentos para que puedas subir archivos"
+      },
+      "UIBackgroundModes": ["audio", "fetch"]
     },
     "android": {
       "adaptiveIcon": {
@@ -22,7 +29,12 @@
       },
       "edgeToEdgeEnabled": true,
       "predictiveBackGestureEnabled": false,
-      "package": "com.reactnaiveapp.v1"
+      "package": "com.reactnaiveapp.v1",
+      "permissions": [
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE"
+      ],
+      "blockedPermissions": []
     },
     "web": {
       "output": "static",
@@ -48,12 +60,10 @@
           "enableFTS": true,
           "useSQLCipher": true,
           "android": {
-            // Override the shared configuration for Android
             "enableFTS": false,
             "useSQLCipher": false
           },
           "ios": {
-            // You can also override the shared configurations for iOS
             "customBuildFlags": [
               "-DSQLITE_ENABLE_DBSTAT_VTAB=1 -DSQLITE_ENABLE_SNAPSHOT=1"
             ]

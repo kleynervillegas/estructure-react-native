@@ -5,6 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import {
   Dimensions,
+  ImageBackground,
   ScrollView,
   StyleSheet,
   Text,
@@ -13,6 +14,7 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Toast from 'react-native-toast-message';
+import ic from '../../../../assets/images/fondo.png';
 import StepsFine from '../../components/Steps/StepsFine';
 import StepsFour from '../../components/Steps/StepsFour';
 import StepsOne from '../../components/Steps/StepsOne';
@@ -108,7 +110,7 @@ const ServicesScreen = () => {
           image: 'imagen del plano ',
         }
       );
-    
+
       if (response > 1) {
 
         Toast.show({
@@ -117,7 +119,7 @@ const ServicesScreen = () => {
           text2: 'Tu cotización ha sido guardada localmente',
         });
 
-        setTimeout(() => {  
+        setTimeout(() => {
           navigation.navigate('Volver' as never);
         }, 2000);
       } else {
@@ -139,91 +141,97 @@ const ServicesScreen = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <Toast />
+    <ImageBackground
+      source={ic}
+      style={styles.container}
+      resizeMode="cover"
+    >
+      <SafeAreaView style={styles.overlay}>
+        <Toast />
+        <View style={styles.header}>
+          <Text style={styles.headerTitle}>Completa los pasos para tu cotización</Text>
+          {/* <Text style={styles.headerSubtitle}>Completa los pasos para tu cotización</Text> */}
+        </View>
+
+        <Steps currentStep={currentStep} setCurrentStep={setCurrentStep} />
+
+        <ScrollView
+          style={styles.scrollView}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={styles.scrollContent}>
+          {currentStep === 1 &&
+            <StepsOne
+              setSelectedService={setSelectedService}
+              selectedService={selectedService}
+              selectedProtection={selectedProtection}
+              setSelectedProtection={setSelectedProtection}
+            />
+          }
+          {currentStep === 2 &&
+            <StepsTwo
+              selectedService={selectedService}
+              dimensionsData={dimensionsData}
+              setDimensionsData={setDimensionsData}
+
+            />}
+          {currentStep === 3 &&
+            <StepsThere
+              qualityData={qualityData}
+              setQualityData={setQualityData}
+            />}
+          {currentStep === 4 &&
+            <StepsFour
+              additionalData={additionalData}
+              setAdditionalData={setAdditionalData}
+            />}
+          {currentStep === 5 &&
+            <StepsFine
+              selectedService={selectedService}
+              protectionTypes={protectionTypes}
+              selectedProtection={selectedProtection}
+              clientData={clientData}
+              setClientData={setClientData}
+            />}
+        </ScrollView>
 
 
+        <View style={styles.navigation}>
+          {currentStep > 1 && (
+            <TouchableOpacity
+              style={[styles.navButton, styles.backButton]}
+              onPress={handleBack}>
+              <Ionicons name="arrow-back" size={20} color="#6B7280" />
+              <Text style={styles.backButtonText}>Anterior</Text>
+            </TouchableOpacity>
+          )}
 
-      <View style={styles.header}>
-        <Text style={styles.headerTitle}>Completa los pasos para tu cotización</Text>
-        {/* <Text style={styles.headerSubtitle}>Completa los pasos para tu cotización</Text> */}
-      </View>
-
-      <Steps currentStep={currentStep} setCurrentStep={setCurrentStep} />
-
-      <ScrollView
-        style={styles.scrollView}
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.scrollContent}>
-        {currentStep === 1 &&
-          <StepsOne
-            setSelectedService={setSelectedService}
-            selectedService={selectedService}
-            selectedProtection={selectedProtection}
-            setSelectedProtection={setSelectedProtection}
-          />
-        }
-        {currentStep === 2 &&
-          <StepsTwo
-            selectedService={selectedService}
-            dimensionsData={dimensionsData}
-            setDimensionsData={setDimensionsData}
-
-          />}
-        {currentStep === 3 &&
-          <StepsThere
-            qualityData={qualityData}
-            setQualityData={setQualityData}
-          />}
-        {currentStep === 4 &&
-          <StepsFour
-            additionalData={additionalData}
-            setAdditionalData={setAdditionalData}
-          />}
-        {currentStep === 5 &&
-          <StepsFine
-            selectedService={selectedService}
-            protectionTypes={protectionTypes}
-            selectedProtection={selectedProtection}
-            clientData={clientData}
-            setClientData={setClientData}
-          />}
-      </ScrollView>
-
-
-      <View style={styles.navigation}>
-        {currentStep > 1 && (
           <TouchableOpacity
-            style={[styles.navButton, styles.backButton]}
-            onPress={handleBack}>
-            <Ionicons name="arrow-back" size={20} color="#6B7280" />
-            <Text style={styles.backButtonText}>Anterior</Text>
+            style={[
+              styles.navButton,
+              styles.nextButton,
+              currentStep === 1 && !selectedService && styles.nextButtonDisabled
+            ]}
+            onPress={handleNext}
+            disabled={currentStep === 1 && !selectedService}>
+            <Text style={styles.nextButtonText}>
+              {currentStep === 5 ? 'Finalizar' : 'Siguiente'}
+            </Text>
+            <Ionicons name="arrow-forward" size={20} color="#FFFFFF" />
           </TouchableOpacity>
-        )}
+        </View>
 
-        <TouchableOpacity
-          style={[
-            styles.navButton,
-            styles.nextButton,
-            currentStep === 1 && !selectedService && styles.nextButtonDisabled
-          ]}
-          onPress={handleNext}
-          disabled={currentStep === 1 && !selectedService}>
-          <Text style={styles.nextButtonText}>
-            {currentStep === 5 ? 'Finalizar' : 'Siguiente'}
-          </Text>
-          <Ionicons name="arrow-forward" size={20} color="#FFFFFF" />
-        </TouchableOpacity>
-      </View>
-
-    </SafeAreaView>
+      </SafeAreaView>
+    </ImageBackground>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFFFFF',
+  },
+  overlay: {
+    flex: 1,
+    backgroundColor: 'transparent',
   },
   header: {
     paddingHorizontal: 20,
@@ -517,9 +525,6 @@ const styles = StyleSheet.create({
   navigation: {
     flexDirection: 'row',
     padding: 20,
-    borderTopWidth: 1,
-    borderTopColor: '#F3F4F6',
-    backgroundColor: '#FFFFFF',
   },
   navButton: {
     flex: 1,

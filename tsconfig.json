@@ -11,7 +11,8 @@
   "include": [
     "**/*.ts",
     "**/*.tsx",
+    "app/config/axiosConfig.js",
     ".expo/types/**/*.ts",
     "expo-env.d.ts"
-, "app/config/axiosConfig.js"  ]
+  ]
 }

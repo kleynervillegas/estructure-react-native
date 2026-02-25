@@ -1,18 +1,121 @@
 import { Ionicons } from "@expo/vector-icons";
-import React from "react";
+import * as ImagePicker from 'expo-image-picker';
+import React, { useState } from "react";
 import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 const { width } = Dimensions.get('window');
 
 const StepsFour: React.FC<any> = (
-    {  
+    {
         additionalData,
-        setAdditionalData        
+        setAdditionalData
     }) => {
+    const [fileInfo, setFileInfo] = useState<any>(null);
+    const [fileContent, setFileContent] = useState('');
+    const selectFile = async () => {
+        try {
+
+  // Verificar que ImagePicker está disponible
+        if (!ImagePicker) {
+            console.error('ImagePicker no está disponible');
+            console.log('Error', 'El selector de imágenes no está disponible');
+            return;
+        }
+
+
+            const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+                    console.log(status);
+
+            if (status !== 'granted') {
+                console.log('Permiso denegado', 'Necesitamos permisos para acceder a la galería');
+                return;
+            }
+
+            // const result:any = await ImagePicker.launchImageLibraryAsync({
+            //     mediaTypes: ImagePicker.MediaTypeOptions.All,
+            //     allowsEditing: true,
+            //     quality: 1,
+            // });
+
+
+            // // const result: any = await DocumentPicker.getDocumentAsync({
+            // //     type: '*/*',
+            // //     copyToCacheDirectory: true,
+            // //     multiple: false,
+            // // });
+
+            // console.log('Resultado del selector de documentos:', result);
+
+            // if (result.type === 'success') {
+            //     setFileInfo({
+            //         name: result.name,
+            //         size: result.size,
+            //         uri: result.uri,
+            //         mimeType: result.mimeType,
+            //     });
+
+            //     // Leer el contenido según el tipo
+            //     if (result.mimeType?.startsWith('text/')) {
+            //         const content = await FileSystem.readAsStringAsync(result.uri);
+            //         setFileContent(content);
+            //     }
+
+            //     // Guardar en el directorio de la app
+            //     const destinationUri = `${FileSystem.documentDirectory}uploads/${result.name}`;
+            //     5
+            //     // Crear directorio si no existe
+            //     const dirInfo = await FileSystem.getInfoAsync(`${FileSystem.documentDirectory}uploads`);
+            //     if (!dirInfo.exists) {
+            //         await FileSystem.makeDirectoryAsync(`${FileSystem.documentDirectory}uploads`, {
+            //             intermediates: true,
+            //         });
+            //     }
+
+            //     // Copiar archivo
+            //     await FileSystem.copyAsync({
+            //         from: result.uri,
+            //         to: destinationUri,
+            //     });
+
+            //     console.log('Archivo guardado en:', destinationUri);
+            // }
+        } catch (err) {
+            console.error('Error:', err);
+        }
+    };
 
     return (
         <View style={styles.stepContent}>
             <Text style={styles.sectionTitle}>Servicios Adicionales</Text>
+
+            <View style={styles.inputGroup}>
+                <TouchableOpacity
+                    style={styles.checkboxContainer}
+                    onPress={selectFile}>
+                    <View style={[styles.checkbox, additionalData.instalacionProfesional && styles.checkboxChecked]}>
+                        {additionalData.instalacionProfesional && (
+                            <Ionicons name="checkmark" size={16} color="#FFFFFF" />
+                        )}
+                    </View>
+                    <Text style={styles.checkboxLabel}>Carga tu plano</Text>
+                </TouchableOpacity>
+
+                {fileInfo && (
+                    <View style={styles.fileInfo}>
+                        <Text>Nombre: {fileInfo.name}</Text>
+                        <Text>Tamaño: {(fileInfo.size / 1024).toFixed(2)} KB</Text>
+                        <Text>Tipo: {fileInfo.mimeType}</Text>
+                    </View>
+                )}
+
+                {fileContent ? (
+                    <View style={styles.content}>
+                        <Text>Contenido:</Text>
+                        <Text>{fileContent}</Text>
+                    </View>
+                ) : null}
+            </View>
 
             <View style={styles.inputGroup}>
                 <Text style={styles.label}>Soporte Técnico</Text>
@@ -443,6 +546,19 @@ const styles = StyleSheet.create({
         fontWeight: '600',
         color: '#FFFFFF',
         marginRight: 8,
+    },
+
+    fileInfo: {
+        marginTop: 20,
+        padding: 10,
+        backgroundColor: '#f0f0f0',
+        borderRadius: 5,
+    },
+    content: {
+        marginTop: 20,
+        padding: 10,
+        backgroundColor: '#e0e0e0',
+        borderRadius: 5,
     },
 });
 

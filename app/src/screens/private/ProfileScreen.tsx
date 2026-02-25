@@ -1,38 +1,48 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import React from 'react';
 import {
+  ImageBackground,
   ScrollView,
   StyleSheet,
   Text,
   View
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import ic from '../../../../assets/images/fondo.png';
 import { useAuth } from '../../context/AuthContext';
 
 const ProfileScreen: React.FC = () => {
   const { user, logout } = useAuth();
 
   return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView contentContainerStyle={styles.content}>
-        <View style={styles.header}>
-          <MaterialIcons name="home" size={40} color="#007AFF" />
-          <Text style={styles.title}>Perfil</Text>
-          <Text style={styles.subtitle}>{user?.name}</Text>
-          <Text style={styles.email}>{user?.email}</Text>
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+    <ImageBackground
+      source={ic}
+      style={styles.container}
+      resizeMode="cover"
+    >
+      <SafeAreaView style={styles.overlay}>
+        <ScrollView style={styles.scrollView}>
+          <View style={styles.header}>
+            <MaterialIcons name="home" size={40} color="#007AFF" />
+            <Text style={styles.title}>Perfil</Text>
+
+          </View>
+        </ScrollView>
+      </SafeAreaView>
+    </ImageBackground>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
   },
-  content: {
-    padding: 20,
+  overlay: {
+    flex: 1,
+    backgroundColor: 'transparent',
+  },
+  scrollView: {
+    flex: 1,
   },
   header: {
     alignItems: 'center',
