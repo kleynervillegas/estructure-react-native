@@ -16,9 +16,12 @@
         "NSPhotoLibraryUsageDescription": "Permite a $(PRODUCT_NAME) acceder a tu galería de fotos para seleccionar imágenes",
         "NSCameraUsageDescription": "Permite a $(PRODUCT_NAME) acceder a tu cámara para tomar fotos",
         "NSMicrophoneUsageDescription": "Permite a $(PRODUCT_NAME) acceder a tu micrófono para grabar videos con audio",
-        "NSDocumentPickerUsageDescription": "Esta app necesita acceder a documentos para que puedas subir archivos"
-      },
-      "UIBackgroundModes": ["audio", "fetch"]
+        "NSDocumentPickerUsageDescription": "Esta app necesita acceder a documentos para que puedas subir archivos",
+        "UIBackgroundModes": [
+          "audio",
+          "fetch"
+        ]
+      }
     },
     "android": {
       "adaptiveIcon": {
