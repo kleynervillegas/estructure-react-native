@@ -18,6 +18,7 @@ const OrdersScreen: React.FC = () => {
   const { theme, changeTheme } = useThemeColors();
 
   const gradients = themeGradients[theme];
+  
   const colors = Colors[theme];
 
   return (

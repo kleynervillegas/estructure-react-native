@@ -1,18 +1,19 @@
+import { Colors, themeGradients } from '@/constants/theme';
 import { useFocusEffect } from '@react-navigation/native';
+import { LinearGradient } from 'expo-linear-gradient';
 import React, { useCallback, useState } from 'react';
 import {
   ActivityIndicator,
   Alert,
   Dimensions,
   FlatList,
-  ImageBackground,
   StyleSheet,
   Text,
   TouchableOpacity,
   View
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import ic from '../../../../assets/images/fondo.png';
+import { useThemeColors } from '../../context/ThemeColorsContext';
 import { useSqlite } from '../../hooks/useSqlite';
 import { Product } from '../../types/products';
 import { formatPrice } from '../../utils/functions';
@@ -27,6 +28,11 @@ const CartScreen = ({ navigation }) => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
+
+  const { theme, changeTheme } = useThemeColors();
+
+  const gradients = themeGradients[theme];
+  const colors = Colors[theme];
 
   useFocusEffect(
     useCallback(() => {
@@ -253,10 +259,11 @@ const CartScreen = ({ navigation }) => {
   }
 
   return (
-    <ImageBackground
-      source={ic}
+    <LinearGradient
+      colors={gradients.background}
       style={styles.container}
-      resizeMode="cover"
+      start={{ x: 0, y: 0 }}
+      end={{ x: 1, y: 1 }}
     >
       <SafeAreaView style={styles.overlay}>
         <View style={styles.container}>
@@ -281,7 +288,7 @@ const CartScreen = ({ navigation }) => {
           {renderSummary()}
         </View>
       </SafeAreaView>
-    </ImageBackground>
+    </LinearGradient>
   );
 };
 

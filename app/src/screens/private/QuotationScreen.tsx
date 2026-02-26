@@ -1,10 +1,11 @@
 import { services } from '@/app/const/InfoMuck';
+import { Colors, themeGradients } from '@/constants/theme';
+import { LinearGradient } from 'expo-linear-gradient';
 import { useFocusEffect, useNavigation } from 'expo-router';
 import React, { useCallback, useState } from 'react';
 import {
   Dimensions,
   Image,
-  ImageBackground,
   ScrollView,
   StyleSheet,
   Text,
@@ -12,14 +13,20 @@ import {
   View
 } from 'react-native';
 import { Avatar, Badge, Card, IconButton } from 'react-native-paper';
-import ic from '../../../../assets/images/fondo.png';
 import ModalCustomer from '../../components/modalCustomer/ModalCustomer';
+import { useThemeColors } from '../../context/ThemeColorsContext';
 import useQuotation from '../../hooks/useQuotation';
 import { Quotation } from '../../types/quotation';
 
 const { width, height } = Dimensions.get('window');
 
 const QuotationScreen: React.FC = () => {
+
+  const { theme, changeTheme } = useThemeColors();
+
+  const gradients = themeGradients[theme];
+  
+  const colors = Colors[theme];
 
   const navigator = useNavigation();
 
@@ -38,13 +45,14 @@ const QuotationScreen: React.FC = () => {
   useFocusEffect(
     useCallback(() => {
       init();
-      return () => { 
+      return () => {
         setShowModal(false);
       };
     }, [])
   );
 
-  const moreDetails = (item: Quotation) => {4
+  const moreDetails = (item: Quotation) => {
+    4
     setData(item);
     setShowModal(true);
   };
@@ -54,15 +62,16 @@ const QuotationScreen: React.FC = () => {
 
   return (
 
-    <ImageBackground
-      source={ic}
+    <LinearGradient
+      colors={gradients.background}
       style={styles.container}
-      resizeMode="cover"
+      start={{ x: 0, y: 0 }}
+      end={{ x: 1, y: 1 }}
     >
       <ModalCustomer visible={showModal} callBackModal={callBackModal}>
         {data &&
           <ScrollView style={styles.modalContent} showsVerticalScrollIndicator={false}>
-            <View style={styles.modalContainer}>      
+            <View style={styles.modalContainer}>
 
               {/* Sección Cliente */}
               <View style={styles.modalSection}>
@@ -172,14 +181,14 @@ const QuotationScreen: React.FC = () => {
                 </View>
               </View>
 
-                {/* Sección plano*/}
+              {/* Sección plano*/}
               <View style={styles.modalSection}>
                 <Text style={styles.modalSectionTitle}>📷 Plano</Text>
                 <View style={styles.modalCard}>
-                    <Image
+                  <Image
                     source={{ uri: `data:image/jpeg;base64,${data.additional_json.img}` }}
                     style={styles.previewImage}
-                    />
+                  />
                 </View>
               </View>
 
@@ -289,7 +298,7 @@ const QuotationScreen: React.FC = () => {
 
         }
       </ScrollView>
-    </ImageBackground>
+    </LinearGradient>
   );
 }
 
@@ -697,12 +706,12 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#fff',
   },
-    previewImage: {
-        width: 100,
-        height: 100,
-        borderRadius: 20,
-    },
-    
+  previewImage: {
+    width: 100,
+    height: 100,
+    borderRadius: 20,
+  },
+
 });
 
 export default QuotationScreen;
