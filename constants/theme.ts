@@ -8,22 +8,35 @@ import { Platform } from 'react-native';
 const tintColorLight = '#0a7ea4';
 const tintColorDark = '#fff';
 
-export const Colors = {
-  light: {
-    text: '#11181C',
-    background: '#fff',
-    tint: tintColorLight,
-    icon: '#687076',
-    tabIconDefault: '#687076',
-    tabIconSelected: tintColorLight,
+export const Colors:any = {
+ light: {
+    text: '#333',
+    textSecondary: '#666',
+    textTertiary: '#999',
+    border: '#eee',
+    icon: '#007AFF',
+    cardShadow: '#000',
   },
   dark: {
-    text: '#ECEDEE',
-    background: '#151718',
-    tint: tintColorDark,
-    icon: '#9BA1A6',
-    tabIconDefault: '#9BA1A6',
-    tabIconSelected: tintColorDark,
+    text: '#ffffff',
+    textSecondary: '#cccccc',
+    textTertiary: '#999999',
+    border: '#404040',
+    icon: '#66b0ff',
+    cardShadow: '#000',
+  },
+};
+
+export const themeGradients:any = {
+  light: {
+    primary: ['#667eea', '#764ba2'] as const,
+    background: ['#f5f7fa', '#c3cfe2'] as const,
+    card: ['#ffffff', '#f8f9fa'] as const,
+  },
+  dark: {
+    primary: ['#1a1a2e', '#16213e'] as const,
+    background: ['#0f0c1f', '#1a1b2f'] as const,
+    card: ['#2d2d44', '#1e1e30'] as const,
   },
 };
 

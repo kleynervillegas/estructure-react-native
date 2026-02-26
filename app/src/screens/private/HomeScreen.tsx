@@ -1,9 +1,10 @@
+import { Colors, themeGradients } from '@/constants/theme';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
+import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation } from 'expo-router';
 import React from 'react';
 import {
   Dimensions,
-  ImageBackground,
   ScrollView,
   StyleSheet,
   Text,
@@ -13,12 +14,17 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Toast from 'react-native-toast-message';
-import ic from '../../../../assets/images/fondo.png';
 import ProductsComponent from '../../components/Products/ProductsComponent';
+import { useThemeColors } from '../../context/ThemeColorsContext';
 
 const { width } = Dimensions.get('window');
 
 const HomeScreen = () => {
+
+    const { theme, changeTheme } = useThemeColors();
+  
+    const gradients = themeGradients[theme];
+    const colors = Colors[theme];
 
   const navigation = useNavigation();
 
@@ -42,12 +48,13 @@ const HomeScreen = () => {
   }
 
   return (
-    <ImageBackground
-      source={ic}
-      style={styles.container}
-      resizeMode="cover"
-    >
-      <SafeAreaView style={styles.overlay}>
+   <LinearGradient
+       colors={gradients.background}
+       style={styles.container}
+       start={{ x: 0, y: 0 }}
+       end={{ x: 1, y: 1 }}
+     >
+      <SafeAreaView style={styles.safeArea}>
         <View style={{zIndex: 1}}>
           <Toast/>
         </View>
@@ -98,7 +105,7 @@ const HomeScreen = () => {
           <ProductsComponent showToast={showToast} />
         </ScrollView>
       </SafeAreaView>
-    </ImageBackground>
+    </LinearGradient>
 
   );
 };
@@ -107,9 +114,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  overlay: {
+  safeArea: {
     flex: 1,
-    backgroundColor: 'transparent',
   },
   scrollView: {
     flex: 1,
