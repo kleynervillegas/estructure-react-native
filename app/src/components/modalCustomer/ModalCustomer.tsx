@@ -1,3 +1,5 @@
+import { ColorFontrs, Colors, themeGradients } from '@/constants/theme';
+import { LinearGradient } from 'expo-linear-gradient';
 import React, { useEffect } from 'react';
 import { Dimensions, Pressable, StyleSheet, Text, View } from 'react-native';
 import Animated, {
@@ -9,6 +11,7 @@ import Animated, {
     withSpring,
     withTiming
 } from 'react-native-reanimated';
+import { useThemeColors } from '../../context/ThemeColorsContext';
 
 const { height: SCREEN_HEIGHT } = Dimensions.get('window');
 
@@ -19,13 +22,22 @@ interface ModalCustomerProps {
     title?: string;
 }
 
-const ModalCustomer: React.FC<ModalCustomerProps> = ({ 
-    children, 
+const ModalCustomer: React.FC<ModalCustomerProps> = ({
+    children,
     visible,
     callBackModal,
     title = "Detalle de Cotización"
 }) => {
-    
+
+
+    const { theme, changeTheme } = useThemeColors();
+
+    const gradients = themeGradients[theme];
+
+    const colors = Colors[theme];
+
+    const colorFontrs = ColorFontrs[theme];
+
     const translateY = useSharedValue(SCREEN_HEIGHT);
     const opacity = useSharedValue(0);
 
@@ -75,17 +87,18 @@ const ModalCustomer: React.FC<ModalCustomerProps> = ({
     if (!visible) return null;
 
     return (
+
         <View style={styles.overlay}>
             {/* Backdrop con opacidad animada */}
             <Pressable onPress={callBackModal} style={styles.backdropPressable}>
                 <Animated.View style={[styles.backdrop, backdropStyle]} />
             </Pressable>
-            
+
             {/* Modal Content */}
             <Animated.View style={[styles.container, animatedStyle]}>
                 {/* Barra indicadora superior */}
                 <View style={styles.handleBar} />
-                
+
                 {/* Header del modal como Instagram */}
                 <View style={styles.modalHeader}>
                     <Text style={styles.modalHeaderTitle}>{title}</Text>
@@ -93,15 +106,22 @@ const ModalCustomer: React.FC<ModalCustomerProps> = ({
                         <Text style={styles.modalHeaderClose}>✕</Text>
                     </Pressable>
                 </View>
-                
+
                 {/* Línea divisoria */}
                 <View style={styles.divider} />
-                
+
                 {/* Contenido del modal (comentarios) */}
-                <View style={styles.content}>
-                    {children}
-                </View>
-                
+                <LinearGradient
+                    colors={gradients.background}
+                    style={styles.content}
+                    start={{ x: 0, y: 0 }}
+                    end={{ x: 1, y: 1 }}
+                >
+                    <View style={styles.content}>
+                        {children}
+                    </View>
+                </LinearGradient>
+
                 {/* Footer con input (como Instagram) */}
                 <View style={styles.footer}>
                     <View style={styles.footerInput}>
@@ -133,7 +153,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#1a1a1a',
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20,
-        height: SCREEN_HEIGHT * 0.85, // Ocupa el 85% de la pantalla
+        height: SCREEN_HEIGHT * 0.85,
         shadowColor: '#000',
         shadowOffset: { width: 0, height: -3 },
         shadowOpacity: 0.3,

@@ -220,16 +220,6 @@ const QuotationScreen: React.FC = () => {
                 </View>
               </View>
 
-              {/* Botones de acción */}
-              {/* <View style={styles.modalActions}>
-                <Pressable style={styles.modalEditButton}>
-                  <Text style={styles.modalEditButtonText}>✏️ EDITAR</Text>
-                </Pressable>
-                <Pressable style={styles.modalDownloadButton}>
-                  <Text style={styles.modalDownloadButtonText}>📥 PDF</Text>
-                </Pressable>
-              </View> */}
-
               {/* Precio total */}
               <View style={styles.totalPriceContainer}>
                 <Text style={styles.totalPriceLabel}>TOTAL</Text>
