@@ -1,3 +1,4 @@
+import { Colors } from '@/constants/theme';
 import { MaterialIcons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useNavigation } from '@react-navigation/native';
@@ -6,14 +7,22 @@ import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import routes from '../../const/Routes';
 import { useAuth } from '../context/AuthContext';
+import { useThemeColors } from '../context/ThemeColorsContext';
 import { Routes } from '../types/navigation';
 
 const Tab = createBottomTabNavigator<any>();
 const Stack = createNativeStackNavigator<any>();
 
 const TabsNavigator: React.FC = () => {
+
+  const { theme, changeTheme } = useThemeColors();
+
+  const colors = Colors[theme];
+
   const { logout } = useAuth();
+
   const tabRoutes = routes.filter(route => route.private && route.tabs);
+
   const navigation = useNavigation();
 
   const toNavigate = (path: string) => navigation.navigate(path as never);
@@ -22,7 +31,7 @@ const TabsNavigator: React.FC = () => {
     <Tab.Navigator
       screenOptions={({ route }) => ({
         tabBarIcon: ({ color, size }) => {
-          
+
           let iconName: any = 'Tienda';
 
           if (route.name === 'Tienda') {
@@ -49,6 +58,21 @@ const TabsNavigator: React.FC = () => {
         },
         headerRight: () => (
           <View style={styles.viewHeadrs}>
+
+            <TouchableOpacity
+              onPress={() => changeTheme(theme)}
+              style={[styles.themeButton, { backgroundColor: colors.border, marginRight: 5 }]}
+            >
+              <MaterialIcons
+                name={theme === 'light' ? 'dark-mode' : 'light-mode'}
+                size={24}
+                color={colors.text}
+              />
+            </TouchableOpacity>
+
+
+
+
             <TouchableOpacity
               onPress={() => toNavigate("notifications")}
               style={{ marginRight: 5 }}
@@ -141,10 +165,10 @@ const styles = StyleSheet.create({
     marginLeft: 12,
     padding: 4,
   },
-  iconPersonButton: {
-    // marginLeft: 12,
-    // padding: 4,
-  }
+  themeButton: {
+    borderRadius: 30,
+    opacity: 0.8,
+  },
 });
 
 export default PrivateNavigator;

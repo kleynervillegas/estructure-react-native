@@ -1,15 +1,7 @@
-/**
- * Below are the colors that are used in the app. The colors are defined in the light and dark mode.
- * There are many other ways to style your app. For example, [Nativewind](https://www.nativewind.dev/), [Tamagui](https://tamagui.dev/), [unistyles](https://reactnativeunistyles.vercel.app), etc.
- */
-
 import { Platform } from 'react-native';
 
-const tintColorLight = '#0a7ea4';
-const tintColorDark = '#fff';
-
-export const Colors:any = {
- light: {
+export const Colors: any = {
+  light: {
     text: '#333',
     textSecondary: '#666',
     textTertiary: '#999',
@@ -27,7 +19,7 @@ export const Colors:any = {
   },
 };
 
-export const themeGradients:any = {
+export const themeGradients: any = {
   light: {
     primary: ['#667eea', '#764ba2'] as const,
     background: ['#f5f7fa', '#c3cfe2'] as const,
@@ -40,6 +32,15 @@ export const themeGradients:any = {
   },
 };
 
+export const ColorFontrs: any = {
+  light: {
+    color: "#000000"
+  },
+  dark: {
+    color: '#FFFFFF',
+
+  }
+}
 export const Fonts = Platform.select({
   ios: {
     /** iOS `UIFontDescriptorSystemDesignDefault` */

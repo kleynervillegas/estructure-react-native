@@ -15,7 +15,7 @@ import { useThemeColors } from '../../context/ThemeColorsContext';
 
 const OrdersScreen: React.FC = () => {
 
-  const { theme, changeTheme } = useThemeColors();
+  const { theme } = useThemeColors();
 
   const gradients = themeGradients[theme];
   
@@ -37,20 +37,7 @@ const OrdersScreen: React.FC = () => {
           <View style={styles.header}>
             <View style={styles.headerTop}>
               <MaterialIcons name="receipt" size={40} color={colors.icon} />
-              {/* Este botón puede ser eliminado en producción, 
-                  ya que el cambio se hará desde el perfil */}
-              {__DEV__ && (
-                <TouchableOpacity
-                  onPress={() => changeTheme(theme)}
-                  style={[styles.themeButton, { backgroundColor: colors.border }]}
-                >
-                  <MaterialIcons
-                    name={theme === 'light' ? 'dark-mode' : 'light-mode'}
-                    size={24}
-                    color={colors.text}
-                  />
-                </TouchableOpacity>
-              )}
+          
             </View>
             <Text style={[styles.title, { color: colors.text }]}>
               Mis Órdenes

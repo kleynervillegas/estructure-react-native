@@ -3,6 +3,7 @@ import { useSqlite } from "@/app/src/hooks/useSqlite";
 import { Product } from "@/app/src/types/products";
 import { formatPrice } from "@/app/src/utils/functions";
 import { Ionicons } from "@expo/vector-icons";
+import { LinearGradient } from "expo-linear-gradient";
 import { useFocusEffect } from "expo-router";
 import { useCallback, useState } from "react";
 import { Dimensions, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
@@ -13,7 +14,12 @@ import caramas1 from '../../../../assets/images/KIT4_IP_POE.jpg';
 
 const { width } = Dimensions.get('window');
 
-const ProductsComponent: React.FC<any> = ({ showToast }) => {
+const ProductsComponent: React.FC<any> = (
+    { showToast,
+        gradients,
+        colors,
+        colorFontrs
+    }) => {
 
     const { addProductoToCart, deleteroductoToCart } = useProducts();
     const { getAllProductCart, deleteAllProductCart } = useSqlite();
@@ -103,12 +109,19 @@ const ProductsComponent: React.FC<any> = ({ showToast }) => {
     return (
         <View style={styles.container}>
             <View style={styles.productsHeader}>
-                <Text style={styles.sectionTitle}>Productos Destacados</Text>
+                <Text style={[styles.sectionTitle, { color: colorFontrs.color }]}>Productos Destacados</Text>                
             </View>
 
             <View style={styles.productsGrid}>
                 {products.map((product: Product, key: number) => (
-                    <View key={key} style={styles.productCard}>
+
+                    <LinearGradient
+                        colors={gradients.card}
+                        style={styles.card}
+                        start={{ x: 0, y: 0 }}
+                        end={{ x: 1, y: 1 }}
+                        key={key}
+                    >
                         {product.inCart &&
                             <View style={styles.iconDeleteProduct}>
                                 <TouchableOpacity onPress={() => handleProductoCart(product)}>
@@ -131,7 +144,7 @@ const ProductsComponent: React.FC<any> = ({ showToast }) => {
                                     {product.category}
                                 </Text>
                             </View>
-                            <Text style={styles.productName} numberOfLines={2}>
+                            <Text  style={[styles.productName, { color: colorFontrs.color }]} numberOfLines={2}>
                                 {product.description}
                             </Text>
                             <View style={styles.productFooter}>
@@ -143,7 +156,7 @@ const ProductsComponent: React.FC<any> = ({ showToast }) => {
                                 }
                             </View>
                         </View>
-                    </View>
+                    </LinearGradient>
                 ))}
             </View>
         </View>
@@ -177,7 +190,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         paddingHorizontal: 12,
     },
-    productCard: {
+    card: {
         width: (width - 36) / 2,
         marginBottom: 16,
         shadowOffset: { width: 0, height: 2 },
@@ -216,7 +229,6 @@ const styles = StyleSheet.create({
     },
     productName: {
         fontSize: 13,
-        color: '#FFFFFF',
         fontWeight: '500',
         marginBottom: 12,
         height: 36,

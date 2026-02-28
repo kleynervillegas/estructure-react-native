@@ -1,5 +1,5 @@
 import { services } from '@/app/const/InfoMuck';
-import { Colors, themeGradients } from '@/constants/theme';
+import { ColorFontrs, Colors, themeGradients } from '@/constants/theme';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useFocusEffect, useNavigation } from 'expo-router';
 import React, { useCallback, useState } from 'react';
@@ -25,8 +25,10 @@ const QuotationScreen: React.FC = () => {
   const { theme, changeTheme } = useThemeColors();
 
   const gradients = themeGradients[theme];
-  
+
   const colors = Colors[theme];
+
+  const colorFontrs = ColorFontrs[theme];
 
   const navigator = useNavigation();
 
@@ -268,32 +270,38 @@ const QuotationScreen: React.FC = () => {
           </Card>
         </View>
 
-        <Text style={styles.sectionTitle}>Cotizaciones Recientes</Text>
+        <Text style={[styles.sectionTitle, { color: colorFontrs.color }]}>Cotizaciones Recientes</Text>
         {quotations.length === 0 ? (
           <Text style={{ textAlign: 'center', marginTop: 20, color: '#fff' }}>No hay cotizaciones disponibles.</Text>
         ) :
           quotations.map((item: Quotation, key: number) => (
-            <TouchableOpacity key={key}>
-              <Card style={styles.quotationCard}>
+            <LinearGradient
+              colors={gradients.card}
+              style={styles.quotationCard}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 1 }}
+              key={key}
+            >
+              <TouchableOpacity key={key}>
                 <View style={styles.cardHeader}>
-                  <View style={styles.clientInfo}>
+                  <View style={""}>
                     <View style={styles.viewInfo}>
-                      <Text style={styles.clientName}>Tipo de Protección: {item.protection}</Text>
+                      <Text style={[styles.clientName, { color: colorFontrs.color }]}>Tipo de Protección: {item.protection}</Text>
                       <Badge style={styles.badge}>{services.find(service => service.id === item.service)?.name}</Badge>
                     </View>
                   </View>
                 </View>
 
                 <View style={styles.cardFooter}>
-                  <Text style={styles.price}>$2,500</Text>
+                  <Text style={[styles.price, { color: colorFontrs.color }]}>$2,500</Text>
                   <View style={styles.actions}>
                     <IconButton icon="eye" size={24} iconColor='gray' onPress={() => moreDetails(item)} />
                     <IconButton icon="download" size={24} iconColor='gray' onPress={() => { }} />
                     <IconButton icon="share" size={24} iconColor='gray' onPress={() => { }} />
                   </View>
                 </View>
-              </Card>
-            </TouchableOpacity>
+              </TouchableOpacity>
+            </LinearGradient>
           ))
 
         }
@@ -350,7 +358,6 @@ const styles = StyleSheet.create({
     marginTop: 24,
     marginBottom: 12,
     marginLeft: 16,
-    color: '#333',
   },
   quotationCard: {
     width: width - 32,
@@ -358,7 +365,6 @@ const styles = StyleSheet.create({
     marginHorizontal: 16,
     marginBottom: 12,
     borderRadius: 16,
-    backgroundColor: 'rgba(0,0,0,0.5)',
     shadowRadius: 4,
     elevation: 3,
     padding: 12,
@@ -375,7 +381,6 @@ const styles = StyleSheet.create({
   clientName: {
     fontSize: 13,
     fontWeight: '600',
-    color: '#FFFFFF',
     textTransform: 'uppercase',
   },
   badge: {
@@ -396,8 +401,7 @@ const styles = StyleSheet.create({
   },
   price: {
     fontSize: 18,
-    fontWeight: 'bold',
-    color: '#000000',
+    fontWeight: 'bold'
   },
   actions: {
     flexDirection: 'row',
@@ -711,7 +715,7 @@ const styles = StyleSheet.create({
     height: 100,
     borderRadius: 20,
   },
-
+  styleTitle: { textAlign: 'center', marginTop: 20, color: '#fff' }
 });
 
 export default QuotationScreen;

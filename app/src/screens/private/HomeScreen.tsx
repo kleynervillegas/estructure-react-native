@@ -1,4 +1,4 @@
-import { Colors, themeGradients } from '@/constants/theme';
+import { ColorFontrs, Colors, themeGradients } from '@/constants/theme';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation } from 'expo-router';
@@ -21,11 +21,14 @@ const { width } = Dimensions.get('window');
 
 const HomeScreen = () => {
 
-    const { theme, changeTheme } = useThemeColors();
-  
-    const gradients = themeGradients[theme];
-    const colors = Colors[theme];
+  const { theme, changeTheme } = useThemeColors();
+ 
+  const gradients = themeGradients[theme];
 
+  const colors = Colors[theme];
+
+  const colorFontrs = ColorFontrs[theme];
+  
   const navigation = useNavigation();
 
   const categories = [
@@ -36,7 +39,7 @@ const HomeScreen = () => {
   ];
 
   const showToast = (
-    text: string = '', 
+    text: string = '',
     type: string = 'success',
     position: 'top' | 'bottom' = 'top',
   ) => {
@@ -48,15 +51,15 @@ const HomeScreen = () => {
   }
 
   return (
-   <LinearGradient
-       colors={gradients.background}
-       style={styles.container}
-       start={{ x: 0, y: 0 }}
-       end={{ x: 1, y: 1 }}
-     >
+    <LinearGradient
+      colors={gradients.background}
+      style={styles.container}
+      start={{ x: 0, y: 0 }}
+      end={{ x: 1, y: 1 }}
+    >
       <SafeAreaView style={styles.safeArea}>
-        <View style={{zIndex: 1}}>
-          <Toast/>
+        <View style={{ zIndex: 1 }}>
+          <Toast />
         </View>
         <ScrollView style={styles.scrollView}>
 
@@ -89,7 +92,7 @@ const HomeScreen = () => {
             </View>
           </View>
 
-          <Text style={styles.sectionTitle}>Categorias</Text>
+          <Text style={[styles.sectionTitle, { color: colorFontrs.color }]}>Categorias</Text>
           <View style={styles.servicesContainer}>
             {categories.map((categorie) => (
               <TouchableOpacity key={categorie.id} style={styles.serviceItem}>
@@ -102,7 +105,12 @@ const HomeScreen = () => {
           </View>
 
           <View style={styles.divider} />
-          <ProductsComponent showToast={showToast} />
+          <ProductsComponent
+            showToast={showToast}
+            gradients={gradients}
+            colors={colors}
+            colorFontrs={colorFontrs}
+          />
         </ScrollView>
       </SafeAreaView>
     </LinearGradient>
@@ -208,7 +216,6 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#000000',
     marginLeft: 16,
     marginBottom: 12,
   },
