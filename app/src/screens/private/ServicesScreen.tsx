@@ -1,11 +1,12 @@
 import { protectionTypes } from '@/app/const/InfoMuck';
 import Steps from '@/app/src/components/Steps/Steps';
+import { ColorFontrs, Colors, styleGlobal, themeGradients } from '@/constants/theme';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
-import React, { useEffect, useState } from 'react';
+import { LinearGradient } from 'expo-linear-gradient';
+import React, { useState } from 'react';
 import {
   Dimensions,
-  ImageBackground,
   ScrollView,
   StyleSheet,
   Text,
@@ -14,12 +15,12 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Toast from 'react-native-toast-message';
-import ic from '../../../../assets/images/fondo.png';
 import StepsFine from '../../components/Steps/StepsFine';
 import StepsFour from '../../components/Steps/StepsFour';
 import StepsOne from '../../components/Steps/StepsOne';
 import StepsThere from '../../components/Steps/StepsThere';
 import StepsTwo from '../../components/Steps/StepsTwo';
+import { useThemeColors } from '../../context/ThemeColorsContext';
 import useQuotation from '../../hooks/useQuotation';
 
 const { width } = Dimensions.get('window');
@@ -36,16 +37,13 @@ const ServicesScreen = () => {
 
   const navigation = useNavigation();
 
-  useEffect(() => {
-    console.log("currentStep", currentStep)
+  const { theme, changeTheme } = useThemeColors();
 
-  }, [currentStep]);
+  const gradients = themeGradients[theme];
 
-  useEffect(() => {
-    console.log("selectedService", selectedService)
+  const colors = Colors[theme];
 
-  }, [selectedService]);
-
+  const colorFontrs = ColorFontrs[theme];
 
   const [dimensionsData, setDimensionsData] = useState({
     // Para Cámaras
@@ -101,7 +99,7 @@ const ServicesScreen = () => {
     if (currentStep < 5) {
       setCurrentStep(currentStep + 1);
     } else {
-   
+
       const response = await createdQuotation(
         {
           service: selectedService,
@@ -145,19 +143,24 @@ const ServicesScreen = () => {
   };
 
   return (
-    <ImageBackground
-      source={ic}
-      style={styles.container}
-      resizeMode="cover"
+    <LinearGradient
+      colors={gradients.background}
+      style={styleGlobal.container}
+      start={{ x: 0, y: 0 }}
+      end={{ x: 1, y: 1 }}
     >
-      <SafeAreaView style={styles.overlay}>
+      <SafeAreaView style={styleGlobal.safeArea}>
         <Toast />
         <View style={styles.header}>
-          <Text style={styles.headerTitle}>Completa los pasos para tu cotización</Text>
-          {/* <Text style={styles.headerSubtitle}>Completa los pasos para tu cotización</Text> */}
+          <Text style={[styles.headerTitle, colorFontrs]}>Completa los pasos para tu cotización</Text>
         </View>
 
-        <Steps currentStep={currentStep} setCurrentStep={setCurrentStep} />
+        <Steps
+          currentStep={currentStep}
+          setCurrentStep={setCurrentStep}
+          gradients={gradients}
+          colorFontrs={colorFontrs}
+        />
 
         <ScrollView
           style={styles.scrollView}
@@ -165,6 +168,8 @@ const ServicesScreen = () => {
           contentContainerStyle={styles.scrollContent}>
           {currentStep === 1 &&
             <StepsOne
+              gradients={gradients}
+              colorFontrs={colorFontrs}
               setSelectedService={setSelectedService}
               selectedService={selectedService}
               selectedProtection={selectedProtection}
@@ -202,7 +207,7 @@ const ServicesScreen = () => {
         <View style={styles.navigation}>
           {currentStep > 1 && (
             <TouchableOpacity
-              style={[styles.navButton, styles.backButton]}
+              style={[styles.navButton, styleGlobal.BtnSecundary]}
               onPress={handleBack}>
               <Ionicons name="arrow-back" size={20} color="#6B7280" />
               <Text style={styles.backButtonText}>Anterior</Text>
@@ -212,12 +217,12 @@ const ServicesScreen = () => {
           <TouchableOpacity
             style={[
               styles.navButton,
-              styles.nextButton,
+              styleGlobal.BtnPrimary,
               currentStep === 1 && !selectedService && styles.nextButtonDisabled
             ]}
             onPress={handleNext}
             disabled={currentStep === 1 && !selectedService}>
-            <Text style={styles.nextButtonText}>
+            <Text style={styleGlobal.nextButtonText}>
               {currentStep === 5 ? 'Finalizar' : 'Siguiente'}
             </Text>
             <Ionicons name="arrow-forward" size={20} color="#FFFFFF" />
@@ -225,18 +230,11 @@ const ServicesScreen = () => {
         </View>
 
       </SafeAreaView>
-    </ImageBackground>
+    </LinearGradient>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  overlay: {
-    flex: 1,
-    backgroundColor: 'transparent',
-  },
   header: {
     paddingHorizontal: 20,
     paddingVertical: 16,
@@ -246,7 +244,6 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#1F2937',
   },
   headerSubtitle: {
     fontSize: 14,
@@ -539,34 +536,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     marginHorizontal: 4,
   },
-  backButton: {
-    backgroundColor: '#0D2626',
-    padding: 16,
-    borderRadius: 12,
-    alignItems: 'center',
-    marginTop: 20,
-    borderWidth: 2,
-    borderColor: '#00F2FF',
-    shadowColor: '#00F2FF',
-    shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.8,
-    shadowRadius: 10,
-    elevation: 10,
-  },
-  nextButton: {
-    backgroundColor: '#0D2626',
-    padding: 16,
-    borderRadius: 12,
-    alignItems: 'center',
-    marginTop: 20,
-    borderWidth: 2,
-    borderColor: '#00F2FF',
-    shadowColor: '#00F2FF',
-    shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.8,
-    shadowRadius: 10,
-    elevation: 10,
-  },
+
   nextButtonDisabled: {
     backgroundColor: '#9CA3AF',
   },
@@ -578,15 +548,7 @@ const styles = StyleSheet.create({
     letterSpacing: 1,
     textTransform: 'uppercase',
 
-  },
-  nextButtonText: {
-    marginRight: 8,
-    color: '#FFFFFF',
-    fontWeight: 'bold',
-    fontSize: 17,
-    letterSpacing: 1,
-    textTransform: 'uppercase',
-  },
+  }
 });
 
 export default ServicesScreen;

@@ -1,5 +1,7 @@
 import { protectionTypes, services } from "@/app/const/InfoMuck";
+import { styleGlobal } from "@/constants/theme";
 import { Ionicons } from "@expo/vector-icons";
+import { LinearGradient } from "expo-linear-gradient";
 import React from "react";
 import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
@@ -9,80 +11,98 @@ const StepsOne: React.FC<any> = ({
     selectedService,
     setSelectedService,
     selectedProtection,
-    setSelectedProtection
+    setSelectedProtection,
+    gradients,
+    colorFontrs
 }) => {
 
     return (
         <View style={styles.stepContent}>
-            <Text style={styles.sectionTitle}>¿Qué deseas proteger?</Text>
+            <Text style={[styles.sectionTitle, colorFontrs]}>¿Qué deseas proteger?</Text>
             <View style={styles.protectionGrid}>
                 {protectionTypes.map((item) => (
                     <TouchableOpacity
                         key={item.id}
-                        style={[
-                            styles.protectionCard,
-                            selectedProtection === item.id && styles.selectedCard,
-                        ]}
+                        style={[selectedProtection === item.id && styles.selectedCard]}
                         onPress={() => setSelectedProtection(item.id)}>
-                        <View style={styles.protectionIconContainer}>
-                            <Ionicons
-                                name={item.icon}
-                                size={32}
-                                color={selectedProtection === item.id ? '#2563EB' : '#6B7280'}
-                            />
-                        </View>
-                        <Text style={[
-                            styles.protectionTitle,
-                            selectedProtection === item.id && styles.selectedText
-                        ]}>
-                            {item.name}
-                        </Text>
-                        <Text style={styles.protectionDescription}>
-                            {item.description}
-                        </Text>
+                        <LinearGradient
+                            colors={gradients.card}
+                            style={styleGlobal.protectionCard}
+                            start={{ x: 0, y: 0 }}
+                            end={{ x: 1, y: 1 }}
+                        >
+                            <View style={styles.protectionIconContainer}>
+                                <Ionicons
+                                    name={item.icon}
+                                    size={32}
+                                    color={selectedProtection === item.id ? '#2563EB' : '#6B7280'}
+                                />
+                            </View>
+                            <Text style={[
+                                styles.protectionTitle,
+                                colorFontrs,
+                                selectedProtection === item.id && styles.selectedText
+                            ]}>
+                                {item.name}
+                            </Text>
+                            <Text style={[styles.protectionDescription, colorFontrs]}>
+                                {item.description}
+                            </Text>
+                        </LinearGradient>
                     </TouchableOpacity>
                 ))}
             </View>
 
-            <Text style={[styles.sectionTitle, { marginTop: 24 }]}>Tipo de Servicio</Text>
+            <Text style={[styles.sectionTitle, colorFontrs, { marginTop: 24 }]}>Tipo de Servicio</Text>
             <View style={styles.servicesList}>
-                {services.map((service) => (
+                {services.map((service, key) => (
+
                     <TouchableOpacity
                         key={service.id}
                         style={[
-                            styles.serviceCard,
+                            styleGlobal.serviceCard,
                             selectedService === service.id && styles.selectedServiceCard,
                         ]}
                         onPress={() => setSelectedService(service.id)}>
-                        <View style={[
-                            styles.serviceIconContainer,
-                            selectedService === service.id && styles.selectedServiceIcon
-                        ]}>
-                            <Ionicons
-                                name={service.icon}
-                                size={28}
-                                color={selectedService === service.id ? '#FFFFFF' : '#2563EB'}
-                            />
-                        </View>
-                        <View style={styles.serviceInfo}>
-                            <Text style={[
-                                styles.serviceName,
-                                selectedService === service.id && styles.selectedServiceText
+                        <LinearGradient
+                            colors={gradients.card}
+                            style={styleGlobal.serviceCard}
+                            start={{ x: 0, y: 0 }}
+                            end={{ x: 1, y: 1 }}
+                            key={key}
+                        >
+                            <View style={[
+                                styles.serviceIconContainer,
+                                selectedService === service.id && styles.selectedServiceIcon
                             ]}>
-                                {service.name}
-                            </Text>
-                            <Text style={[
-                                styles.serviceDescription,
-                                selectedService === service.id && styles.selectedServiceDescription
-                            ]}>
-                                {service.description}
-                            </Text>
-                        </View>
-                        {selectedService === service.id && (
-                            <View style={styles.checkmark}>
-                                <Ionicons name="checkmark-circle" size={24} color="#2563EB" />
+                                <Ionicons
+                                    name={service.icon}
+                                    size={28}
+                                    color={selectedService === service.id ? '#FFFFFF' : '#2563EB'}
+                                />
                             </View>
-                        )}
+                            <View style={styles.serviceInfo}>
+                                <Text style={[
+                                    styles.serviceName,
+                                    colorFontrs,
+                                    selectedService === service.id && styles.selectedServiceText
+                                ]}>
+                                    {service.name}
+                                </Text>
+                                <Text style={[
+                                    styles.serviceDescription,
+                                    colorFontrs,
+                                    selectedService === service.id && styles.selectedServiceDescription
+                                ]}>
+                                    {service.description}
+                                </Text>
+                            </View>
+                            {selectedService === service.id && (
+                                <View style={styles.checkmark}>
+                                    <Ionicons name="checkmark-circle" size={24} color="#2563EB" />
+                                </View>
+                            )}
+                        </LinearGradient>
                     </TouchableOpacity>
                 ))}
             </View>
@@ -163,7 +183,6 @@ const styles = StyleSheet.create({
     sectionTitle: {
         fontSize: 18,
         fontWeight: 'bold',
-        color: '#1F2937',
         marginBottom: 16,
     },
     protectionGrid: {
@@ -182,7 +201,7 @@ const styles = StyleSheet.create({
     },
     selectedCard: {
         borderColor: '#2563EB',
-        backgroundColor: '#EFF6FF',
+        backgroundColor: 'rgba(0,0,0,0.5)',
     },
     protectionIconContainer: {
         width: 48,
@@ -196,12 +215,10 @@ const styles = StyleSheet.create({
     protectionTitle: {
         fontSize: 16,
         fontWeight: '600',
-        color: '#1F2937',
         marginBottom: 4,
     },
     protectionDescription: {
         fontSize: 12,
-        color: '#6B7280',
     },
     selectedText: {
         color: '#2563EB',
@@ -221,7 +238,7 @@ const styles = StyleSheet.create({
     },
     selectedServiceCard: {
         borderColor: '#2563EB',
-        backgroundColor: '#EFF6FF',
+        backgroundColor: 'rgba(0,0,0,0.5)',
     },
     serviceIconContainer: {
         width: 48,
@@ -241,7 +258,6 @@ const styles = StyleSheet.create({
     serviceName: {
         fontSize: 16,
         fontWeight: '600',
-        color: '#1F2937',
         marginBottom: 4,
     },
     selectedServiceText: {
@@ -249,7 +265,6 @@ const styles = StyleSheet.create({
     },
     serviceDescription: {
         fontSize: 12,
-        color: '#6B7280',
     },
     selectedServiceDescription: {
         color: '#2563EB',

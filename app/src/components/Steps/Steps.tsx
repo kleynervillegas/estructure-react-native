@@ -1,10 +1,17 @@
+import { styleGlobal } from "@/constants/theme";
 import { Ionicons } from "@expo/vector-icons";
+import { LinearGradient } from "expo-linear-gradient";
 import React from "react";
 import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 const { width } = Dimensions.get('window');
 
-const Steps: React.FC<any> = ({currentStep,setCurrentStep}) => {
+const Steps: React.FC<any> = ({
+    currentStep,
+    setCurrentStep,
+    gradients,
+    colorFontrs
+}) => {
 
     const steps = [
         { id: 1, title: 'Servicio', icon: 'construct-outline' },
@@ -15,54 +22,53 @@ const Steps: React.FC<any> = ({currentStep,setCurrentStep}) => {
     ];
 
     return (
-        <View style={styles.stepContainer}>
-            {steps.map((step, index) => (
-                <React.Fragment key={step.id}>
-                    <TouchableOpacity
-                        style={styles.stepItem}
-                        onPress={() => setCurrentStep(step.id)}
-                        disabled={step.id > currentStep}
-                    >
-                        <View style={[
-                            styles.stepCircle,
-                            currentStep >= step.id && styles.stepCircleActive,
-                            step.id > currentStep && styles.stepCircleInactive
-                        ]}>
-                            <Ionicons
-                                name={step.icon}
-                                size={20}
-                                color={currentStep >= step.id ? '#FFFFFF' : 'red'}
-                            />
-                        </View>
-                        <Text style={[
-                            styles.stepText,
-                            currentStep >= step.id && styles.stepTextActive,
-                            step.id > currentStep && styles.stepTextInactive
-                        ]}>
-                            {step.title}
-                        </Text>
-                    </TouchableOpacity>
-                    {index < steps.length - 1 && (
-                        <View style={[
-                            styles.stepConnector,
-                            currentStep > step.id && styles.stepConnectorActive
-                        ]} />
-                    )}
-                </React.Fragment>
-            ))}
-        </View>
+        <LinearGradient
+            colors={gradients.background}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+        >
+            <View style={styleGlobal.stepContainer}>
+                {steps.map((step, index) => (
+                    <React.Fragment key={step.id}>
+                        <TouchableOpacity
+                            style={styles.stepItem}
+                            onPress={() => setCurrentStep(step.id)}
+                            disabled={step.id > currentStep}
+                        >
+                            <View style={[
+                                styles.stepCircle,
+                                currentStep >= step.id && styles.stepCircleActive,
+                                step.id > currentStep && styles.stepCircleInactive
+                            ]}>
+                                <Ionicons
+                                    name={step.icon}
+                                    size={20}
+                                    color={currentStep >= step.id ? '#FFFFFF' : 'red'}
+                                />
+                            </View>
+                            <Text style={[
+                                styles.stepText,
+                                colorFontrs,
+                                currentStep >= step.id && styles.stepTextActive,
+                                step.id > currentStep && styles.stepTextInactive
+                            ]}>
+                                {step.title}
+                            </Text>
+                        </TouchableOpacity>
+                        {index < steps.length - 1 && (
+                            <View style={[
+                                styles.stepConnector,
+                                currentStep > step.id && styles.stepConnectorActive
+                            ]} />
+                        )}
+                    </React.Fragment>
+                ))}
+            </View>
+        </LinearGradient>
     );
 };
 
 const styles = StyleSheet.create({
-    stepContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        paddingHorizontal: 20,
-        paddingVertical: 16,
-        backgroundColor: '#F9FAFB',
-    },
     stepItem: {
         alignItems: 'center',
     },
@@ -75,16 +81,12 @@ const styles = StyleSheet.create({
     },
     stepText: {
         fontSize: 11,
-        color: '#9CA3AF',
         fontWeight: '500',
     },
     stepTextActive: {
         color: '#2563EB',
         fontWeight: '600',
-    },
-    stepTextInactive: {
-        color: '#9CA3AF',
-    },
+    },  
     stepConnector: {
         width: 30,
         height: 2,

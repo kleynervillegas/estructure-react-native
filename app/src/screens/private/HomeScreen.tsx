@@ -1,4 +1,4 @@
-import { ColorFontrs, Colors, themeGradients } from '@/constants/theme';
+import { ColorFontrs, Colors, styleGlobal, themeGradients } from '@/constants/theme';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useNavigation } from 'expo-router';
@@ -22,13 +22,13 @@ const { width } = Dimensions.get('window');
 const HomeScreen = () => {
 
   const { theme, changeTheme } = useThemeColors();
- 
+
   const gradients = themeGradients[theme];
 
   const colors = Colors[theme];
 
   const colorFontrs = ColorFontrs[theme];
-  
+
   const navigation = useNavigation();
 
   const categories = [
@@ -53,11 +53,11 @@ const HomeScreen = () => {
   return (
     <LinearGradient
       colors={gradients.background}
-      style={styles.container}
+      style={styleGlobal.container}
       start={{ x: 0, y: 0 }}
       end={{ x: 1, y: 1 }}
     >
-      <SafeAreaView style={styles.safeArea}>
+      <SafeAreaView style={styleGlobal.safeArea}>
         <View style={{ zIndex: 1 }}>
           <Toast />
         </View>
@@ -99,7 +99,7 @@ const HomeScreen = () => {
                 <View style={styles.serviceIconContainer}>
                   <Ionicons name={categorie.icon as any} size={24} color="red" />
                 </View>
-                <Text style={styles.serviceText}>{categorie.name}</Text>
+                <Text style={[styles.serviceText,colorFontrs]}>{categorie.name}</Text>
               </TouchableOpacity>
             ))}
           </View>
@@ -238,7 +238,6 @@ const styles = StyleSheet.create({
   },
   serviceText: {
     fontSize: 11,
-    color: '#000000',
     textAlign: 'center',
   },
   divider: {
